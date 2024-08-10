@@ -14,19 +14,19 @@
 
 @layer components {
     .primaryButton {
-        @apply bg-primary hover: bg-primary/90 text-white text font-semibold px-6 py-2.5 rounded-md cursor-pointer
+        @apply bg-primary hover:bg-primary/90 text-white text font-semibold px-6 py-2.5 rounded-md cursor-pointer
     }
 
     .primaryButtonSm {
-        @apply bg-primary text-white text-sm px-6 py-2 rounded-md hover: bg-primary/90
+        @apply bg-primary text-white text-sm px-6 py-2 rounded-md hover:bg-primary/90
     }
 
     .primaryButtonOutlined {
-        @apply text-primary font-semibold text px-6 py-2.5 rounded-md border border-primary hover: text-white hover:bg-primary
+        @apply text-primary font-semibold text px-6 py-2.5 rounded-md border border-primary hover:text-white hover:bg-primary
     }
 
     .primaryButtonOutlinedSm {
-        @apply text-primary font-semibold text-sm px-6 py-2 rounded-md border border-primary hover: text-white hover:bg-primary
+        @apply text-primary font-semibold text-sm px-6 py-2 rounded-md border border-primary hover:text-white hover:bg-primary
     }
 
     .primaryButtonText {
@@ -38,19 +38,19 @@
     }
 
     .secondaryButton {
-        @apply bg-secondary text-white font-semibold text px-6 py-2.5 rounded-md border-secondary hover: bg-primary hover:border-primary hover:text-white
+        @apply bg-secondary text-white font-semibold text px-6 py-2.5 rounded-md border-secondary hover:bg-primary hover:border-primary hover:text-white
     }
 
     .secondaryButtonSm {
-        @apply bg-secondary text-white font-semibold text-sm px-6 py-2 rounded-md border-secondary hover: bg-primary hover:border-primary hover:text-white
+        @apply bg-secondary text-white font-semibold text-sm px-6 py-2 rounded-md border-secondary hover:bg-primary hover:border-primary hover:text-white
     }
 
     .secondaryButtonOutlined {
-        @apply text-secondary font-semibold text px-6 py-2.5 rounded-md border border-secondary hover: text-white hover:bg-primary
+        @apply text-secondary font-semibold text px-6 py-2.5 rounded-md border border-secondary hover:text-white hover:bg-primary
     }
 
     .secondaryButtonOutlinedSm {
-        @apply text-secondary font-semibold text-sm px-6 py-2 rounded-md border border-secondary hover: text-white hover:bg-primary
+        @apply text-secondary font-semibold text-sm px-6 py-2 rounded-md border border-secondary hover:text-white hover:bg-primary
     }
 
     .secondaryButtonText {
@@ -90,5 +90,9 @@
 @layer utilities {
     #mainNav li, #mainNav li a {
         @apply hover:text-secondary cursor-pointer
+    }
+
+    .slick-arrow::after{
+        @apply text-[30px] w-8 h-8
     }
 }

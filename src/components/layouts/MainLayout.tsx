@@ -5,7 +5,6 @@ import Header from "@/pages/shared/header/Header";
 import Footer from "@/pages/shared/footer/Footer";
 
 const customStyles = {
-  height: "100vh",
   backgroundColor: "rgb(236 221 213 / 0.2)",
 };
 
@@ -14,10 +13,8 @@ const MainLayout = () => {
     <>
       <Layout style={customStyles}>
         <Header></Header>
-        <Content className="">
-          <div className="container mx-auto py-20">
+        <Content>
             <Outlet></Outlet>
-          </div>
         </Content>
         <Footer className="bg-secondary text-text text"/>
       </Layout>

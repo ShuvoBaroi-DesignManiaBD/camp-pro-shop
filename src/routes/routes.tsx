@@ -1,6 +1,6 @@
 import MainLayout from "@/components/layouts/MainLayout";
 import About from "@/pages/About";
-import Home from "@/pages/Home";
+import Home from "@/pages/Home/Home";
 import { createBrowserRouter } from "react-router-dom";
 
 
