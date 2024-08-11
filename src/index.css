@@ -8,7 +8,11 @@
 
     * {
         font-family: "Montserrat", "Inter";
-        box-sizing: border-box
+        box-sizing: border-box;
+    }
+
+    body{
+        font-size: 16px;
     }
 }
 
@@ -62,23 +66,23 @@
     }
 
     .primaryHeading {
-        @apply text-[40px] font-bold;
+        @apply text-5xl font-bold;
     }
 
     .secondaryHeading {
-        @apply text-[28px] font-semibold;
+        @apply text-[1.75rem] font-semibold;
     }
 
     .textLg {
-        @apply text-[20px] font-semibold text-text;
+        @apply text-[1.25rem] font-semibold text-text;
     }
 
     .textSemiLg {
-        @apply text-[18px] font-semibold text-text;
+        @apply text-lg font-semibold text-text;
     }
 
     .text {
-        @apply text-base text-text;
+        @apply text-base text-text font-medium;
     }
 
     .textSm {

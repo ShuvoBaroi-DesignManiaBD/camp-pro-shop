@@ -13,7 +13,7 @@ const MainLayout = () => {
     <>
       <Layout style={customStyles}>
         <Header></Header>
-        <Content>
+        <Content className="">
             <Outlet></Outlet>
         </Content>
         <Footer className="bg-secondary text-text text"/>

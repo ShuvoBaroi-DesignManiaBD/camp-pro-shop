@@ -24,6 +24,17 @@ const MainNavItems: MenuItem[] = [
                 url: '/'
             },]
     },
+    {
+        key: UniqueIdGenerator(),
+        label: 'Shop',
+        url: '/shop',
+        children: [
+            {
+                key: UniqueIdGenerator(),
+                label: 'Shop',
+                url: '/shop'
+            },]
+    },
 ]
 
 export default MainNavItems;

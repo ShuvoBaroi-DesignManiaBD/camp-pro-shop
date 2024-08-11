@@ -70,7 +70,7 @@ const CarouselCTA = ({
 }: Partial<carouselCTA>) => {
   return (
     <div
-      className={`${className} flex flex-col justify-center items-center gap-3`}
+      className={`${className} bg-cover flex flex-col justify-center items-center gap-3`}
     >
       <div className="container mx-auto">
         <div className={innerContentStyle}>
@@ -83,7 +83,7 @@ const CarouselCTA = ({
               </span>
             )}
           </h1>
-          {text && <p className={textStyle}>{text}</p>}
+          {text && <p className={`${textStyle} text`}>{text}</p>}
           <NavLink to={btnURL as string} className={btnType}>
             {btnText}
           </NavLink>
