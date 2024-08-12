@@ -18,7 +18,7 @@ const Home = () => {
   // };
 
   return (
-    <Layout className="w-full bg-[url('https://i.ibb.co/YdfcdG6/pattern.webp')] bg-center bg-repeat bg-inherit">
+    <Layout className="w-full bg-[url('https://i.ibb.co/YdfcdG6/pattern.webp')] bg-center bg-repeat">
       <ThemeConfig>
         <Carousel
           arrows

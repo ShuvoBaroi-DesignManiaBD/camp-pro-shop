@@ -13,7 +13,7 @@ const MainLayout = () => {
     <>
       <Layout style={customStyles}>
         <Header></Header>
-        <Content className="">
+        <Content className="bg-[url('https://i.ibb.co/YdfcdG6/pattern.webp')] bg-center bg-repeat">
             <Outlet></Outlet>
         </Content>
         <Footer className="bg-secondary text-text text"/>
