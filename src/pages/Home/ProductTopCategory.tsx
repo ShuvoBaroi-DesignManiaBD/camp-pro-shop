@@ -1,15 +1,16 @@
 import { ReactNode } from "react";
 
 type ProductTopCategoryProps = {
-  bgImage: string;
-  height: string;
-  className: string;
-  subHeadingStyle: string;
-  subHeadingText: string;
-  headingStyle: string;
-  headingText: string;
-  button: ReactNode;
+  bgImage?: string;
+  height?: string;
+  className?: string;
+  subHeadingStyle?: string;
+  subHeadingText?: string;
+  headingStyle?: string;
+  headingText?: string;
+  button?: ReactNode;
 };
+
 const ProductTopCategory = ({
   bgImage,
   height,
@@ -23,9 +24,13 @@ const ProductTopCategory = ({
   return (
     <div
       id="product_cat"
-      className={`flex flex-col justify-start items-start gap-1 p-6 bg-${
-        bgImage ? `[url('${bgImage}')]` : ""
-      } h-${height ? height : "[37vh]"} bg-cover text-white ${className}`}
+      className={`flex flex-col justify-start items-start gap-1 p-6 bg-cover text-white ${
+        className ? className : ""
+      }`}
+      style={{
+        backgroundImage: bgImage ? `url(${bgImage})` : undefined,
+        height: height ? height : "37vh",
+      }}
     >
       <h4
         className={`text font-semibold text-secondaryLight ${subHeadingStyle}`}
@@ -36,7 +41,6 @@ const ProductTopCategory = ({
         {headingText}
       </h2>
       {button}
-      {/* <Button type={"primaryButton"} text="Shop now" icon={<BiChevronRight />}/> */}
     </div>
   );
 };

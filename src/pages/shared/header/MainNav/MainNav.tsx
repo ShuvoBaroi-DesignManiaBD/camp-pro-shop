@@ -4,6 +4,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import MainNavItems from "./MainNavItems";
+import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
 
 const MainNav = () => {
   return (
@@ -12,7 +13,7 @@ const MainNav = () => {
       className="flex justify-between items-center gap-8 textSemiLg hover:text-primary"
     >
       {MainNavItems.map((menu) => (
-        <li className="hover:text-primary">
+        <li key={UniqueIdGenerator()} className="hover:text-primary">
           <NavLink to={menu.url}>{menu.label}</NavLink>
         </li>
       ))}

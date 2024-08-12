@@ -7,15 +7,15 @@ import { Button, Carousel, Layout } from "antd";
 import ProductTopCategory from "./ProductTopCategory";
 
 const Home = () => {
-  const style: React.CSSProperties = {
-    margin: 0,
-    height: "160px",
-    color: "#fff",
-    lineHeight: "160px",
-    textAlign: "center",
-    background: "#364d79",
-    // maxWidth: "1280px",
-  };
+  // const style: React.CSSProperties = {
+  //   margin: 0,
+  //   height: "160px",
+  //   color: "#fff",
+  //   lineHeight: "160px",
+  //   textAlign: "center",
+  //   background: "#364d79",
+  //   // maxWidth: "1280px",
+  // };
 
   return (
     <Layout className="w-full bg-[url('https://i.ibb.co/YdfcdG6/pattern.webp')] bg-center bg-repeat bg-inherit">
@@ -77,9 +77,11 @@ const Home = () => {
             subHeadingText="Outdoor Adventure"
             headingText="Tents Collection"
             button={
-              <Button type="primary" size="large"
-              icon={<CgArrowLongRight />}
-              iconPosition="end"
+              <Button
+                type="primary"
+                size="large"
+                icon={<CgArrowLongRight />}
+                iconPosition="end"
               >
                 Shop Tents
               </Button>
@@ -90,9 +92,11 @@ const Home = () => {
             subHeadingText="Travel Ready"
             headingText="Bags Collection"
             button={
-              <Button type="primary" size="large"
-              icon={<CgArrowLongRight />}
-              iconPosition="end"
+              <Button
+                type="primary"
+                size="large"
+                icon={<CgArrowLongRight />}
+                iconPosition="end"
               >
                 Shop Bags
               </Button>

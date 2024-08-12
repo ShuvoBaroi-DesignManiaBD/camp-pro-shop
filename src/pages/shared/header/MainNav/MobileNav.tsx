@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import MainNavItems from "./MainNavItems";
 import { useState } from "react";
 import { Button, Drawer } from "antd";
+import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
 
 const MobileNav = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -33,7 +34,7 @@ const MobileNav = () => {
       className="flex justify-between items-center gap-8 textSemiLg hover:text-primary"
     >
       {MainNavItems.map((menu) => (
-        <li className="hover:text-primary">
+        <li key={UniqueIdGenerator()} className="hover:text-primary">
           <NavLink to={menu.url}>{menu.label}</NavLink>
         </li>
       ))}
