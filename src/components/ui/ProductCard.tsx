@@ -1,25 +1,24 @@
+import { TProduct } from '@/types/product.type';
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-const ProductCard = () => {
+const ProductCard = ({name,price,images}:Partial<TProduct>) => {
+  console.log(name, price);
+  
     return (
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-primary dark:bg-primary">
             <div className="h-56 w-full">
-              <a href="#">
+              <NavLink to=''>
                 <img
                   className="mx-auto h-full dark:hidden"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"
-                  alt=""
+                  src={images && images[2]?.url}
+                  alt={images && images[2]?.alt}
                 />
-                <img
-                  className="mx-auto hidden h-full dark:block"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg"
-                  alt=""
-                />
-              </a>
+              </NavLink>
             </div>
             <div className="pt-6">
               <div className="mb-4 flex items-center justify-between gap-4">
-                <span className="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
+                <span className="me-2 rounded bg-secondary/20 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
                   {" "}
                   Up to 35% off{" "}
                 </span>
@@ -93,12 +92,12 @@ const ProductCard = () => {
                   </div>
                 </div>
               </div>
-              <a
-                href="#"
+              <NavLink
+                to="#"
                 className="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white"
               >
-                Apple iMac 27", 1TB HDD, Retina 5K Display, M3 Max
-              </a>
+                {name}
+              </NavLink>
               <div className="mt-2 flex items-center gap-2">
                 <div className="flex items-center">
                   <svg
@@ -197,7 +196,7 @@ const ProductCard = () => {
               </ul>
               <div className="mt-4 flex items-center justify-between gap-4">
                 <p className="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">
-                  $1,699
+                  ${price}
                 </p>
                 <button
                   type="button"

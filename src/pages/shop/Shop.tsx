@@ -1,8 +1,15 @@
 import BreadCumb from "@/components/ui/BreadCumb";
 import Sorting from "./Sorting";
 import ProductCard from "@/components/ui/ProductCard";
+import { useGetAllProductsQuery } from "@/redux/api/api";
+import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
+import { TProduct } from "@/types/product.type";
+import { ReactNode } from "react";
 
 const Shop = () => {
+  const { data } = useGetAllProductsQuery('');
+  console.log(data);
+
   return (
     <section className="py-8 antialiased md:py-12">
       <div className="mx-auto container px-4 2xl:px-0">
@@ -12,14 +19,15 @@ const Shop = () => {
           <Sorting></Sorting>
         </div>
         <div className="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
-          <ProductCard></ProductCard>
-          <ProductCard></ProductCard>
-          <ProductCard></ProductCard>
-          <ProductCard></ProductCard>
-          <ProductCard></ProductCard>
-          <ProductCard></ProductCard>
-          <ProductCard></ProductCard>
-          <ProductCard></ProductCard>
+          {data &&
+            data?.data.map((product: Partial<TProduct>) => (
+              <ProductCard
+                key={UniqueIdGenerator()}
+                name={product?.name}
+                price={product?.price}
+                images={product?.images}
+              ></ProductCard>
+            ))} 
         </div>
         <div className="w-full text-center">
           <button
