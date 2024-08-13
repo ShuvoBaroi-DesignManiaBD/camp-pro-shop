@@ -5,6 +5,7 @@ export type ProductImage = {
 }
 
 export type TProduct = {
+  _id: string;
   name: string;
   price: number;
   stockQuantity: number;

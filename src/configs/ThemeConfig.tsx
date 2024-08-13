@@ -14,6 +14,10 @@ const ThemeConfig = ({children}: any) => {
               colorFillSecondary: "#ba986a",
               colorBorderSecondary: "#ba986a", // Enable algorithm
             },
+            Spin: {
+              colorPrimary: "#482f21",
+              dotSizeLG: 44,
+            }
           },
         }}
       >

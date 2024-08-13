@@ -2,12 +2,12 @@ import BreadCumb from "@/components/ui/BreadCumb";
 import Sorting from "./Sorting";
 import ProductCard from "@/components/ui/ProductCard";
 import { useGetAllProductsQuery } from "@/redux/api/api";
-import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
 import { TProduct } from "@/types/product.type";
 import { ReactNode } from "react";
+import { Skeleton } from "antd";
 
 const Shop = () => {
-  const { data } = useGetAllProductsQuery('');
+  const { data, isLoading } = useGetAllProductsQuery('');
   console.log(data);
 
   return (
@@ -19,15 +19,18 @@ const Shop = () => {
           <Sorting></Sorting>
         </div>
         <div className="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
-          {data &&
+          {!isLoading ?(data &&
             data?.data.map((product: Partial<TProduct>) => (
               <ProductCard
-                key={UniqueIdGenerator()}
+                key={product?._id}
                 name={product?.name}
                 price={product?.price}
                 images={product?.images}
               ></ProductCard>
-            ))} 
+            ))):(
+              
+            <Skeleton active className="col-span-4"></Skeleton>
+            )} 
         </div>
         <div className="w-full text-center">
           <button
