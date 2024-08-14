@@ -17,6 +17,13 @@ const ThemeConfig = ({children}: any) => {
             Spin: {
               colorPrimary: "#482f21",
               dotSizeLG: 44,
+            },
+            Pagination: {
+              colorPrimary: "#482f21",
+              colorPrimaryHover: "#482f21",
+              colorPrimaryActive: "#482f21",
+              colorPrimaryBorderHover: "#482f21",
+              colorLinkHover: "#ba986a",
             }
           },
         }}
