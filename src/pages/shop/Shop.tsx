@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Button, Card, Image, Pagination, Skeleton } from "antd";
 import Meta from "antd/es/card/Meta";
 import ThemeConfig from "@/configs/ThemeConfig";
+import CustomContainer from "@/components/layouts/CustomContainer";
 
 const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +25,8 @@ const Shop = () => {
   };
 
   return (
-    <section className="py-8 antialiased md:py-20">
+
+    <CustomContainer className="py-8 antialiased md:py-20">
       <div className="mx-auto container px-4 2xl:px-0">
         {/* Heading & Filters */}
         <div className="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
@@ -126,10 +128,7 @@ const Shop = () => {
           ) : (
             data?.data.map((product: Partial<TProduct>) => (
               <ProductCard
-                key={product?._id}
-                name={product?.name}
-                price={product?.price}
-                images={product?.images}
+                product={product}
               />
             ))
           )}
@@ -149,7 +148,7 @@ const Shop = () => {
         />
         </ThemeConfig>
       </div>
-    </section>
+    </CustomContainer>
   );
 };
 

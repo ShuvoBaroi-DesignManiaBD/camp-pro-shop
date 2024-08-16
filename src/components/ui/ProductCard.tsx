@@ -2,16 +2,16 @@ import { TProduct } from '@/types/product.type';
 import { Card } from 'antd';
 import { NavLink } from 'react-router-dom';
 
-const ProductCard = ({name,price,images}:Partial<TProduct>) => {
-  console.log(name, price);
+const ProductCard:React.FC<{ product: Partial<TProduct> }> = ({product}) => {
+  console.log(product.name, product.price);
     return (
         <Card hoverable className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-primary dark:bg-primary">
             <div className="h-56 w-full">
-              <NavLink to=''>
+              <NavLink to={product._id ? product?._id:''}>
                 <img
                   className="mx-auto h-full dark:hidden"
-                  src={images && images[2]?.url}
-                  alt={images && images[2]?.alt}
+                  src={product?.images ? product?.images[2]?.url : ''}
+                  alt={product?.images ? product?.images[2]?.alt : ''}
                 />
               </NavLink>
             </div>
@@ -95,7 +95,7 @@ const ProductCard = ({name,price,images}:Partial<TProduct>) => {
                 to="#"
                 className="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white"
               >
-                {name}
+                {product.name}
               </NavLink>
               <div className="mt-2 flex items-center gap-2">
                 <div className="flex items-center">
@@ -195,7 +195,7 @@ const ProductCard = ({name,price,images}:Partial<TProduct>) => {
               </ul>
               <div className="mt-4 flex items-center justify-between gap-4">
                 <p className="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">
-                  ${price}
+                  ${product?.price}
                 </p>
                 <button
                   type="button"

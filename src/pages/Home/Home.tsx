@@ -5,6 +5,7 @@ import CarouselCTA from "@/components/ui/callToActions/CarouselCTA";
 import ThemeConfig from "@/configs/ThemeConfig";
 import { Button, Carousel, Layout } from "antd";
 import ProductTopCategory from "./ProductTopCategory";
+import SiteMeta from "@/components/seo/SiteMeta";
 
 const Home = () => {
   // const style: React.CSSProperties = {
@@ -19,6 +20,7 @@ const Home = () => {
 
   return (
     <Layout className="w-full bg-[url('https://i.ibb.co/YdfcdG6/pattern.webp')] bg-center bg-repeat">
+      <SiteMeta tagLine="Elevate Your Campaigns"></SiteMeta>
       <ThemeConfig>
         <Carousel
           arrows

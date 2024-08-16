@@ -21,7 +21,7 @@ const MainLayout = () => {
       <Content className="bg-[url('https://i.ibb.co/YdfcdG6/pattern.webp')] bg-center bg-repeat">
         {isLoading ? (
           <>
-            <div className="h-[60vh] max-w-screen-xl mx-auto py-20 flex justify-center items-center">
+            <div className="h-[60vh] mx-auto py-20 flex justify-center items-center">
               <ThemeConfig>
               <Spin
                 size="large"

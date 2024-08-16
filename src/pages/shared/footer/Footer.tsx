@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const Footer = ({ className }: any) => {
   return (
     <AntFooter className={className}>
-      <div className="container mx-auto text-text text-center sm:text-left pt-20">
+      <div className="container max-w-screen-xl mx-auto text-text text-center sm:text-left pt-20">
         <div className="mx-auto">
           {/* =========== Top Part =========== */}
           <div className="grid grid-cols-1 justify-items-center sm:justify-items-start sm:grid-cols-8 sm:gap-4 sm:justify-between sm:items-stretch pb-20">
