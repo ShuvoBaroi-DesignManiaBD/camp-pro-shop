@@ -1,176 +1,165 @@
+import { BsFacebook } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
-import Logo from "../Components/Shared/Logo";
-import { useAuth } from "../Hooks/useAuth";
-import { Link, NavLink, Navigate, useLocation, useNavigate } from "react-router-dom";
+// import Logo from "../Components/Shared/Logo";
+// import { useAuth } from "../Hooks/useAuth";
+import {
+  Link,
+  NavLink,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import SocialLogin from "../Components/Shared/AuthElements/SocialLogin";
+// import SocialLogin from "../Components/Shared/AuthElements/SocialLogin";
 import { useForm } from "react-hook-form";
+import FieldSet from "@/components/ui/form/FieldSet";
+import Field from "@/components/ui/form/Field";
+import Logo from "@/components/ui/Logo";
+import { Button } from "antd";
 
 const Login = () => {
-  const { signInWithEmail, user } = useAuth();
+  //   const { signInWithEmail, user } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const { state } = useLocation();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
     setError,
-} = useForm();
+  } = useForm();
   console.log(state);
   const navigate = useNavigate();
-  const handleSubmit = async (e:any) => {
-    e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    await signInWithEmail(email, password)
-  }
   const togglePass = () => {
     setShowPassword(!showPassword);
-  }
+  };
 
-  const submitForm = (formData:any) => {
+  const submitForm = (formData: any) => {
     console.log(formData);
-    const user = {email: 'x@example.com', password: '123456789'}
+    reset();
+  };
 
-    const found = formData.email === user.email && formData.password === user.password;
-
-    if (!found) {
-        setError("root.random", {
-            message: `User with email '${formData.email}' is not found`,
-            type: "random"
-        })
-    }
-
-  {
-    if (user) {
-      return state ? navigate(state || '/foods') :
-        <div className="min-h-screen flex flex-col items-center justify-center gap-10">
-          <p className='text-center text-2xl font-normal text-textColor col-span-4'>
-            You are logged in already!
-          </p>
-          <NavLink to="/" className="primaryBtn py-1.5">Back to home</NavLink>
-        </div>
-
-    } else {
-      return (
-        <main className="w-[100vw] h-[100vh] bg-[#291e0b] flex items-center justify-center mx-auto my-auto p-6">
-          <div className="w-[450px] mt-7 bg-[#131509] border rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
-            <div className="p-4 sm:p-7">
-              <div className="text-center text-white">
-                <Logo className='w-[180px] mx-auto'></Logo>
-                <h1 className="block text-2xl mt-10 font-bold dark:text-white text-white">
-                  Sign in
-                </h1>
-                <p className="mt-2 text-sm text-white dark:text-gray-400">
-                  Don't have an account yet?
-                  <Link
-                    className="text-primary font-semibold decoration-2 hover:underline dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    to="/register"
-                  >
-                    Sign up here
-                  </Link>
-                </p>
-              </div>
-              <div className="mt-5">
-                <SocialLogin url={state}></SocialLogin>
-
-                <div className="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-[1_1_0%] before:border-t before:border-gray-200 before:me-6 after:flex-[1_1_0%] after:border-t after:border-gray-200 after:ms-6 dark:text-gray-500 dark:before:border-gray-600 dark:after:border-gray-600">
-                  Or
-                </div>
-                {/* Form */}
-                <form onSubmit={handleSubmit(submitForm)}>
-                  <div className="grid gap-y-4">
-                    {/* Form Group */}
-                    <div className="text-white">
-                      <label
-                        htmlFor="email"
-                        className="block text-sm mb-2 dark:text-white"
-                      >
-                        Email address
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          className="py-3 px-4 block w-full border-2 focus:outline-primary border-gray-200 rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                          required=""
-                          aria-describedby="email-error"
-                        />
-
-                      </div>
-
-                    </div>
-                    {/* End Form Group */}
-                    {/* Form Group */}
-                    <div>
-                      <div className="flex justify-between items-center">
-                        <label
-                          htmlFor="password"
-                          className="block text-sm mb-2 dark:text-white text-white"
-                        >
-                          Password
-                        </label>
-                        <a
-                          className="text-sm text-primary decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                          href="../examples/html/recover-account.html"
-                        >
-                          Forgot password?
-                        </a>
-                      </div>
-                      <div className="relative">
-                        {showPassword ? <FiEye className="absolute bottom-3 right-3" onClick={togglePass}></FiEye> : <FiEyeOff className="absolute bottom-4 right-3" onClick={togglePass}></FiEyeOff>}
-                        <input
-                          type={showPassword ? 'text' : 'password'}
-                          name="password"
-                          minLength="6"
-                          id="password"
-                          placeholder="Enter password"
-                          className="py-3 px-4 block w-full border-2 focus:outline-primary border-gray-200 rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                          required=""
-                        />
-                      </div>
-
-                    </div>
-                    {/* End Form Group */}
-                    {/* Checkbox */}
-                    <div className="flex items-start">
-                      <div className="flex items-center h-5">
-                        <input
-                          id="remember"
-                          aria-describedby="remember"
-                          type="checkbox"
-                          className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 focus:ring-primary-600 ring-offset-gray-800"
-                          required=""
-                        />
-                      </div>
-                      <div className="ml-3 text-sm">
-                        <label
-                          htmlFor="remember"
-                          className="text-sm font-medium text-white"
-                        >
-                          Remember me
-                        </label>
-                      </div>
-                    </div>
-                    {/* End Checkbox */}
-                    <button
-                      type="submit"
-                      className="w-full primaryBtn font-semibold"
-                    >
-                      Sign in
-                    </button>
-                  </div>
-                </form>
-                {/* End Form */}
-              </div>
-            </div>
+  return (
+    <main className="w-[100vw] h-[100vh] bg-[url('https://i.ibb.co/YdfcdG6/pattern.webp')] flex items-center justify-center mx-auto my-auto p-6">
+      <div className="w-[480px] mt-7 bg-white border rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
+        <div className="p-4 sm:p-7">
+          <div className="text-center text-text space-y-4">
+            <Logo className="w-[120px] mx-auto"></Logo>
+            <h1 className="block text-2xl mt-6 font-bold dark:text-white text-primary">
+              Sign in
+            </h1>
           </div>
-        </main>
+          <div className="mt-5">
+            {/* <SocialLogin url={state}></SocialLogin> */}
+            <div className="flex justify-center gap-x-5 my-4">
+              <FcGoogle size={48} className="border rounded py-3 w-20" />
+              <BsFacebook
+                size={48}
+                className="w-20 border text-white bg-blue-600 rounded p-3"
+              />
+            </div>
+            <div className="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-[1_1_0%] before:border-t before:border-gray-200 before:me-6 after:flex-[1_1_0%] after:border-t after:border-gray-200 after:ms-6 dark:text-gray-500 dark:before:border-gray-600 dark:after:border-gray-600">
+              Or
+            </div>
+            {/* Form */}
+            <form onSubmit={handleSubmit(submitForm)}>
+              <div className="grid gap-y-1">
+                {/* ======== Email =========== */}
+                <FieldSet>
+                  <Field label="Email" error={errors.email}>
+                    <input
+                      {...register("email", {
+                        required: "Email is required.",
+                      })}
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Your email"
+                      className={`py-3 px-4 block w-full border-2 ${
+                        errors?.email
+                          ? "outline-red-500 border-red-300"
+                          : "border-gray-200"
+                      } focus:outline-primary rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`}
+                      aria-describedby="email-error"
+                    />
+                  </Field>
+                </FieldSet>
+                {/* ======== Email =========== */}
 
-      );
-    }
-  }
+                {/* ======== Password ======== */}
+                <FieldSet>
+                  <Field label="Password" error={errors.password}>
+                    <div className="w-full relative">
+                      {showPassword ? (
+                        <FiEye
+                          className="absolute bottom-4 right-3"
+                          onClick={togglePass}
+                        ></FiEye>
+                      ) : (
+                        <FiEyeOff
+                          className="absolute bottom-4 right-3"
+                          onClick={togglePass}
+                        ></FiEyeOff>
+                      )}
+                      <input
+                        {...register("password", {
+                          required: "Password is required.",
+                          minLength: {
+                            value: 8,
+                            message:
+                              "Your password must be at least 8 characters.",
+                          },
+                        })}
+                        type={showPassword ? "text" : "password"}
+                        id="password"
+                        name="password"
+                        placeholder="Your password"
+                        className={`py-3 px-4 block w-full border-2 ${
+                          errors?.password
+                            ? "outline-red-500 border-red-300"
+                            : "border-gray-200"
+                        } focus:outline-primary rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`}
+                        aria-describedby="email-error"
+                      />
+                    </div>
+                  </Field>
+                </FieldSet>
+                {/* ======== Password ======== */}
+
+                {/* End Form Group */}
+
+                <button
+                  type="submit"
+                  className="w-full primaryButton mt-4 font-semibold"
+                >
+                  Sign in
+                </button>
+                <div className="flex justify-between items-end textSm font-medium">
+                  <div className="mt-2 text-text flex gap-2 space-x-1 justify-center items-center dark:text-gray-400">
+                    <p>Not a memeber?</p>
+                    <Link
+                      className="text-secondary font-semibold decoration-2 hover:underline dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      to="/register"
+                    >
+                      Sign up
+                    </Link>
+                  </div>
+                  <NavLink
+                    className="text-secondary decoration-2 hover:underline font-semibold dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                    to="/forget-password"
+                  >
+                    Forgot password?
+                  </NavLink>
+                </div>
+              </div>
+            </form>
+            {/* End Form */}
+          </div>
+        </div>
+      </div>
+    </main>
+  );
 };
 
 export default Login;
