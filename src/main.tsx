@@ -6,12 +6,14 @@ import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
 import { HelmetProvider } from "react-helmet-async";
+import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <HelmetProvider>
       <Provider store={store}>
         <RouterProvider router={Routes} />
+        <Toaster />
       </Provider>
     </HelmetProvider>
   </React.StrictMode>

@@ -1,0 +1,14 @@
+/* Custom CSS for react-phone-input-2 */
+.react-tel-input .form-control {
+    width: 100%; /* Example: make the input take full width */
+    padding: 10px 40px; /* Add custom padding */
+    border-radius: 4px; /* Add custom border radius */
+    border: none; /* Add custom border */
+  }
+  
+  .react-tel-input .flag-dropdown {
+    border: none; /* Style the flag dropdown */
+    background-color: transparent; /* Background color */
+    border-radius: 4px 0 0 4px; /* Match border radius */
+  }
+  

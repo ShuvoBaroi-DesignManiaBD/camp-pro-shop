@@ -28,7 +28,7 @@ const Login = () => {
     reset,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm({mode: "onTouched"});
   console.log(state);
   const navigate = useNavigate();
   const togglePass = () => {
