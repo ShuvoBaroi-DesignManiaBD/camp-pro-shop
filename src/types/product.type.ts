@@ -17,3 +17,8 @@ export type TProduct = {
   isDeleted: boolean;
 }
 
+export interface ProductData {
+  name: string;
+  price: number;
+  images: ProductImage[];
+}

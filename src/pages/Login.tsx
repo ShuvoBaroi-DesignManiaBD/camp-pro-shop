@@ -1,8 +1,6 @@
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
-// import Logo from "../Components/Shared/Logo";
-// import { useAuth } from "../Hooks/useAuth";
 import {
   Link,
   NavLink,
@@ -16,28 +14,58 @@ import { useForm } from "react-hook-form";
 import FieldSet from "@/components/ui/form/FieldSet";
 import Field from "@/components/ui/form/Field";
 import Logo from "@/components/ui/Logo";
-import { Button } from "antd";
+import toast from "react-hot-toast";
+import { TSignInUser } from "@/types";
+import FormSubmitBtn from "@/components/ui/form/FormSubmitBtn";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { verifyToken } from "@/utils/verifyToken";
+import { useAppDispatch } from "@/redux/hooks";
+import { setUser } from "@/redux/features/auth/authSlice";
 
 const Login = () => {
-  //   const { signInWithEmail, user } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [login, { data, isFetching }]: any = useLoginMutation();
   const { state } = useLocation();
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-    setError,
-  } = useForm({mode: "onTouched"});
+  } = useForm({ mode: "onTouched" });
   console.log(state);
   const navigate = useNavigate();
   const togglePass = () => {
     setShowPassword(!showPassword);
   };
 
-  const submitForm = (formData: any) => {
-    console.log(formData);
-    reset();
+  const submitForm = async (formData: TSignInUser) => {
+    try {
+      const res = await login(formData).unwrap();
+      console.log(res);
+      
+      // Check the response to see if the login was successful
+      if (res && res.success) {
+        const user = verifyToken(res?.token);
+
+    dispatch(setUser({ user: res?.data, token: res?.token }));
+        toast.success("Login successful!");
+        reset();
+        navigate("/");
+      } else {
+        // Handle the error case where the response indicates failure
+        throw new Error(res?.message || "Login failed");
+      }
+    } catch (error: any) {
+      console.error(error);
+      if (error?.data?.message?.toLowerCase().includes("password")) {
+        return toast.error("Password does not match!");
+      } else {
+        return toast.error("Something went wrong!");
+      }
+    }
   };
 
   return (
@@ -63,7 +91,7 @@ const Login = () => {
               Or
             </div>
             {/* Form */}
-            <form onSubmit={handleSubmit(submitForm)}>
+            <form onSubmit={handleSubmit(submitForm as any)}>
               <div className="grid gap-y-1">
                 {/* ======== Email =========== */}
                 <FieldSet>
@@ -128,13 +156,25 @@ const Login = () => {
                 {/* ======== Password ======== */}
 
                 {/* End Form Group */}
-
-                <button
-                  type="submit"
-                  className="w-full primaryButton mt-4 font-semibold"
-                >
-                  Sign in
-                </button>
+                <FormSubmitBtn
+                  text="Sign in"
+                  isLoading={isFetching}
+                  icon={
+                    <Spin
+                      indicator={
+                        <LoadingOutlined
+                          spin
+                          style={{
+                            color: "white",
+                            fontSize: "18px",
+                            marginLeft: "8px",
+                          }}
+                        />
+                      }
+                      size="default"
+                    />
+                  }
+                />
                 <div className="flex justify-between items-end textSm font-medium">
                   <div className="mt-2 text-text flex gap-2 space-x-1 justify-center items-center dark:text-gray-400">
                     <p>Not a memeber?</p>

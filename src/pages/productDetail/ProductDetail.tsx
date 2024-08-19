@@ -1,4 +1,3 @@
-import { useGetAProductQuery } from "@/redux/api/api";
 import { useParams } from "react-router-dom";
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,16 +6,8 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import CustomContainer from "@/components/layouts/CustomContainer";
 import ImageMagnifier from "@/components/ui/ImageMagnifier";
 import { Swiper as SwiperCore, Swiper as SwiperType } from "swiper/types";
-
-interface ProductImage {
-  url: string;
-}
-
-interface ProductData {
-  name: string;
-  price: number;
-  images: ProductImage[];
-}
+import { ProductData } from "@/types";
+import { useGetAProductQuery } from "@/redux/features/products/productApi";
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>(); // Extracting the product ID from the URL params
@@ -58,7 +49,9 @@ const ProductDetail: React.FC = () => {
               }}
               modules={[FreeMode, Navigation, Thumbs]}
               className="h-[65vh] bg-primaryLight/50 shadow-md w-full rounded-lg"
-              onSlideChange={(swiper: SwiperType) => setCurrentIndex(swiper.activeIndex)}
+              onSlideChange={(swiper: SwiperType) =>
+                setCurrentIndex(swiper.activeIndex)
+              }
             >
               {images.map((image, index) => (
                 <SwiperSlide key={index}>

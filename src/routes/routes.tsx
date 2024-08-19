@@ -1,36 +1,17 @@
 import MainLayout from "@/components/layouts/MainLayout";
-import About from "@/pages/About";
-import Home from "@/pages/home/Home";
 import Login from "@/pages/Login";
-import ProductDetail from "@/pages/productDetail/ProductDetail";
 import Register from "@/pages/register/Register";
-import Shop from "@/pages/shop/Shop";
 import { Toaster } from "react-hot-toast";
 import { createBrowserRouter } from "react-router-dom";
+import subRoutes from "./sub.routes.tsx"
+import { routeGenerator } from "@/utils/routesGenerator.ts";
 
 const Routes = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout></MainLayout>,
     errorElement: <Toaster></Toaster>,
-    children: [
-      {
-        path: "/",
-        element: <Home></Home>,
-      },
-      {
-        path: "about",
-        element: <About></About>,
-      },
-      {
-        path: "shop",
-        element: <Shop></Shop>,
-      },
-      {
-        path: "shop/:productId",
-        element: <ProductDetail></ProductDetail>,
-      },
-    ],
+    children: routeGenerator(subRoutes as any),
   },
   {
     path: "login",

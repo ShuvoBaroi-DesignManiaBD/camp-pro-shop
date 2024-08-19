@@ -1,11 +1,5 @@
+import { MenuItem } from "@/types/menu.type";
 import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
-
-type MenuItem = {
-    key: string,
-    label: string,
-    url: string,
-    children?: [MenuItem]
-}
 
 const MainNavItems: MenuItem[] = [
     {

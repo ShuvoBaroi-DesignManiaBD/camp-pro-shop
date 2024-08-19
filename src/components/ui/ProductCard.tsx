@@ -3,7 +3,7 @@ import { Card } from 'antd';
 import { NavLink } from 'react-router-dom';
 
 const ProductCard:React.FC<{ product: Partial<TProduct> }> = ({product}) => {
-  console.log(product.name, product.price);
+
     return (
         <Card hoverable className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-primary dark:bg-primary">
             <div className="h-56 w-full">

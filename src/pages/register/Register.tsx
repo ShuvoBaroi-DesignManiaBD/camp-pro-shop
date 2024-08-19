@@ -1,7 +1,7 @@
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import FieldSet from "@/components/ui/form/FieldSet";
@@ -10,30 +10,17 @@ import Logo from "@/components/ui/Logo";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "./register.css";
-import { useRegisterCustomerMutation } from "@/redux/api/api";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Spin } from "antd";
-import { LoadingOutlined } from '@ant-design/icons';
-type Address = {
-  street: string;
-  city: string;
-  state: string;
-  zipCode: string;
-};
-
-export type TUser = {
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-  confirmPassword?: string;
-  address: Address;
-  isDeleted: false;
-};
+import { LoadingOutlined } from "@ant-design/icons";
+import { TUser } from "@/types";
+import FormSubmitBtn from "@/components/ui/form/FormSubmitBtn";
+import { useRegisterCustomerMutation } from "@/redux/features/auth/authApi";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [registerCustomer,data, isLoading] = useRegisterCustomerMutation()
+  const [registerCustomer, data, isFetching]: any =
+    useRegisterCustomerMutation();
   const {
     register,
     handleSubmit,
@@ -52,34 +39,37 @@ const Register = () => {
     try {
       console.log(formData);
       const user: Partial<TUser> = {}; // Using Partial to allow gradual construction of the object
-      
+
       // Copying the form data
       user.name = formData.name;
       user.email = formData.email;
       user.phone = formData.phone;
       user.password = formData.password;
-      user.address = {
-        street: formData.address?.street,
-        city: formData.address?.city,
-        state: formData.address?.state,
-        zipCode: formData.address?.zipCode,
-      } || {};
-      user.isDeleted = false; 
-  
+      user.address =
+        {
+          street: formData.address?.street,
+          city: formData.address?.city,
+          state: formData.address?.state,
+          zipCode: formData.address?.zipCode,
+        } || {};
+      user.isDeleted = false;
+
       // Make the API call
-      const result = await registerCustomer(user as TUser).unwrap();
-      if (result) {
+      const result = await registerCustomer(user as any).unwrap();
+      if (result!) {
         toast.success("Registration successful!");
         reset(); // Reset the form on successful submission
-        // navigate("/login"); // Redirect to login page after successful registration
+        navigate("/login"); // Redirect to login page after successful registration
       }
     } catch (error: any) {
       console.error(error);
-      if(error?.data?.message.includes("email") && error?.data?.message.includes("duplicate"))
-      toast.error("An user with this email already exists!");
+      if (
+        error?.data?.message.includes("email") &&
+        error?.data?.message.includes("duplicate")
+      )
+        toast.error("An user with this email already exists!");
     }
   };
-  
 
   // Watch the password field to compare with confirmPassword
   const password = watch("password");
@@ -364,15 +354,25 @@ const Register = () => {
                   </div>
                 </div>
                 {/* End Grid */}
-
-                <button
-                  type="submit"
-                  className={`${isLoading && 'disabled:opacity-20'} w-full py-3 px-4 mt-4 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-dark`}
-                  disabled={isLoading ? true : false}
-                >
-                  Sign up
-                  {isLoading && <Spin indicator={<LoadingOutlined spin style={{color:"white", fontSize: "18px", marginLeft: "8px"}}/>} size="default"/>}
-                </button>
+                <FormSubmitBtn
+                  text="Sign up"
+                  isLoading={isFetching}
+                  icon={
+                    <Spin
+                      indicator={
+                        <LoadingOutlined
+                          spin
+                          style={{
+                            color: "white",
+                            fontSize: "18px",
+                            marginLeft: "8px",
+                          }}
+                        />
+                      }
+                      size="default"
+                    />
+                  }
+                ></FormSubmitBtn>
 
                 <p className="mt-6 text-base font-medium text-center text-gray-600 dark:text-gray-400">
                   Already have an account?{" "}

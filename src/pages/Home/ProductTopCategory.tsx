@@ -1,15 +1,4 @@
-import { ReactNode } from "react";
-
-type ProductTopCategoryProps = {
-  bgImage?: string;
-  height?: string;
-  className?: string;
-  subHeadingStyle?: string;
-  subHeadingText?: string;
-  headingStyle?: string;
-  headingText?: string;
-  button?: ReactNode;
-};
+import { ProductTopCategoryProps } from "@/types";
 
 const ProductTopCategory = ({
   bgImage,

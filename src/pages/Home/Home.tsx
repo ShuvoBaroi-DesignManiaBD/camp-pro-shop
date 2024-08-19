@@ -8,15 +8,6 @@ import ProductTopCategory from "./ProductTopCategory";
 import SiteMeta from "@/components/seo/SiteMeta";
 
 const Home = () => {
-  // const style: React.CSSProperties = {
-  //   margin: 0,
-  //   height: "160px",
-  //   color: "#fff",
-  //   lineHeight: "160px",
-  //   textAlign: "center",
-  //   background: "#364d79",
-  //   // maxWidth: "1280px",
-  // };
 
   return (
     <Layout className="w-full bg-[url('https://i.ibb.co/YdfcdG6/pattern.webp')] bg-center bg-repeat">

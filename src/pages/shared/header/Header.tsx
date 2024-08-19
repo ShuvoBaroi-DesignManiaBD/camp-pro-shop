@@ -1,8 +1,8 @@
 import Logo from "@/components/ui/Logo";
 import { Flex } from "antd";
 import { Header as AntHeader } from "antd/es/layout/layout";
-import MainNav from "./MainNav/MainNav";
-import MobileNav from "./MainNav/MobileNav";
+import MainNav from "./mainNav/MainNav";
+import MobileNav from "./mobileNav/MobileNav";
 import { useEffect, useState } from "react";
 const Header = () => {
   // const [screenWidth, setScreenWidth] = useState(window.screen.width)
