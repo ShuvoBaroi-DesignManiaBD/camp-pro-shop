@@ -13,6 +13,7 @@ export type TUser = {
   confirmPassword?: string;
   address: Address;
   isDeleted: false;
+  photo?: string;
 };
 
 export type TSignInUser = {

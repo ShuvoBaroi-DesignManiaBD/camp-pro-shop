@@ -1,9 +1,15 @@
 import { ConfigProvider } from "antd";
 
-const ThemeConfig = ({children}: any) => {
-  return <>
+const ThemeConfig = ({ children }: any) => {
+  return (
+    <>
       <ConfigProvider
         theme={{
+          token: {
+            colorPrimary: "#482f21",
+            colorPrimaryBgHover: "#ba986a",
+            colorPrimaryText: "#fff",
+          },
           components: {
             Carousel: {
               arrowSize: 24,
@@ -24,13 +30,20 @@ const ThemeConfig = ({children}: any) => {
               colorPrimaryActive: "#482f21",
               colorPrimaryBorderHover: "#482f21",
               colorLinkHover: "#ba986a",
-            }
+            },
+            Menu: {
+              itemBg: "#482f21",
+              itemActiveBg: "#482f21",
+              itemHoverBg: "#482f211a",
+              itemSelectedBg:"#482f211a",
+            },
           },
         }}
       >
         {children}
       </ConfigProvider>
     </>
+  );
 };
 
 export default ThemeConfig;

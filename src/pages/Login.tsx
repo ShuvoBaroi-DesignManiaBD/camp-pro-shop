@@ -1,13 +1,8 @@
+import { ImSpinner8 } from "react-icons/im";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
-import {
-  Link,
-  NavLink,
-  Navigate,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, Navigate, NavLink, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 // import SocialLogin from "../Components/Shared/AuthElements/SocialLogin";
 import { useForm } from "react-hook-form";
@@ -17,17 +12,14 @@ import Logo from "@/components/ui/Logo";
 import toast from "react-hot-toast";
 import { TSignInUser } from "@/types";
 import FormSubmitBtn from "@/components/ui/form/FormSubmitBtn";
-import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { verifyToken } from "@/utils/verifyToken";
-import { useAppDispatch } from "@/redux/hooks";
-import { setUser } from "@/redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setUser, useCurrentUser } from "@/redux/features/auth/authSlice";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [login, { data, isFetching }]: any = useLoginMutation();
-  const { state } = useLocation();
+  const [login, { data, status }]: any = useLoginMutation();
   const dispatch = useAppDispatch();
   const {
     register,
@@ -35,22 +27,22 @@ const Login = () => {
     reset,
     formState: { errors },
   } = useForm({ mode: "onTouched" });
-  console.log(state);
+  console.log(status);
   const navigate = useNavigate();
   const togglePass = () => {
     setShowPassword(!showPassword);
   };
 
+  const currentUser = useAppSelector(useCurrentUser);
   const submitForm = async (formData: TSignInUser) => {
     try {
       const res = await login(formData).unwrap();
       console.log(res);
-      
+
       // Check the response to see if the login was successful
       if (res && res.success) {
-        const user = verifyToken(res?.token);
-
-    dispatch(setUser({ user: res?.data, token: res?.token }));
+        // const user = verifyToken(res?.token);
+        dispatch(setUser({ user: res?.data, token: res?.token }));
         toast.success("Login successful!");
         reset();
         navigate("/");
@@ -68,6 +60,9 @@ const Login = () => {
     }
   };
 
+  if(currentUser){
+    return Navigate({to: "/"})
+  } else {
   return (
     <main className="w-[100vw] h-[100vh] bg-[url('https://i.ibb.co/YdfcdG6/pattern.webp')] flex items-center justify-center mx-auto my-auto p-6">
       <div className="w-[480px] mt-7 bg-white border rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
@@ -158,22 +153,8 @@ const Login = () => {
                 {/* End Form Group */}
                 <FormSubmitBtn
                   text="Sign in"
-                  isLoading={isFetching}
-                  icon={
-                    <Spin
-                      indicator={
-                        <LoadingOutlined
-                          spin
-                          style={{
-                            color: "white",
-                            fontSize: "18px",
-                            marginLeft: "8px",
-                          }}
-                        />
-                      }
-                      size="default"
-                    />
-                  }
+                  isLoading={status === "pending" ? true : false}
+                  className="align-middle"
                 />
                 <div className="flex justify-between items-end textSm font-medium">
                   <div className="mt-2 text-text flex gap-2 space-x-1 justify-center items-center dark:text-gray-400">
@@ -199,7 +180,7 @@ const Login = () => {
         </div>
       </div>
     </main>
-  );
+  );}
 };
 
 export default Login;

@@ -1,56 +1,37 @@
 import { RxMagnifyingGlass } from "react-icons/rx";
 import { BiShoppingBag } from "react-icons/bi";
-import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import MainNavItems from "./MainNavItems";
 import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
-import { Avatar, Button, Dropdown, Menu } from "antd";
+import { Avatar, Dropdown } from "antd";
 import { useState } from "react";
 import items from "./dropdownItems";
-
-// const items = [
-//   {
-//     key: "1",
-//     label: (
-//       <a
-//         target="_blank"
-//         rel="noopener noreferrer"
-//         href="https://www.antgroup.com"
-//       >
-//         1st menu item
-//       </a>
-//     ),
-//   },
-//   {
-//     key: "2",
-//     label: (
-//       <a
-//         target="_blank"
-//         rel="noopener noreferrer"
-//         href="https://www.aliyun.com"
-//       >
-//         2nd menu item
-//       </a>
-//     ),
-//   },
-//   {
-//     key: "3",
-//     label: (
-//       <a
-//         target="_blank"
-//         rel="noopener noreferrer"
-//         href="https://www.luohanacademy.com"
-//       >
-//         3rd menu item
-//       </a>
-//     ),
-//   },
-// ];
+import { logout, useCurrentUser } from "@/redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import UserSettingsDropdown from "@/components/ui/dropdown/UserSettingsDropdown";
 
 const MainNav = () => {
-  const UserList = ["U", "Lucy", "Tom", "Edward"];
-  const [user, setUser] = useState(UserList[0]);
+  const currentUser = useAppSelector(useCurrentUser);
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  const updatedItems = items.map((item) => {
+    if (item.key === 4) {
+      return {
+        ...item,
+        label: (
+          <a rel="logout" onClick={handleLogout}>
+            Logout
+          </a>
+        ),
+      };
+    }
+    return item;
+  });
 
   return (
     <ul
@@ -68,27 +49,15 @@ const MainNav = () => {
         <MdOutlineFavoriteBorder size={22} />
         <BiShoppingBag size={22} />
       </li>
-
-      <li>
-        <Dropdown
-          menu={{items}}
-          overlayClassName="w-[160px]"
-          placement="bottomRight"
-          arrow={{ pointAtCenter: true }}
-        >
-          <Avatar
-            style={{
-              backgroundColor: "#f56a00",
-              fontSize: "24px",
-              verticalAlign: "middle",
-              width: "48px",
-              height: "48px",
-            }}
-          >
-            {user}
-          </Avatar>
-        </Dropdown>
-      </li>
+      {!currentUser ? (
+        <NavLink className="primaryButton text-sm px-4" to="/login">
+          Login / Register
+        </NavLink>
+      ) : (
+        <li>
+          <UserSettingsDropdown items={updatedItems} currentUser={currentUser}></UserSettingsDropdown>
+        </li>
+      )}
     </ul>
   );
 };

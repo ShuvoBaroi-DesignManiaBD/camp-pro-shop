@@ -1,4 +1,4 @@
-import BreadCumb from "@/components/ui/BreadCumb";
+import CustomBreadCumb from "@/components/ui/BreadCumb";
 import Sorting from "./Sorting";
 import ProductCard from "@/components/ui/ProductCard";
 import { TProduct } from "@/types/product.type";
@@ -8,15 +8,32 @@ import Meta from "antd/es/card/Meta";
 import ThemeConfig from "@/configs/ThemeConfig";
 import CustomContainer from "@/components/layouts/CustomContainer";
 import { useGetAllProductsQuery } from "@/redux/features/products/productApi";
+import items from "../shared/header/mainNav/dropdownItems";
+import { HomeOutlined } from "@ant-design/icons";
 
-const Shop = () => {
+const BreadCumbItems = [
+  {
+    href: "",
+    title: (
+      <>
+        <HomeOutlined />
+        <span>Home</span>
+      </>
+    ),
+  },
+  {
+    title: "Products",
+  },
+];
+
+const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(4);
 
   const { data, isLoading } = useGetAllProductsQuery({
     page: currentPage,
     limit: pageSize,
-});
+  });
 
   const handlePageChange = (page: number, pageSize: number) => {
     setCurrentPage(page);
@@ -28,7 +45,7 @@ const Shop = () => {
       <div className="mx-auto container px-4 2xl:px-0">
         {/* Heading & Filters */}
         <div className="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
-          <BreadCumb />
+          <CustomBreadCumb links={BreadCumbItems} />
           <Sorting />
         </div>
         <div className="mb-4 grid justify-center gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
@@ -123,4 +140,4 @@ const Shop = () => {
   );
 };
 
-export default Shop;
+export default Products;
