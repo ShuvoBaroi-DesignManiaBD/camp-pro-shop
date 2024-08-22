@@ -1,7 +1,7 @@
 import About from "@/pages/About";
 import Home from "@/pages/home/Home";
 import ProductDetail from "@/pages/productDetail/ProductDetail";
-import Products from "@/pages/shop/Shop";
+import Products from "@/pages/shop/Products";
 
 const subRoutes = [
   {
@@ -17,7 +17,7 @@ const subRoutes = [
     element: <Products></Products>,
   },
   {
-    path: "shop/:productId",
+    path: "products/:productId",
     element: <ProductDetail></ProductDetail>,
   },
 ];

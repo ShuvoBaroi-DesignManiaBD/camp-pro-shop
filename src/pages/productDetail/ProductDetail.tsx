@@ -7,11 +7,13 @@ import CustomContainer from "@/components/layouts/CustomContainer";
 import ImageMagnifier from "@/components/ui/ImageMagnifier";
 import { Swiper as SwiperCore, Swiper as SwiperType } from "swiper/types";
 import { ProductData } from "@/types";
-import { useGetAProductQuery } from "@/redux/features/products/productApi";
+import { useGetAProductQuery } from "@/redux/features/product/productApi";
+import ThemeConfig from "@/configs/ThemeConfig";
+import { Spin } from "antd";
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>(); // Extracting the product ID from the URL params
-  const { data, isLoading } = useGetAProductQuery(productId ? productId : ""); // Fetching product data using the product ID
+  const { data, isLoading, isFetching } = useGetAProductQuery(productId ? productId : ""); // Fetching product data using the product ID
   const productData: ProductData | undefined = data?.data; // Accessing the actual product data from the response
 
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null); // State to manage the thumbnail swiper
@@ -19,13 +21,21 @@ const ProductDetail: React.FC = () => {
 
   const images: string[] = productData?.images?.map((image) => image.url) || []; // Mapping product images to an array of URLs
 
-  if (isLoading) {
-    return <p>Loading...</p>;
+  if (isLoading || isFetching) {
+    <div className="h-[60vh] mx-auto py-20 flex justify-center items-center">
+              <ThemeConfig>
+              <Spin
+                size="large"
+                tip="Loading"
+                className="text-secondary"
+              />
+              </ThemeConfig>
+            </div>
   }
 
-  if (!productData) {
-    return <p>Product not found.</p>;
-  }
+  // if (!productData) {
+  //   return <p>Product not found.</p>;
+  // }
 
   const handleThumbnailClick = (index: number) => {
     if (thumbsSwiper) {
