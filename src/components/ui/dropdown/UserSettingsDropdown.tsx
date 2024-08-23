@@ -13,8 +13,8 @@ const UserSettingsDropdown = ({currentUser, items}:any) => {
                 backgroundColor: "#f56a00",
                 fontSize: "24px",
                 verticalAlign: "middle",
-                width: "48px",
-                height: "48px",
+                width: "40px",
+                height: "40px",
               }}
             >
               {currentUser?.photo || currentUser?.name?.trim()[0]}

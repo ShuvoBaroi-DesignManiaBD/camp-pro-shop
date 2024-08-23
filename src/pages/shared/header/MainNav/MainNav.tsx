@@ -4,15 +4,18 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import MainNavItems from "./MainNavItems";
 import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
-import { Avatar, Dropdown } from "antd";
+import { Avatar, Badge, Dropdown } from "antd";
 import { useState } from "react";
 import items from "./dropdownItems";
 import { logout, useCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import UserSettingsDropdown from "@/components/ui/dropdown/UserSettingsDropdown";
+import { selectNumberOfProducts } from "@/redux/features/cart/cartSlice";
+import { setShowHideCartDrawer } from "@/redux/features/ui/drawerShowHideSlice";
 
 const MainNav = () => {
   const currentUser = useAppSelector(useCurrentUser);
+  const numberOfProducts = useAppSelector(selectNumberOfProducts);
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
@@ -36,7 +39,7 @@ const MainNav = () => {
   return (
     <ul
       id="mainNav"
-      className="flex justify-between items-center gap-8 textSemiLg hover:text-primary"
+      className="flex justify-between items-center gap-8 textSemiLg"
     >
       {MainNavItems.map((menu) => (
         <li key={UniqueIdGenerator()} className="hover:text-primary">
@@ -44,18 +47,27 @@ const MainNav = () => {
         </li>
       ))}
 
-      <li className="flex gap-4 ml-4">
+      <div className="flex gap-4 ml-4">
         <RxMagnifyingGlass size={24} />
         <MdOutlineFavoriteBorder size={22} />
-        <BiShoppingBag size={22} />
-      </li>
+        <Badge count={numberOfProducts}>
+          <BiShoppingBag
+            size={22}
+            onClick={() => dispatch(setShowHideCartDrawer())}
+            className="cursor-pointer"
+          />
+        </Badge>
+      </div>
       {!currentUser ? (
         <NavLink className="primaryButton text-sm px-4" to="/login">
           Login / Register
         </NavLink>
       ) : (
         <li>
-          <UserSettingsDropdown items={updatedItems} currentUser={currentUser}></UserSettingsDropdown>
+          <UserSettingsDropdown
+            items={updatedItems}
+            currentUser={currentUser}
+          ></UserSettingsDropdown>
         </li>
       )}
     </ul>

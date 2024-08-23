@@ -5,7 +5,7 @@ import {
   setProducts,
   selectCurrentProducts,
 } from "@/redux/features/product/productSlice";
-import ProductCard from "@/components/ui/ProductCard";
+import ProductCard from "@/components/ui/cards/ProductCard";
 import FilterSidebar from "@/components/ui/sidebars/FilterSidebar";
 import CustomBreadCumb from "@/components/ui/BreadCumb";
 import Sorting from "./Sorting";
@@ -46,17 +46,16 @@ const Products = () => {
   const filters = useAppSelector(selectCurrentFilters);
   const currentPage = useAppSelector(selectPage);
   const pageSize = useAppSelector(selectPageSize);
-  const { data, isLoading, isFetching, error, refetch } = useFilterProductsQuery({
-    queries: (filters as FilterValues) || null,
-    page: currentPage,
-    limit: pageSize,
-  });
-
+  const { data, isLoading, isFetching, error, refetch } =
+    useFilterProductsQuery({
+      queries: (filters as FilterValues) || null,
+      page: currentPage,
+      limit: pageSize,
+    });
 
   const products = useAppSelector(selectCurrentProducts);
   const productsCount = useAppSelector(selectProductsCount);
   console.log(data, products);
-
 
   const handlePageChange = (page: number, newPageSize?: number) => {
     console.log(page, newPageSize);
@@ -64,7 +63,7 @@ const Products = () => {
       dispatch(setPage(1));
       dispatch(setPageSize(newPageSize));
       // refetch();
-    } else if (page && currentPage !== page){
+    } else if (page && currentPage !== page) {
       dispatch(setPage(page));
       // dispatch(setProducts(products || []));
       // refetch();
@@ -72,9 +71,9 @@ const Products = () => {
   };
 
   useEffect(() => {
-    setTimeout(() =>{
+    setTimeout(() => {
       refetch();
-    }, 500)
+    }, 500);
   }, [currentPage, filters]);
 
   return (
@@ -88,23 +87,32 @@ const Products = () => {
         <div className="grid sm:grid-cols-4 grid-cols-1 gap-6 items-start">
           <FilterSidebar />
           <div className="mb-4 grid justify-center gap-4 grid-cols-[repeat(autofit,_minmax(280px,_1fr))] sm:grid-cols-[repeat(3,_minmax(280px,_1fr))] sm:col-span-3 md:mb-8">
-            {(isLoading || isFetching)
-              ? [...Array(pageSize)].map((_, index) => (
-                  <Card
-                    key={index}
-                    style={{ width: "100%" }}
-                    cover={<Skeleton.Image active={true} className="!w-full" />}
-                  >
-                    <Skeleton active className="col-span-4" />
-                  </Card>
-                ))
-              : (products.length === 0 ? <div className="h-[60vh] flex items-center justify-center col-span-full"><Empty imageStyle={{width:"240px", height:"200px"}} className=""/></div> : products?.map((product) => (
-                  <ProductCard
-                    key={product?._id}
-                    product={product}
-                    className=""
-                  />
-                )))}
+            {isLoading || isFetching ? (
+              [...Array(pageSize)].map((_, index) => (
+                <Card
+                  key={index}
+                  style={{ width: "100%" }}
+                  cover={<Skeleton.Image active={true} className="!w-full" />}
+                >
+                  <Skeleton active className="col-span-4" />
+                </Card>
+              ))
+            ) : products.length === 0 ? (
+              <div className="h-[60vh] flex items-center justify-center col-span-full">
+                <Empty
+                  imageStyle={{ width: "240px", height: "200px" }}
+                  className=""
+                />
+              </div>
+            ) : (
+              products?.map((product) => (
+                <ProductCard
+                  key={product?._id}
+                  product={product}
+                  className=""
+                />
+              ))
+            )}
           </div>
         </div>
 

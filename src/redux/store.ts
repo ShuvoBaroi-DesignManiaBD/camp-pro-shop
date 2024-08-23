@@ -15,6 +15,8 @@ import storage from "redux-persist/lib/storage";
 import authSlice from "./features/auth/authSlice";
 import productFiltersSlice from "./features/productFilters/productFiltersSlice";
 import productSlice from "./features/product/productSlice";
+import cartSlice from "./features/cart/cartSlice";
+import drawerShowHideSlice from "./features/ui/drawerShowHideSlice";
 
 const persistConfig = {
   key: "auth",
@@ -29,6 +31,8 @@ export const store = configureStore({
     auth: persistedAuthReducer,
     products: productSlice,
     productFilters: productFiltersSlice,
+    cart: cartSlice,
+    cartDrawer: drawerShowHideSlice,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({

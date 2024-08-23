@@ -24,11 +24,11 @@ const Header = () => {
 
   return (
     <AntHeader
-      className="bg-white flex items-center justify-between h-[120px] px-[16px] sm:p-0"
+      className="bg-white border-b flex items-center justify-between h-[100px] px-[16px] sm:p-0"
       style={{}}
     >
       <Flex className="container max-w-screen-xl mx-auto h-full flex justify-between items-center">
-        <Logo className="w-[125px]"></Logo>
+        <Logo className="w-[100px]"></Logo>
         {isDesktop ? <MainNav /> : <MobileNav />}
       </Flex>
     </AntHeader>
