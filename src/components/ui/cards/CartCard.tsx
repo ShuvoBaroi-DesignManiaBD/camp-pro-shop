@@ -1,7 +1,21 @@
+import { decreaseItemQuantity, increaseItemQuantity, removeItemFromCart } from "@/redux/features/cart/cartSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { NavLink } from "react-router-dom";
 
 const CartCard = ({product}) => {
     console.log(product);
+    const dispatch = useAppDispatch();
+    const handleIncreaseQuantity = (id: string) => {
+      dispatch(increaseItemQuantity(id));
+    };
+  
+    const handleDecreaseQuantity = (id: string) => {
+      dispatch(decreaseItemQuantity(id));
+    };
+
+    const handleRemoveItem = (id: string) => {
+      dispatch(removeItemFromCart(id));
+    };
     
     return (
         <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
@@ -27,6 +41,7 @@ const CartCard = ({product}) => {
                         type="button"
                         id="decrement-button"
                         data-input-counter-decrement="counter-input"
+                        onClick={() => handleDecreaseQuantity(product?._id)}
                         className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
                       >
                         <svg
@@ -50,13 +65,16 @@ const CartCard = ({product}) => {
                         id="counter-input"
                         data-input-counter=""
                         className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
-                        placeholder=""
-                        defaultValue={2}
+                        min={1}
+                        max={product?.stockQuantity}
+                        defaultValue={product?.quantity}
+                        value={product?.quantity}
                       />
                       <button
                         type="button"
                         id="increment-button"
                         data-input-counter-increment="counter-input"
+                        onClick={() => handleIncreaseQuantity(product?._id)}
                         className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
                       >
                         <svg
@@ -115,6 +133,7 @@ const CartCard = ({product}) => {
                       </button>
                       <button
                         type="button"
+                        onClick={() => handleRemoveItem(product?._id)}
                         className="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
                       >
                         <svg

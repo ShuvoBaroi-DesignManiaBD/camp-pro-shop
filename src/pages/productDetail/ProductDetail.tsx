@@ -38,11 +38,19 @@ const ProductDetail: React.FC = () => {
   useEffect(() => {
     if (amount < 1) {
       setValue("amount", 1);
+    }else if(amount === productData?.stockQuantity || amount > productData?.stockQuantity){
+      setValue("amount", productData?.stockQuantity);
     }
   }, [amount, setValue]);
 
+  
+
+  const productData = data?.data;
+
   const increaseAmount = () => {
-    setValue("amount", amount + 1);
+    if (amount < productData?.stockQuantity) {
+      setValue("amount", amount + 1);
+    }
   };
 
   const decreaseAmount = () => {
@@ -50,9 +58,6 @@ const ProductDetail: React.FC = () => {
       setValue("amount", amount - 1);
     }
   };
-
-  const productData = data?.data;
-
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const images: string[] =
@@ -200,8 +205,9 @@ const ProductDetail: React.FC = () => {
                   </Button>
                   <input
                     {...register("amount")}
-                    value={amount}
+                    defaultValue={amount}
                     min="1"
+                    max={productData?.stockQuantity}
                     className="w-8 text-center font-semibold focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     type="number"
                   />

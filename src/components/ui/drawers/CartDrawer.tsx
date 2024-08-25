@@ -1,75 +1,4 @@
 import { AiOutlineShopping } from "react-icons/ai";
-// import React from "react";
-// import { Drawer, Button } from "antd";
-// import { useDispatch, useSelector } from "react-redux";
-// import { clearCart, removeItemFromCart } from "@/redux/features/cart/cartSlice";
-// import { RootState } from "@/redux/store";
-// import { CartItem } from "@/types/cart.type";
-
-// interface CartDrawerProps {
-//   visible: boolean;
-//   onClose: () => void;
-// }
-
-// const CartDrawer: React.FC<CartDrawerProps> = ({ visible, onClose }) => {
-//   const dispatch = useDispatch();
-//   const cartItems = useSelector((state: RootState) => state.cart.items);
-//   const totalAmount = useSelector((state: RootState) => state.cart.totalAmount);
-
-//   const handleRemoveItem = (id: string) => {
-//     dispatch(removeItemFromCart(id));
-//   };
-
-//   const handleClearCart = () => {
-//     dispatch(clearCart());
-//     onClose();
-//   };
-
-//   return (
-//     <Drawer
-//       title="Your Cart"
-//       placement="right"
-//       onClose={onClose}
-//       visible={visible}
-//       width={320}
-//       footer={
-//         <div className="flex justify-between">
-//           <Button onClick={handleClearCart}>Clear Cart</Button>
-//           <div className="font-bold text-lg">
-//             Total: ${totalAmount.toFixed(2)}
-//           </div>
-//         </div>
-//       }
-//     >
-//       {cartItems.length === 0 ? (
-//         <div>Your cart is empty.</div>
-//       ) : (
-//         cartItems.map((item: CartItem) => (
-//           <div key={item._id} className="mb-4">
-//             <div className="flex justify-between">
-//               <div>
-//                 <div className="font-medium">{item.name}</div>
-//                 <div className="text-sm text-gray-600">
-//                   Quantity: {item.quantity}
-//                 </div>
-//                 <div className="text-sm text-gray-600">
-//                   Price: ${item.price.toFixed(2)}
-//                 </div>
-//               </div>
-//               <Button danger onClick={() => handleRemoveItem(item._id)}>
-//                 Remove
-//               </Button>
-//             </div>
-//           </div>
-//         ))
-//       )}
-//     </Drawer>
-//   );
-// };
-
-// export default CartDrawer;
-
-
 import { Drawer, Button } from "antd";
 import { useDispatch } from "react-redux";
 import {
@@ -78,7 +7,7 @@ import {
   increaseItemQuantity,
   decreaseItemQuantity,
   selectCartItems,
-  selectTotalAmount,
+  selectTotalPrice,
   selectNumberOfProducts,
 } from "@/redux/features/cart/cartSlice";
 import { RootState } from "@/redux/store";
@@ -93,7 +22,7 @@ import { NavLink } from "react-router-dom";
 const CartDrawer = () => {
   const dispatch = useDispatch();
   const cartItems = useAppSelector(selectCartItems);
-  const totalAmount = useAppSelector(selectTotalAmount);
+  const totalAmount = useAppSelector(selectTotalPrice);
   const numberOfProducts = useAppSelector(selectNumberOfProducts);
   const cartDrawerState = useAppSelector(selectShowHideCartDrawer);
 
@@ -107,6 +36,9 @@ const CartDrawer = () => {
 
   const handleDecreaseQuantity = (id: string) => {
     dispatch(decreaseItemQuantity(id));
+    // if(cartItems.length === 0) {
+    //   return clearCart();
+    // }
   };
 
   const handleClearCart = () => {
@@ -130,17 +62,23 @@ const CartDrawer = () => {
           </Button>
         </div>
       }
-      footerStyle={{backgroundColor: 'rgb(236 221 213 / var(--tw-bg-opacity))'}}
+      footerStyle={{
+        backgroundColor: "rgb(236 221 213 / var(--tw-bg-opacity))",
+      }}
       placement="right"
       onClose={() => dispatch(setShowHideCartDrawer())}
       open={cartDrawerState as boolean}
       width={340}
       footer={
         <div className="flex flex-col gap-3 py-3 justify-between">
-          <NavLink to='/checkout' className="primaryButton w-full text-center">
+          <NavLink to="/checkout" className="primaryButton w-full text-center">
             {`Checkout Now ( ${totalAmount.toFixed(2)} )`}
           </NavLink>
-          <NavLink to='/cart' onClick={()=>dispatch(setShowHideCartDrawer())} className="w-full primaryButtonOutlined text-center">
+          <NavLink
+            to="/cart"
+            onClick={() => dispatch(setShowHideCartDrawer())}
+            className="w-full primaryButtonOutlined text-center"
+          >
             View Cart
           </NavLink>
         </div>

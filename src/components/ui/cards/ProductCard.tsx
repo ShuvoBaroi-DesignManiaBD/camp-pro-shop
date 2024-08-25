@@ -7,7 +7,7 @@ const ProductCard:React.FC<{ product: Partial<TProduct>, className: string }> = 
     return (
         <Card hoverable className={`${className} rounded-lg border border-gray-200 bg-white p-0 shadow-sm dark:border-primary dark:bg-primary`}>
             <div className="h-56 w-full">
-              <NavLink to={product._id ? product?._id:''}>
+              <NavLink to={product._id ? `/products/${product?._id}`:''}>
                 <img
                   className="mx-auto h-full dark:hidden"
                   src={product?.images ? product?.images[2]?.url : ''}
@@ -92,7 +92,7 @@ const ProductCard:React.FC<{ product: Partial<TProduct>, className: string }> = 
                 </div>
               </div>
               <NavLink
-                to="#"
+                to={product._id ? `/products/${product?._id}`:''}
                 className="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white"
               >
                 {product.name}
