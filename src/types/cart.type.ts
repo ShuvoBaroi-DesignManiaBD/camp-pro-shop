@@ -2,7 +2,7 @@ import { TProduct } from "./product.type";
 
 export interface CartItem extends TProduct {
   quantity: number;
-  totalPrice: number;
+  total: number;
 }
 
 export interface CartState {

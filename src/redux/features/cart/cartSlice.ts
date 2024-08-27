@@ -24,15 +24,14 @@ const cartSlice = createSlice({
         // If the item already exists, increase its quantity and total price
         existingItem.quantity =
           Number(existingItem.quantity) + Number(newItem.quantity);
-        existingItem.totalPrice =
-          Number(existingItem.totalPrice) +
-          Number(newItem.price * newItem.quantity);
+        existingItem.total =
+          Number(existingItem.total) + Number(newItem.price * newItem.quantity);
       } else {
         // If it's a new item, add it with the correct quantity and total price
         state.items.push({
           ...newItem,
           quantity: newItem.quantity,
-          totalPrice: newItem.price * newItem.quantity,
+          total: newItem.price * newItem.quantity,
         });
         state.numberOfProducts += 1;
       }
@@ -46,7 +45,7 @@ const cartSlice = createSlice({
     removeItemFromCart: (state, action: PayloadAction<string>) => {
       const id = action.payload;
       const existingItem = state.items.find((item) => item._id === id);
-      const newTotal = state.totalPrice - existingItem?.totalPrice!;
+      const newTotal = state.totalPrice - existingItem?.total!;
       state.totalPrice = newTotal;
       state.items = state.items.filter((item) => item._id !== id);
       //   if (existingItem) {
@@ -70,7 +69,7 @@ const cartSlice = createSlice({
           );
         } else {
           existingItem.quantity++;
-          existingItem.totalPrice += existingItem.price;
+          existingItem.total += existingItem.price;
           state.totalPrice += existingItem.price;
         }
       }
@@ -82,12 +81,12 @@ const cartSlice = createSlice({
       if (existingItem) {
         if (existingItem.quantity > 1) {
           existingItem.quantity--;
-          existingItem.totalPrice -= existingItem.price;
+          existingItem.total -= existingItem.price;
           state.totalPrice -= existingItem.price;
-          if(existingItem.quantity === 0) state.numberOfProducts = 0;
+          if (existingItem.quantity === 0) state.numberOfProducts = 0;
         } else {
-          state.totalPrice -= existingItem.totalPrice;
-          state.numberOfProducts-- ;
+          state.totalPrice -= existingItem.total;
+          state.numberOfProducts--;
           state.items = state.items.filter((item) => item._id !== id);
         }
       }
@@ -111,7 +110,8 @@ export const {
 export default cartSlice.reducer;
 export const selectCartItems = (state: RootState) => state.cart.items;
 export const selectTotalPrice = (state: RootState) => state.cart.totalPrice;
-export const selectNumberOfProducts = (state: RootState) => state.cart.numberOfProducts;
+export const selectNumberOfProducts = (state: RootState) =>
+  state.cart.numberOfProducts;
 
 // import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // import { CartItem, CartState } from "@/types/cart.type";

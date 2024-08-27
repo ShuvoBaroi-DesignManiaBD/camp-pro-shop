@@ -1,5 +1,6 @@
 import About from "@/pages/About";
 import Cart from "@/pages/cart/Cart";
+import CheckoutPage from "@/pages/checkout/Checkout";
 import Home from "@/pages/home/Home";
 import ProductDetail from "@/pages/productDetail/ProductDetail";
 import Products from "@/pages/shop/Products";
@@ -24,6 +25,10 @@ const subRoutes = [
   {
     path: "cart",
     element: <Cart></Cart>,
+  },
+  {
+    path: "checkout",
+    element: <CheckoutPage></CheckoutPage>,
   },
 ];
 

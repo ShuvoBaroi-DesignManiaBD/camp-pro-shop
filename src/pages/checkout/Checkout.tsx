@@ -1,0 +1,369 @@
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Button, Radio } from "antd";
+import Field from "@/components/ui/form/Field";
+import FieldSet from "@/components/ui/form/FieldSet";
+import { useAppSelector } from "@/redux/hooks";
+import {
+  clearCart,
+  decreaseItemQuantity,
+  increaseItemQuantity,
+  removeItemFromCart,
+  selectCartItems,
+  selectNumberOfProducts,
+  selectTotalPrice,
+} from "@/redux/features/cart/cartSlice";
+import { selectShowHideCartDrawer } from "@/redux/features/ui/drawerShowHideSlice";
+import { CartItem } from "@/types/cart.type";
+import { useDispatch } from "react-redux";
+import CustomContainer from "@/components/layouts/CustomContainer";
+import Select from "react-select";
+import countryList from "react-select-country-list";
+import FormSubmitBtn from "@/components/ui/form/FormSubmitBtn";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import Paypal from "@/components/ui/icons/Paypal";
+import Visa from "@/components/ui/icons/Visa";
+import MasterCard from "@/components/ui/icons/MasterCard";
+import Bkash from "@/components/ui/icons/Bkash";
+import toast from "react-hot-toast";
+
+const CheckoutPage = () => {
+  const [paymentMethod, setPaymentMethod] = useState("paypal");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setValue,
+  } = useForm({ mode: "onTouched" });
+  const [selectedPayment, setSelectedPayment] = useState("paypal");
+  const dispatch = useDispatch();
+  const cartItems = useAppSelector(selectCartItems);
+  const totalPrice = useAppSelector(selectTotalPrice);
+  const numberOfProducts = useAppSelector(selectNumberOfProducts);
+  const cartDrawerState = useAppSelector(selectShowHideCartDrawer);
+  const currentUser = useAppSelector(useCurrentUser);
+
+  const countries = countryList().getData(); // Get the country list data
+
+  const handleCountryChange = (selectedOption: any) => {
+    console.log(selectedOption);
+
+    setValue("country", selectedOption); // Set the country value in the form
+  };
+
+  const handleRemoveItem = (id: string) => {
+    dispatch(removeItemFromCart(id));
+  };
+
+  const handleIncreaseQuantity = (id: string) => {
+    dispatch(increaseItemQuantity(id));
+  };
+
+  const handleDecreaseQuantity = (id: string) => {
+    dispatch(decreaseItemQuantity(id));
+  };
+
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
+
+  const onSubmit = (data: any) => {
+    let order: any = {
+      userId: currentUser?._id,
+      quantity: numberOfProducts,
+      totalPrice: totalPrice,
+      gateWay: paymentMethod,
+      currency: 'USD',
+    };
+    if (cartItems.length !== 0) {
+      let products: any[] = [];
+      cartItems.map((item) =>
+        products.push({
+          id: item._id,
+          quantity: item.quantity,
+          totalPrice: item.total,
+        })
+      );
+      order.products = products;
+      order.address = {
+        country: data?.country?.label,
+        city: data?.city,
+        street: data?.streetAddress,
+        zip: data?.zip,
+      }
+    }
+
+    if(!order.products || order.products.length === 0) {
+      return toast.error("Please select at least a product!")
+    }
+    console.log(data, order); // Handle form submission
+    reset(); // Reset form fields after submission
+  };
+
+  const handlePaymentChange = (e: any) => {
+    setPaymentMethod(e.target.value);
+  };
+
+  return (
+    <CustomContainer>
+      <div className="container mx-auto p-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid grid-cols-1 gap-6 md:grid-cols-5"
+        >
+          {/* Left Column */}
+          <div className="col-span-3 bg-white p-6 rounded-lg">
+            <section className="mb-8 grid grid-cols-2 gap-x-4">
+              <h2 className="text-xl font-bold mb-4 !col-span-full">
+                Shipping Address
+              </h2>
+
+              {/* Country Field */}
+              <FieldSet>
+                <Field label="Country" error={errors.country}>
+                  <>
+                    <Select
+                      options={countries}
+                      {...register("country", {
+                        required: "Country is required",
+                      })}
+                      name="country"
+                      id="country"
+                      onChange={handleCountryChange}
+                      classNamePrefix="react-select"
+                      placeholder="Select your country"
+                      aria-describedby="country-error"
+                      className="w-full py-2 [&>.react-select__control]:py-2"
+                    />
+                    {/* <input
+                    type="text"
+                    {...register("country", {
+                      required: "Country is required",
+                    })}
+                    hidden
+                  /> */}
+                  </>
+                </Field>
+              </FieldSet>
+
+              {/* City Field */}
+              <FieldSet>
+                <Field label="City" error={errors.city}>
+                  <input
+                    {...register("city", { required: "City is required" })}
+                    type="text"
+                    id="city"
+                    name="city"
+                    placeholder="City"
+                    className={`py-3 px-4 block w-full border-2 ${
+                      errors?.city
+                        ? "outline-red-500 border-red-300"
+                        : "border-gray-200"
+                    } focus:outline-primary rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`}
+                    aria-describedby="city-error"
+                  />
+                </Field>
+              </FieldSet>
+
+              {/* Street Address Field */}
+              <FieldSet>
+                <Field label="Street Address" error={errors.streetAddress}>
+                  <input
+                    {...register("streetAddress", {
+                      required: "Street Address is required",
+                    })}
+                    type="text"
+                    id="streetAddress"
+                    name="streetAddress"
+                    placeholder="Street Address"
+                    className={`py-3 px-4 block w-full border-2 ${
+                      errors?.streetAddress
+                        ? "outline-red-500 border-red-300"
+                        : "border-gray-200"
+                    } focus:outline-primary rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`}
+                    aria-describedby="streetAddress-error"
+                  />
+                </Field>
+              </FieldSet>
+
+              {/* Zip Code Field */}
+              <FieldSet>
+                <Field label="Zip Code" error={errors.zip}>
+                  <input
+                    {...register("zip", { required: "Zip Code is required" })}
+                    type="text"
+                    id="zip"
+                    name="zip"
+                    placeholder="Zip Code"
+                    className={`py-3 px-4 block w-full border-2 ${
+                      errors?.zip
+                        ? "outline-red-500 border-red-300"
+                        : "border-gray-200"
+                    } focus:outline-primary rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`}
+                    aria-describedby="zip-error"
+                  />
+                </Field>
+              </FieldSet>
+            </section>
+
+            {/* Order Note Section */}
+            <section>
+              <h2 className="text-xl font-bold mb-4">Order Note</h2>
+              <textarea
+                {...register("orderNote")}
+                name="orderNote"
+                placeholder="Add a note to your order"
+                rows={4}
+                className="w-full p-2 border rounded-md"
+              />
+            </section>
+          </div>
+
+          {/* Right Column */}
+          <div className="col-span-2 flex flex-col gap-8">
+            <section className="bg-white shadow-sm p-6 rounded-lg">
+              <h2 className="text-xl font-bold mb-4">Your Order</h2>
+              {/* Display order summary here, e.g., items, total price, etc. */}
+              <div className="p-4 rounded-lg max-h-[30vh] overflow-y-auto">
+                {cartItems?.map((item: CartItem) => (
+                  <div
+                    key={item._id}
+                    className="mb-4 &:not(:last-child)]:border-b border-sky-500"
+                  >
+                    <div className="flex flex-col justify-between items-start gap-2.5">
+                      <div className="flex gap-2">
+                        <img
+                          src={item?.images[0]?.url as any}
+                          alt={item?.images[0]?.alt}
+                          className="size-10"
+                        />
+                        <div className="flex-grow space-y-1">
+                          <div className="font-medium">{item.name}</div>
+                          <div className="text-sm text-gray-600">
+                            Quantity: {item.quantity}
+                          </div>
+                          <div className="text-sm text-gray-600">
+                            Total: ${item.total.toFixed(2)}
+                          </div>
+                          <div className="flex items-center">
+                            <Button
+                              onClick={() => handleDecreaseQuantity(item._id)}
+                            >
+                              -
+                            </Button>
+                            <span className="mx-2">{item?.quantity}</span>
+                            <Button
+                              onClick={() => handleIncreaseQuantity(item._id)}
+                            >
+                              +
+                            </Button>
+                            <Button
+                              danger
+                              onClick={() => handleRemoveItem(item._id)}
+                              className="ml-2"
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="bg-white shadow-sm p-6 rounded-lg">
+              <h2 className="text-xl font-bold mb-4">Payment</h2>
+              <div className="mb-4">
+                <FieldSet>
+                  <Field error={errors?.paymentMethod}>
+                    <div className="flex flex-col gap-4">
+                      <Radio
+                        value="paypal"
+                        onChange={handlePaymentChange}
+                        checked={paymentMethod === "paypal" ? true : false}
+                        className={`${
+                          paymentMethod === "paypal" ? "bg-primaryLight/40" : ""
+                        } p-3 border rounded-lg`}
+                      >
+                        <div className="text-sm flex gap-4 ml-2 items-center">
+                          <div className="flex flex-col gap-1.5 ml-2">
+                            <span className="text-base font-semibold">
+                              Paypal
+                            </span>
+                            <span>
+                              You will be redirected to PayPal website to
+                              complete your purchase securely.
+                            </span>
+                          </div>
+                          <Paypal size="40px"></Paypal>
+                        </div>
+                      </Radio>
+
+                      <Radio
+                        value="sslcommerz"
+                        onChange={handlePaymentChange}
+                        checked={paymentMethod === "sslcommerz" ? true : false}
+                        className={`${
+                          paymentMethod === "sslcommerz"
+                            ? "bg-primaryLight/40"
+                            : ""
+                        } p-3 border rounded-lg`}
+                      >
+                        <div className="flex flex-row gap-2">
+                          <div className="text-[12px] flex flex-col gap-1 ml-2">
+                            <span className="text-base font-semibold line-clamp-1">
+                              Credit/Debit Card/Mobile-NetBanking
+                            </span>
+                            <span
+                              className={`${
+                                paymentMethod === "sslcommerz"
+                                  ? ""
+                                  : "line-clamp-1"
+                              }`}
+                            >
+                              Supports{" "}
+                              <strong>
+                                credit/debit/Mobile-NetBanking/Bkash/Rocket
+                              </strong>{" "}
+                              etc. Hosted & Powered by{" "}
+                              <strong>SSLCommerz</strong>
+                            </span>
+                          </div>
+                          <div className="w-1/4 flex gap-1.5 items-center">
+                            <Visa size="18px"></Visa>
+                            <MasterCard></MasterCard>
+                            <Bkash></Bkash>
+                          </div>
+                        </div>
+                      </Radio>
+
+                      {/* <input
+                      {...register("paymentMethod", {
+                        required: "Please select a payment method",
+                      })}
+                      type="text"
+                    /> */}
+                    </div>
+                  </Field>
+                </FieldSet>
+              </div>
+            </section>
+
+            <FormSubmitBtn
+              text="Place order"
+              isLoading={status === "pending" ? true : false}
+              className="align-middle text-lg !mt-0"
+            />
+          </div>
+        </form>
+      </div>
+    </CustomContainer>
+    // <CustomContainer>
+    // </CustomContainer>
+  );
+};
+
+export default CheckoutPage;

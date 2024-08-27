@@ -6,16 +6,33 @@
 @layer base {
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500;1,600&display=swap');
 
-   :root{
+    :root {
         font-family: "Montserrat", "Inter";
         box-sizing: border-box;
         font-size: 16px;
         font-weight: 400;
+        /* scrollbar-color: #ba986a transparent; */
+        scroll-behavior: smooth;
+        /* scrollbar-arrow-color: #ba986a; */
     }
 
-    /* body{
-        f
-    } */
+    ::-webkit-scrollbar{
+        max-width: 12px;
+    }
+
+    ::-webkit-scrollbar-track{
+        background-color: transparent;
+    }
+    ::-webkit-scrollbar-thumb{
+        background-image: linear-gradient(#482f21, #ba986a);
+        border-radius: 6px;
+    }
+
+    *::selection{
+        background-color: #482f21;
+        color: #ffd79e;
+    }
+
 }
 
 @layer components {

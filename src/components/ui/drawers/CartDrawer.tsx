@@ -71,7 +71,11 @@ const CartDrawer = () => {
       width={340}
       footer={
         <div className="flex flex-col gap-3 py-3 justify-between">
-          <NavLink to="/checkout" className="primaryButton w-full text-center">
+          <NavLink
+            to="/checkout"
+            onClick={() => dispatch(setShowHideCartDrawer())}
+            className="primaryButton w-full text-center"
+          >
             {`Checkout Now ( ${totalAmount.toFixed(2)} )`}
           </NavLink>
           <NavLink
@@ -105,7 +109,7 @@ const CartDrawer = () => {
                     Quantity: {item.quantity}
                   </div>
                   <div className="text-sm text-gray-600">
-                    Total: ${item.totalPrice.toFixed(2)}
+                    Total: ${item.total.toFixed(2)}
                   </div>
                   <div className="flex items-center">
                     <Button onClick={() => handleDecreaseQuantity(item._id)}>

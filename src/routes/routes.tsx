@@ -3,11 +3,12 @@ import Login from "@/pages/Login";
 import Register from "@/pages/register/Register";
 import { Toaster } from "react-hot-toast";
 import { createBrowserRouter } from "react-router-dom";
-import subRoutes from "./sub.routes.tsx"
+import subRoutes from "./sub.routes.tsx";
 import { routeGenerator } from "@/utils/routesGenerator.ts";
 import DashboardLayout from "@/components/layouts/DashboardLayout.tsx";
 import customerDashboardRoutes from "./customer/customerDashboard.routes.tsx";
 import ProtectedRoute from "@/components/layouts/ProtectedRoute.tsx";
+import OrderDetails from "@/pages/order/OrderDetails.tsx";
 
 const Routes = createBrowserRouter([
   {
@@ -18,7 +19,11 @@ const Routes = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <ProtectedRoute><DashboardLayout></DashboardLayout></ProtectedRoute>,
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout></DashboardLayout>
+      </ProtectedRoute>
+    ),
     errorElement: <Toaster></Toaster>,
     children: routeGenerator(customerDashboardRoutes as any),
   },
@@ -29,6 +34,14 @@ const Routes = createBrowserRouter([
   {
     path: "register",
     element: <Register></Register>,
+  },
+  {
+    path: "checkout/order-details",
+    element: (
+      <ProtectedRoute>
+        <OrderDetails></OrderDetails>
+      </ProtectedRoute>
+    ),
   },
 ]);
 
