@@ -6,14 +6,15 @@ const orderApi = baseAPI.injectEndpoints({
     {
     createOrder: builder.mutation<void, void>({
       query: (data)=>({
-        url: `/order/create-order`,
+        url: `/orders/create-order`,
         method: "POST",
+        // headers:(accessToken && {accesstoken: accessToken}) || {refreshToken: refreshToken}||{},
         body: data
       }),
     }),
     captureOrder: builder.mutation<void, void>({
       query: (orderId)=>({
-        url: `/paypal/capture-order`,
+        url: `/orders/capture-order`,
         method: "POST",
         body: orderId
       }),

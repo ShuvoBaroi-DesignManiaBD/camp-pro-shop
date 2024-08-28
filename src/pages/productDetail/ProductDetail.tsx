@@ -25,6 +25,7 @@ import {
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import ProductFeatures from "@/components/ui/lists/ProductFeatures";
+import LoadingSpin from "@/components/ui/spinners/LoadingSpin";
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -85,11 +86,7 @@ const ProductDetail: React.FC = () => {
 
   if (isLoading || isFetching) {
     return (
-      <div className="h-[60vh] mx-auto py-20 flex justify-center items-center">
-        <ThemeConfig>
-          <Spin size="large" tip="Loading" />
-        </ThemeConfig>
-      </div>
+      <LoadingSpin></LoadingSpin>
     );
   }
 

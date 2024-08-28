@@ -8,7 +8,7 @@ import { routeGenerator } from "@/utils/routesGenerator.ts";
 import DashboardLayout from "@/components/layouts/DashboardLayout.tsx";
 import customerDashboardRoutes from "./customer/customerDashboard.routes.tsx";
 import ProtectedRoute from "@/components/layouts/ProtectedRoute.tsx";
-import OrderDetails from "@/pages/order/OrderDetails.tsx";
+import OrderSuccess from "@/pages/order/order-success.tsx";
 
 const Routes = createBrowserRouter([
   {
@@ -36,10 +36,10 @@ const Routes = createBrowserRouter([
     element: <Register></Register>,
   },
   {
-    path: "checkout/order-details",
+    path: "order-success",
     element: (
       <ProtectedRoute>
-        <OrderDetails></OrderDetails>
+        <OrderSuccess></OrderSuccess>
       </ProtectedRoute>
     ),
   },

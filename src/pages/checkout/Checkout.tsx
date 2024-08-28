@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Radio } from "antd";
+import { Button, Empty, Radio, Typography } from "antd";
 import Field from "@/components/ui/form/Field";
 import FieldSet from "@/components/ui/form/FieldSet";
 import { useAppSelector } from "@/redux/hooks";
@@ -20,15 +20,20 @@ import CustomContainer from "@/components/layouts/CustomContainer";
 import Select from "react-select";
 import countryList from "react-select-country-list";
 import FormSubmitBtn from "@/components/ui/form/FormSubmitBtn";
-import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import {
+  useCurrentToken,
+  useCurrentUser,
+} from "@/redux/features/auth/authSlice";
 import Paypal from "@/components/ui/icons/Paypal";
 import Visa from "@/components/ui/icons/Visa";
 import MasterCard from "@/components/ui/icons/MasterCard";
 import Bkash from "@/components/ui/icons/Bkash";
 import toast from "react-hot-toast";
+import { useCreateOrderMutation } from "@/redux/features/order/orderApi";
 
 const CheckoutPage = () => {
   const [paymentMethod, setPaymentMethod] = useState("paypal");
+  const [createOrder, { data, status }]: any = useCreateOrderMutation();
   const {
     register,
     handleSubmit,
@@ -43,11 +48,12 @@ const CheckoutPage = () => {
   const numberOfProducts = useAppSelector(selectNumberOfProducts);
   const cartDrawerState = useAppSelector(selectShowHideCartDrawer);
   const currentUser = useAppSelector(useCurrentUser);
+  const currentToken = useAppSelector(useCurrentToken);
 
   const countries = countryList().getData(); // Get the country list data
 
   const handleCountryChange = (selectedOption: any) => {
-    console.log(selectedOption);
+    // console.log(selectedOption);
 
     setValue("country", selectedOption); // Set the country value in the form
   };
@@ -67,14 +73,15 @@ const CheckoutPage = () => {
   const handleClearCart = () => {
     dispatch(clearCart());
   };
-
-  const onSubmit = (data: any) => {
+  // console.log(currentUser);
+  const onSubmit = async (formData: any) => {
     let order: any = {
       userId: currentUser?._id,
+      email: currentUser?.email,
       quantity: numberOfProducts,
       totalPrice: totalPrice,
       gateWay: paymentMethod,
-      currency: 'USD',
+      currency: "USD",
     };
     if (cartItems.length !== 0) {
       let products: any[] = [];
@@ -87,33 +94,44 @@ const CheckoutPage = () => {
       );
       order.products = products;
       order.address = {
-        country: data?.country?.label,
-        city: data?.city,
-        street: data?.streetAddress,
-        zip: data?.zip,
-      }
+        country: formData?.country?.label,
+        city: formData?.city,
+        street: formData?.streetAddress,
+        zip: formData?.zip,
+      };
     }
 
-    if(!order.products || order.products.length === 0) {
-      return toast.error("Please select at least a product!")
+    if (!order.products || order.products.length === 0) {
+      return toast.error("Please select at least a product!");
     }
-    console.log(data, order); // Handle form submission
-    reset(); // Reset form fields after submission
+    const redirectUrl = await createOrder(order)?.unwrap();
+    redirectUrl?.length > 0 && dispatch(clearCart());
+    console.log(data && data, order, window.location.href, redirectUrl);
+    window.location.href = redirectUrl !== "undefined" && redirectUrl?.data;
+    // reset();
   };
 
   const handlePaymentChange = (e: any) => {
     setPaymentMethod(e.target.value);
   };
 
+  if (cartItems.length === 0) {
+    return (
+      <CustomContainer className="text-center flex items-center justify-center">
+        <Empty className="flex flex-col gap-5 justify-between mx-auto [&&_svg]:size-[200px] [&&_.ant-empty-image]:h-auto" description={<Typography.Title level={4} type="secondary">Cart is empty! Please add a product.</Typography.Title>}  />
+      </CustomContainer>
+    );
+  }
+
   return (
     <CustomContainer>
       <div className="container mx-auto p-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="grid grid-cols-1 gap-6 md:grid-cols-5"
+          className="grid grid-cols-1 items-start gap-6 md:grid-cols-5"
         >
           {/* Left Column */}
-          <div className="col-span-3 bg-white p-6 rounded-lg">
+          <div className="col-span-3 flex flex-col gap-6 bg-white p-6 rounded-lg">
             <section className="mb-8 grid grid-cols-2 gap-x-4">
               <h2 className="text-xl font-bold mb-4 !col-span-full">
                 Shipping Address

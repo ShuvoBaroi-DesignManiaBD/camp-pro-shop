@@ -1,3 +1,4 @@
+import ProtectedRoute from "@/components/layouts/ProtectedRoute";
 import About from "@/pages/About";
 import Cart from "@/pages/cart/Cart";
 import CheckoutPage from "@/pages/checkout/Checkout";
@@ -28,7 +29,7 @@ const subRoutes = [
   },
   {
     path: "checkout",
-    element: <CheckoutPage></CheckoutPage>,
+    element: <ProtectedRoute><CheckoutPage></CheckoutPage></ProtectedRoute>,
   },
 ];
 
