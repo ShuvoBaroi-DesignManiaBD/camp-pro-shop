@@ -5,7 +5,7 @@ import {
   removeItemFromCart,
   selectCartItems,
   selectNumberOfProducts,
-  selectTotalPrice,
+  selectOriginalTotalPrice,
 } from "@/redux/features/cart/cartSlice";
 import {
   selectShowHideCartDrawer,
@@ -15,7 +15,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { useDispatch } from "react-redux";
 const dispatch = useDispatch();
 export const cartItems = useAppSelector(selectCartItems);
-export const totalAmount = useAppSelector(selectTotalPrice);
+export const totalAmount = useAppSelector(selectOriginalTotalPrice);
 export const numberOfProducts = useAppSelector(selectNumberOfProducts);
 export const cartDrawerState = useAppSelector(selectShowHideCartDrawer);
 

@@ -1,13 +1,37 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartItem, CartState } from "@/types/cart.type";
-import { useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import toast from "react-hot-toast";
 
 const initialState: CartState = {
   items: [],
-  totalPrice: 0,
+  originalTotalPrice: 0,
+  finalTotalPrice: 0,
   numberOfProducts: 0,
+  deliveryCharge: 0,
+  taxRate: Number((5 / 100).toFixed(2)),
+  tax: 0,
+};
+
+// Utility function to update delivery charge based on the total price
+const updateState = (state: CartState) => {
+  const items = state.items;
+  const taxRate = state.taxRate
+  state.originalTotalPrice = Number(
+    items
+      .reduce(
+        (acc: number, item: { price: number; quantity: number }) =>
+          acc + item.price * item.quantity,
+        0
+      )
+      .toFixed(2)
+  );
+  state.deliveryCharge = state.originalTotalPrice > 40 ? 5 : 0;
+  state.tax = Number((state.originalTotalPrice * taxRate).toFixed(2));
+  state.finalTotalPrice = Number(
+    (state.originalTotalPrice + state.tax + state.deliveryCharge).toFixed(2)
+  );
+  
 };
 
 const cartSlice = createSlice({
@@ -16,64 +40,49 @@ const cartSlice = createSlice({
   reducers: {
     addItemToCart: (state, action: PayloadAction<CartItem>) => {
       const newItem = action.payload;
-      const existingItem = state?.items?.find(
+      const productsInCart = state.items;
+      const existingItem = productsInCart.find(
         (item) => item._id === newItem._id
       );
 
       if (existingItem) {
-        // If the item already exists, increase its quantity and total price
-        existingItem.quantity =
-          Number(existingItem.quantity) + Number(newItem.quantity);
-        existingItem.total =
-          Number(existingItem.total) + Number(newItem.price * newItem.quantity);
+        existingItem.quantity += newItem.quantity;
+        existingItem.total += newItem.price * newItem.quantity;
       } else {
-        // If it's a new item, add it with the correct quantity and total price
-        state.items.push({
-          ...newItem,
-          quantity: newItem.quantity,
-          total: newItem.price * newItem.quantity,
-        });
+        newItem.total = newItem.price * newItem.quantity;
+        state.items.push({ ...newItem });
         state.numberOfProducts += 1;
       }
 
-      console.log(newItem, existingItem);
-
-      // Update the total amount for the entire cart
-      state.totalPrice += newItem.price * newItem.quantity;
+      // calculateTotalAsync();
+      updateState(state); // Update delivery charge
     },
 
     removeItemFromCart: (state, action: PayloadAction<string>) => {
       const id = action.payload;
-      const existingItem = state.items.find((item) => item._id === id);
-      const newTotal = state.totalPrice - existingItem?.total!;
-      state.totalPrice = newTotal;
       state.items = state.items.filter((item) => item._id !== id);
-      //   if (existingItem) {
-      //     state.totalAmount -= existingItem.price / existingItem.quantity;
-
-      //     if (existingItem.quantity === 1) {
-      //     } else {
-      //       existingItem.totalPrice -= existingItem.price / existingItem.quantity;
-      //       existingItem.quantity--;
-      //     }
-      //   }
+      if (state.items.length === 0) state.numberOfProducts = 0;
+      updateState(state); // Update delivery charge
     },
+
     increaseItemQuantity: (state, action: PayloadAction<string>) => {
       const id = action.payload;
       const existingItem = state.items.find((item) => item._id === id);
 
       if (existingItem) {
-        if (existingItem?.stockQuantity < existingItem.quantity + 1) {
+        if (existingItem.stockQuantity <= existingItem.quantity) {
           toast.error(
-            `Sorry you can't add more than ${existingItem?.stockQuantity} items.`
+            `Sorry, you can't add more than ${existingItem.stockQuantity} items.`
           );
         } else {
           existingItem.quantity++;
-          existingItem.total += existingItem.price;
-          state.totalPrice += existingItem.price;
+          existingItem.total = existingItem.price * existingItem.quantity;
         }
       }
+
+      updateState(state); // Update delivery charge
     },
+
     decreaseItemQuantity: (state, action: PayloadAction<string>) => {
       const id = action.payload;
       const existingItem = state.items.find((item) => item._id === id);
@@ -81,21 +90,36 @@ const cartSlice = createSlice({
       if (existingItem) {
         if (existingItem.quantity > 1) {
           existingItem.quantity--;
-          existingItem.total -= existingItem.price;
-          state.totalPrice -= existingItem.price;
-          if (existingItem.quantity === 0) state.numberOfProducts = 0;
+          existingItem.total = existingItem.price * existingItem.quantity;
         } else {
-          state.totalPrice -= existingItem.total;
           state.numberOfProducts--;
           state.items = state.items.filter((item) => item._id !== id);
         }
       }
+
+      updateState(state); // Update delivery charge
+    },
+
+    setOriginalTotalPrice: (state, action: PayloadAction<number>) => {
+      state.originalTotalPrice = action.payload;
+      updateState(state); // Update delivery charge
+    },
+    setFinalTotalPrice: (state, action: PayloadAction<number>) => {
+      state.finalTotalPrice = action.payload;
+    },
+    setTax: (state, action: PayloadAction<number>) => {
+      state.tax = action.payload;
+    },
+    setDeliveryCharge: (state, action: PayloadAction<number>) => {
+      state.deliveryCharge = action.payload;
     },
     clearCart: (state) => {
       state.items = [];
-      state.totalPrice = 0;
+      state.originalTotalPrice = 0;
+      state.finalTotalPrice = 0;
       state.numberOfProducts = 0;
-      // state.items.length === 0 && (state.totalPrice = 0);
+      state.deliveryCharge = 0;
+      state.tax = 0;
     },
   },
 });
@@ -105,132 +129,23 @@ export const {
   removeItemFromCart,
   increaseItemQuantity,
   decreaseItemQuantity,
+  setOriginalTotalPrice,
+  setFinalTotalPrice,
+  setDeliveryCharge,
+  setTax,
   clearCart,
 } = cartSlice.actions;
+
 export default cartSlice.reducer;
+
 export const selectCartItems = (state: RootState) => state.cart.items;
-export const selectTotalPrice = (state: RootState) => state.cart.totalPrice;
+export const selectOriginalTotalPrice = (state: RootState) =>
+  state.cart.originalTotalPrice;
+export const selectFinalTotalPrice = (state: RootState) =>
+  state.cart.finalTotalPrice;
 export const selectNumberOfProducts = (state: RootState) =>
   state.cart.numberOfProducts;
-
-// import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { CartItem, CartState } from "@/types/cart.type";
-// import { useAppSelector } from "@/redux/hooks";
-// import { RootState } from "@/redux/store";
-// import toast from "react-hot-toast";
-
-// const initialState: CartState = {
-//   items: [],
-//   totalPrice: 0,
-//   numberOfProducts: 0,
-// };
-
-// const cartSlice = createSlice({
-//   name: "cart",
-//   initialState,
-//   reducers: {
-//     addItemToCart: (state, action: PayloadAction<CartItem>) => {
-//       const newItem = action.payload;
-//       const existingItem = state?.items?.find(
-//         (item) => item._id === newItem._id
-//       );
-
-//       if (existingItem) {
-//         // If the item already exists, increase its quantity and total price
-//         existingItem.quantity =
-//           Number(existingItem.quantity) + Number(newItem.quantity);
-//         existingItem.totalPrice =
-//           Number(existingItem.totalPrice) +
-//           Number(newItem.price * newItem.quantity);
-//       } else {
-//         // If it's a new item, add it with the correct quantity and total price
-//         state.items.push({
-//           ...newItem,
-//           quantity: newItem.quantity,
-//           totalPrice: newItem.price * newItem.quantity,
-//         });
-//         state.numberOfProducts += 1;
-//       }
-
-//       console.log(newItem, existingItem);
-
-//       // Update the total amount for the entire cart
-//       state.totalPrice += newItem.price * newItem.quantity;
-//     },
-
-//     removeItemFromCart: (state, action: PayloadAction<string>) => {
-//       const id = action.payload;
-//       const existingItem = state.items.find((item) => item._id === id);
-//       const newTotal = state.totalPrice - existingItem?.totalPrice!;
-//       state.totalPrice = newTotal;
-//       state.items = state.items.filter((item) => item._id !== id);
-//       //   if (existingItem) {
-//       //     state.totalAmount -= existingItem.price / existingItem.quantity;
-
-//       //     if (existingItem.quantity === 1) {
-//       //     } else {
-//       //       existingItem.totalPrice -= existingItem.price / existingItem.quantity;
-//       //       existingItem.quantity--;
-//       //     }
-//       //   }
-//     },
-//     increaseItemQuantity: (state, action: PayloadAction<{id:string, quantity:number}>) => {
-//       const id = action?.payload?.id;
-//       const quantity = action?.payload?.quantity;
-//       const existingItem = state.items.find((item) => item?._id === id);
-
-//       if (existingItem) {
-//         if(existingItem?.stockQuantity<(existingItem.quantity + quantity)){
-//           toast.error(`Sorry only ${existingItem?.stockQuantity} items are left in the stock`);
-//         }
-//         existingItem.quantity = quantity;
-//         existingItem.totalPrice = Number((existingItem.price * existingItem.quantity).toFixed(2));
-//         // state.totalPrice += existingItem.totalPrice;
-//         cartSlice.caseReducers.countTotalPrice(state)
-//       }
-//     },
-//     decreaseItemQuantity: (state, action: PayloadAction<{id:string, quantity:number}>) => {
-//       const id = action?.payload?.id;
-//       const quantity = action?.payload?.quantity;
-//       const existingItem = state.items.find((item) => item._id === id);
-//       // cartSlice.caseReducers.
-//       if (existingItem) {
-//         if (existingItem.quantity > quantity) {
-//           existingItem.quantity -= quantity;
-//           existingItem.totalPrice -= existingItem.price;
-//           state.totalPrice -= existingItem.price;
-//         } else {
-//           state.totalPrice -= existingItem.totalPrice;
-//           state.items = state.items.filter((item) => item._id !== id);
-//         }
-//       }
-//     },
-//     countTotalPrice: (state) => {
-//       const productCartTotal = 0;
-//       const fullCartTotal = 0;
-
-//       state.items.map((item) => {
-//         item.totalPrice = Number((item?.quantity * item?.price).toFixed(2));
-//         state.totalPrice = Number((fullCartTotal + item.totalPrice).toFixed(2));
-//       });
-//     },
-//     clearCart: (state) => {
-//       state.items = [];
-//       state.totalPrice = 0;
-//       state.numberOfProducts = 0;
-//     },
-//   },
-// });
-
-// export const {
-//   addItemToCart,
-//   removeItemFromCart,
-//   increaseItemQuantity,
-//   decreaseItemQuantity,
-//   clearCart,
-// } = cartSlice.actions;
-// export default cartSlice.reducer;
-// export const selectCartItems = (state: RootState) => state.cart.items;
-// export const selectTotalPrice = (state: RootState) => state.cart.totalPrice;
-// export const selectNumberOfProducts = (state: RootState) =>
-//   state.cart.numberOfProducts;
+export const selectCurrentTax = (state: RootState) => state.cart.tax;
+export const selectCurrentTaxRate = (state: RootState) => state.cart.taxRate;
+export const selectCurrentDeliveryCharge = (state: RootState) =>
+  state.cart.deliveryCharge;

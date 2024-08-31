@@ -7,6 +7,10 @@ export interface CartItem extends TProduct {
 
 export interface CartState {
   items: CartItem[];
-  totalPrice: number;
+  originalTotalPrice: number;
+  finalTotalPrice: number,
   numberOfProducts: number;
+  deliveryCharge: number;
+  tax: number;
+  taxRate: number;
 }

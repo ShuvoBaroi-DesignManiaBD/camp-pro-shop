@@ -1,55 +1,31 @@
 import CartCard from "@/components/ui/cards/CartCard";
 import ProductCard from "@/components/ui/cards/ProductCard";
 import {
-  clearCart,
-  decreaseItemQuantity,
-  increaseItemQuantity,
-  removeItemFromCart,
   selectCartItems,
-  selectNumberOfProducts,
-  selectTotalPrice,
+  selectCurrentDeliveryCharge,
+  selectCurrentTax,
+  selectFinalTotalPrice,
+  selectOriginalTotalPrice,
 } from "@/redux/features/cart/cartSlice";
-import { selectCurrentProducts } from "@/redux/features/product/productSlice";
 import { useFilterProductsQuery } from "@/redux/features/productFilters/productFiltersApi";
 import {
-  selectPage,
   selectPageSize,
 } from "@/redux/features/productFilters/productFiltersSlice";
-import { selectShowHideCartDrawer } from "@/redux/features/ui/drawerShowHideSlice";
 import { useAppSelector } from "@/redux/hooks";
 import { TProduct } from "@/types";
 import { Card, Empty, Skeleton } from "antd";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 const Cart = () => {
-  const dispatch = useDispatch();
   const cartItems = useAppSelector(selectCartItems);
-  const originalPrice = useAppSelector(selectTotalPrice);
-  const numberOfProducts = useAppSelector(selectNumberOfProducts);
-  const cartDrawerState = useAppSelector(selectShowHideCartDrawer);
+  const originalTotalPrice = useAppSelector(selectOriginalTotalPrice);
+  const finalTotalPrice = useAppSelector(selectFinalTotalPrice);
+  const deliveryCharge = useAppSelector(selectCurrentDeliveryCharge);
+  const tax = useAppSelector(selectCurrentTax);
   const pageSize = useAppSelector(selectPageSize);
 
-  const handleRemoveItem = (id: string) => {
-    dispatch(removeItemFromCart(id));
-  };
-
-  const handleIncreaseQuantity = (id: string) => {
-    dispatch(increaseItemQuantity(id));
-  };
-
-  const handleDecreaseQuantity = (id: string) => {
-    dispatch(decreaseItemQuantity(id));
-  };
-
-  const handleClearCart = () => {
-    dispatch(clearCart());
-  };
-  // const products = useAppSelector(selectCurrentProducts);
-  const deliveryCost = (cartItems?.length === 0) ? 0 : 5;
-  let taxRef = useRef<HTMLSpanElement>(null);
-  console.log(originalPrice, taxRef.current);
+  
+  console.log(originalTotalPrice,);
 
   const { data, isLoading, isFetching, error, refetch } =
     useFilterProductsQuery({
@@ -58,15 +34,8 @@ const Cart = () => {
       limit: 3,
     });
   const products = data?.data;
-  const [total, setTotal] = useState(0);
 
-  useEffect(() => {
-    // Extract the number from the span element's text
-    const taxValue = taxRef.current ? Number(taxRef.current.innerText) : 0;
-    setTotal(
-      Number(Number(originalPrice + taxValue + deliveryCost).toFixed(2))
-    );
-  }, [originalPrice, deliveryCost]);
+  
   return (
     <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
@@ -75,10 +44,18 @@ const Cart = () => {
         </h2>
         <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
           <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
-            <div className={`space-y-6 ${cartItems.length === 0 ? 'h-auto':'h-[50vh] overflow-y-scroll'}  pr-4 scroll-smooth resize-y`}>
-              {cartItems.length === 0 ? <Empty />:cartItems?.map((item) => (
-                <CartCard key={item?._id} product={item}></CartCard>
-              ))}
+            <div
+              className={`space-y-6 ${
+                cartItems.length === 0 ? "h-auto" : "h-[50vh] overflow-y-scroll"
+              }  pr-4 scroll-smooth resize-y`}
+            >
+              {cartItems.length === 0 ? (
+                <Empty />
+              ) : (
+                cartItems?.map((item) => (
+                  <CartCard key={item?._id} product={item}></CartCard>
+                ))
+              )}
             </div>
             <div className="grid sm:grid-cols-3 grid-cols-1 gap-6 items-start mt-10">
               <h3 className="text-2xl font-bold">People also bought</h3>
@@ -103,7 +80,7 @@ const Cart = () => {
                     />
                   </div>
                 ) : (
-                  products?.map((product:TProduct) => (
+                  products?.map((product: TProduct) => (
                     <ProductCard
                       key={product?._id}
                       product={product}
@@ -126,7 +103,7 @@ const Cart = () => {
                       Original price
                     </dt>
                     <dd className="text-base font-medium text-gray-900 dark:text-white">
-                      {originalPrice.toFixed(2)}
+                      {originalTotalPrice}
                     </dd>
                   </dl>
                   {/* <div className="flex flex-nowrap items-center justify-between gap-4">
@@ -142,7 +119,7 @@ const Cart = () => {
                       Delivery charge
                     </dt>
                     <dd className="text-base font-medium text-gray-900 dark:text-white">
-                      ${deliveryCost}
+                      ${deliveryCharge}
                     </dd>
                   </dl>
                   <dl className="flex items-center justify-between gap-4">
@@ -151,8 +128,8 @@ const Cart = () => {
                     </dt>
                     <dd className="text-base font-medium text-gray-900 dark:text-white">
                       $
-                      <span ref={taxRef as any}>
-                        {Number(((originalPrice / 100) * 5).toFixed(2))}
+                      <span>
+                        {tax}
                       </span>
                     </dd>
                   </dl>
@@ -162,7 +139,7 @@ const Cart = () => {
                     Total
                   </dt>
                   <dd className="text-base font-bold text-gray-900 dark:text-white">
-                    ${total}
+                    ${finalTotalPrice}
                   </dd>
                 </dl>
               </div>

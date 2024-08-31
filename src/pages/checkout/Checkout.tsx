@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Empty, Radio, Typography } from "antd";
 import Field from "@/components/ui/form/Field";
@@ -10,8 +10,11 @@ import {
   increaseItemQuantity,
   removeItemFromCart,
   selectCartItems,
+  selectCurrentDeliveryCharge,
+  selectCurrentTax,
+  selectFinalTotalPrice,
   selectNumberOfProducts,
-  selectTotalPrice,
+  selectOriginalTotalPrice,
 } from "@/redux/features/cart/cartSlice";
 import { selectShowHideCartDrawer } from "@/redux/features/ui/drawerShowHideSlice";
 import { CartItem } from "@/types/cart.type";
@@ -41,16 +44,16 @@ const CheckoutPage = () => {
     reset,
     setValue,
   } = useForm({ mode: "onTouched" });
-  const [selectedPayment, setSelectedPayment] = useState("paypal");
   const dispatch = useDispatch();
   const cartItems = useAppSelector(selectCartItems);
-  const totalPrice = useAppSelector(selectTotalPrice);
+  const totalOriginalPrice = useAppSelector(selectOriginalTotalPrice);
+  const totalFinalPrice = useAppSelector(selectFinalTotalPrice);
   const numberOfProducts = useAppSelector(selectNumberOfProducts);
-  const cartDrawerState = useAppSelector(selectShowHideCartDrawer);
   const currentUser = useAppSelector(useCurrentUser);
-  const currentToken = useAppSelector(useCurrentToken);
-
+  const deliveryCost = useAppSelector(selectCurrentDeliveryCharge);
+  const tax = useAppSelector(selectCurrentTax);
   const countries = countryList().getData(); // Get the country list data
+  
 
   const handleCountryChange = (selectedOption: any) => {
     // console.log(selectedOption);
@@ -70,19 +73,18 @@ const CheckoutPage = () => {
     dispatch(decreaseItemQuantity(id));
   };
 
-  const handleClearCart = () => {
-    dispatch(clearCart());
-  };
   // console.log(currentUser);
   const onSubmit = async (formData: any) => {
     let order: any = {
       userId: currentUser?._id,
       email: currentUser?.email,
       quantity: numberOfProducts,
-      totalPrice: totalPrice,
+      totalPrice: totalFinalPrice,
       gateWay: paymentMethod,
       currency: "USD",
     };
+    console.log(order);
+
     if (cartItems.length !== 0) {
       let products: any[] = [];
       cartItems.map((item) =>
@@ -92,6 +94,8 @@ const CheckoutPage = () => {
           totalPrice: item.total,
         })
       );
+      console.log(products);
+
       order.products = products;
       order.address = {
         country: formData?.country?.label,
@@ -108,17 +112,30 @@ const CheckoutPage = () => {
     redirectUrl?.length > 0 && dispatch(clearCart());
     console.log(data && data, order, window.location.href, redirectUrl);
     window.location.href = redirectUrl !== "undefined" && redirectUrl?.data;
-    // reset();
+    reset();
   };
 
   const handlePaymentChange = (e: any) => {
     setPaymentMethod(e.target.value);
   };
 
+  // useEffect(() => {
+  //   // Extract the number from the span element's text
+  //   const taxValue = taxRef.current ? Number(taxRef.current.innerText) : 0;
+  //   setTotal(Number(Number(totalPrice + taxValue + deliveryCost).toFixed(2)));
+  // }, [totalPrice, deliveryCost]);
+
   if (cartItems.length === 0) {
     return (
       <CustomContainer className="text-center flex items-center justify-center">
-        <Empty className="flex flex-col gap-5 justify-between mx-auto [&&_svg]:size-[200px] [&&_.ant-empty-image]:h-auto" description={<Typography.Title level={4} type="secondary">Cart is empty! Please add a product.</Typography.Title>}  />
+        <Empty
+          className="flex flex-col gap-5 justify-between mx-auto [&&_svg]:size-[200px] [&&_.ant-empty-image]:h-auto"
+          description={
+            <Typography.Title level={4} type="secondary">
+              Cart is empty! Please add a product.
+            </Typography.Title>
+          }
+        />
       </CustomContainer>
     );
   }
@@ -289,6 +306,50 @@ const CheckoutPage = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+              <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Order summary
+                </p>
+                <div className="space-y-4">
+                  <div className="flex flex-col space-y-2">
+                    <dl className="flex items-center justify-between gap-4">
+                      <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+                        Original price
+                      </dt>
+                      <dd className="text-base font-medium text-gray-900 dark:text-white">
+                        {totalOriginalPrice}
+                      </dd>
+                    </dl>
+                    <dl className="flex items-center justify-between gap-4">
+                      <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+                        Delivery charge
+                      </dt>
+                      <dd className="text-base font-medium text-gray-900 dark:text-white">
+                        ${deliveryCost}
+                      </dd>
+                    </dl>
+                    <dl className="flex items-center justify-between gap-4">
+                      <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+                        Tax
+                      </dt>
+                      <dd className="text-base font-medium text-gray-900 dark:text-white">
+                        $
+                        <span>
+                          {tax}
+                        </span>
+                      </dd>
+                    </dl>
+                  </div>
+                  <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                    <dt className="text-base font-bold text-gray-900 dark:text-white">
+                      Total
+                    </dt>
+                    <dd className="text-base font-bold text-gray-900 dark:text-white">
+                      ${totalFinalPrice}
+                    </dd>
+                  </dl>
+                </div>
               </div>
             </section>
 

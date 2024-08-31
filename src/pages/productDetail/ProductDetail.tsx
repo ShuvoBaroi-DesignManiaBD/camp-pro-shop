@@ -26,6 +26,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import ProductFeatures from "@/components/ui/lists/ProductFeatures";
 import LoadingSpin from "@/components/ui/spinners/LoadingSpin";
+import { calculateTotalAsync } from "@/redux/features/cart/cartUtils";
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
@@ -80,6 +81,7 @@ const ProductDetail: React.FC = () => {
       cartItem.quantity = newCartQuantity;
       cartItem.totalPrice = newCartQuantity * cartItem.price;
       dispatch(addItemToCart(cartItem));
+      // dispatch(calculateTotalAsync());
       dispatch(setShowHideCartDrawer());
     }
   };
