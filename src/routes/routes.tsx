@@ -9,6 +9,7 @@ import DashboardLayout from "@/components/layouts/DashboardLayout.tsx";
 import customerDashboardRoutes from "./customer/customerDashboard.routes.tsx";
 import ProtectedRoute from "@/components/layouts/ProtectedRoute.tsx";
 import OrderSuccess from "@/pages/order/order-success.tsx";
+import { USER_ROLE } from "@/constants/userType.ts";
 
 const Routes = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ const Routes = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role={['customer', 'admin']}>
         <DashboardLayout></DashboardLayout>
       </ProtectedRoute>
     ),
@@ -38,7 +39,7 @@ const Routes = createBrowserRouter([
   {
     path: "order-success",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role={['customer', 'admin']}>
         <OrderSuccess></OrderSuccess>
       </ProtectedRoute>
     ),

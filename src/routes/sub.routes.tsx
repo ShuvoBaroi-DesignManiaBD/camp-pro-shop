@@ -29,7 +29,7 @@ const subRoutes = [
   },
   {
     path: "checkout",
-    element: <ProtectedRoute><CheckoutPage></CheckoutPage></ProtectedRoute>,
+    element: <ProtectedRoute role={['customer', 'admin']}><CheckoutPage></CheckoutPage></ProtectedRoute>,
   },
 ];
 
