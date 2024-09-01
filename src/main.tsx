@@ -8,6 +8,7 @@ import { store } from "./redux/store.ts";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "react-hot-toast";
 import ThemeConfig from "./configs/ThemeConfig.tsx";
+import PageRefreshWarning from "./components/ui/modals/PageRefreshWarning.tsx";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <ThemeConfig>
           <RouterProvider router={Routes} />
           <Toaster />
+          <PageRefreshWarning/>
         </ThemeConfig>
       </Provider>
     </HelmetProvider>
