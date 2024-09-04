@@ -19,8 +19,14 @@ const orderApi = baseAPI.injectEndpoints({
         body: orderId
       }),
     }),
+    myOrders: builder.query<string, any>({
+      query: ({ userId,page = 1, limit = 5 })=>({
+        url: `/orders/my-orders?userId=${userId}&page=${page}&limit=${limit}`,
+        method: "GET",
+      }),
+    }),
   }
 )
 });
 
-export const { useCreateOrderMutation, useCaptureOrderMutation} = orderApi;
+export const { useCreateOrderMutation, useCaptureOrderMutation, useMyOrdersQuery} = orderApi;

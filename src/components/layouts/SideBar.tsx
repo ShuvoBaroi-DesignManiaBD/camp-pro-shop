@@ -11,9 +11,9 @@ import {
 } from "@ant-design/icons";
 import { Button, Divider, Menu, Switch } from "antd";
 import type { GetProp, MenuProps } from "antd";
-import sidebarItems from "./sitebarItems";
+import customerSidebarItems from "../../pages/dashboards/customer/sitebarItems";
 import ThemeConfig from "@/configs/ThemeConfig";
-const SideBar = ({collapsed}:any) => {
+const SideBar = ({ collapsed }: any) => {
   type MenuTheme = GetProp<MenuProps, "theme">;
 
   const [mode, setMode] = useState<"vertical" | "inline">("inline");
@@ -62,7 +62,7 @@ const SideBar = ({collapsed}:any) => {
           inlineIndent={16}
           mode={mode}
           theme={theme}
-          items={sidebarItems}
+          items={customerSidebarItems}
         />
       </ThemeConfig>
     </>

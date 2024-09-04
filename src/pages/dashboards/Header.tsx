@@ -4,8 +4,15 @@ import { Header as AntHeader } from "antd/es/layout/layout";
 import { useEffect, useState } from "react";
 import MainNav from "../shared/header/mainNav/MainNav";
 import MobileNav from "../shared/header/mobileNav/MobileNav";
-const DashboardHeader = () => {
+
+type collapsed = {
+  isCollapsed: boolean,
+  setIsSidebarHide?: CallableFunction,
+  isSidebarHide?: boolean
+}
+const DashboardHeader = ({isCollapsed, setIsSidebarHide, isSidebarHide}:collapsed) => {
   // const [screenWidth, setScreenWidth] = useState(window.screen.width)
+  console.log(setIsSidebarHide);
   console.log(window.screen.width);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1023);
 
@@ -24,11 +31,18 @@ const DashboardHeader = () => {
 
   return (
     <AntHeader
-      className="bg-white flex items-center justify-between px-[16px] sm:p-0"
-      style={{}}
+      className="w-full bg-white flex items-center justify-between sm:px-0 sm:py-6"
+      style={{paddingInline: 0}}
     >
-      <Flex className="container max-w-screen-xl mx-auto h-full flex justify-end items-center">
-        {isDesktop ? <MainNav /> : <MobileNav />}
+      <Flex className="w-full mx-auto h-full flex gap-1.5 sm:justify-end justify-between items-center">
+        {!isDesktop &&  <div className="px-0 sm:px-8 h-16 flex gap-4 items-center text-xl">
+          <Logo className="max-h-12"></Logo>
+          {(isCollapsed || !isDesktop) ? (
+            <p className="font-bold text-primary">CampProShop</p>
+          ) : null}
+        </div>}
+      
+        {isDesktop ? <MainNav /> : <MobileNav setIsSidebarHide={setIsSidebarHide as CallableFunction} isSidebarHide={isSidebarHide as boolean}/>}
       </Flex>
     </AntHeader>
   );

@@ -1,7 +1,5 @@
-import { BsBookmarkHeart } from "react-icons/bs"; 
-import { BiShoppingBag } from "react-icons/bi"; 
-import { CgProfile } from "react-icons/cg";
-import { AiOutlineDashboard } from "react-icons/ai";
+import { CgProfile } from "react-icons/cg"; 
+import { AiOutlineDashboard } from "react-icons/ai"; 
 import { sidebarMenuItem } from "@/types/menu.type";
 import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
 import {
@@ -12,46 +10,40 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
-const customerSidebarItems: sidebarMenuItem[] = [
+const adminSidebarItems: sidebarMenuItem[] = [
   {
-    key: "1",
-    label: <NavLink to="dashboard">Dashboard</NavLink>,
-    icon: <AiOutlineDashboard size={20} />,
-    url: "customer/dashboard",
+    key: '1',
+    label: <NavLink to="admin/dashboard">Dashboard</NavLink>,
+    icon: <AiOutlineDashboard size={20}/>,
+    url: "admin/dashboard",
   },
   {
     key: UniqueIdGenerator(),
     label: <NavLink to="profile">Profile</NavLink>,
-    icon: <CgProfile size={20} />,
-    url: "customer/profile",
+    icon: <CgProfile size={20}/>,
+    url: "admin/profile",
   },
   {
     key: UniqueIdGenerator(),
-    label: <NavLink to="orders">My Orders</NavLink>,
-    icon: <BiShoppingBag size={20}/>,
-    url: "customer/orders",
+    label: <NavLink to="profile">Products</NavLink>,
+    icon: <CgProfile size={20}/>,
+    url: "admin/products",
   },
   {
     key: UniqueIdGenerator(),
-    label: <NavLink to="wishlist">My Wishlist</NavLink>,
-    icon: <BsBookmarkHeart size={18}/>,
-    url: "customer/wishlist",
+    label: <NavLink to="profile">Orders</NavLink>,
+    icon: <CgProfile size={20}/>,
+    url: "admin/orders",
   },
-  // {
-  //   key: UniqueIdGenerator(),
-  //   label: <NavLink to="profile">Profile</NavLink>,
-  //   url: "/profile",
-  //   children: [
-  //     {
-  //       key: UniqueIdGenerator(),
-  //       label: "Profile",
-  //       url: "/dashboard/profile",
-  //     },
-  //   ],
-  // },
+  {
+    key: UniqueIdGenerator(),
+    label: <NavLink to="profile">Manage Users</NavLink>,
+    icon: <CgProfile size={20}/>,
+    url: "admin/manage-users",
+  },
 ];
 
-export default customerSidebarItems;
+export default adminSidebarItems;
 
 //   const items: MenuItem[] = [
 //     {

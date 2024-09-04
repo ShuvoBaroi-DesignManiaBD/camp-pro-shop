@@ -1,3 +1,5 @@
+// MainNav.tsx
+import React from "react";
 import { RxMagnifyingGlass } from "react-icons/rx";
 import { BiShoppingBag } from "react-icons/bi";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
@@ -6,15 +8,15 @@ import MainNavItems from "./MainNavItems";
 import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
 import { Avatar, Badge, Dropdown } from "antd";
 import { useState } from "react";
-import items from "./dropdownItems";
-import { logout, useCurrentUser } from "@/redux/features/auth/authSlice";
+import NavigationItems from "./dropdownItems";
+import { logout, selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import UserSettingsDropdown from "@/components/ui/dropdown/UserSettingsDropdown";
 import { selectNumberOfProducts } from "@/redux/features/cart/cartSlice";
 import { setShowHideCartDrawer } from "@/redux/features/ui/drawerShowHideSlice";
 
 const MainNav = () => {
-  const currentUser = useAppSelector(useCurrentUser);
+  const currentUser = useAppSelector(selectCurrentUser);
   const numberOfProducts = useAppSelector(selectNumberOfProducts);
   const dispatch = useAppDispatch();
 
@@ -22,7 +24,11 @@ const MainNav = () => {
     dispatch(logout());
   };
 
-  const updatedItems = items.map((item) => {
+  // Call the function to get the array of navigation items
+  const items = NavigationItems();
+
+  // Modify the items as needed
+  const updatedItems = items.map((item: any) => {
     if (item.key === 4) {
       return {
         ...item,

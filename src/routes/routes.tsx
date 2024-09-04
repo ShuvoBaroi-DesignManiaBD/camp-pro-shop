@@ -5,28 +5,40 @@ import { Toaster } from "react-hot-toast";
 import { createBrowserRouter } from "react-router-dom";
 import subRoutes from "./sub.routes.tsx";
 import { routeGenerator } from "@/utils/routesGenerator.ts";
-import DashboardLayout from "@/components/layouts/DashboardLayout.tsx";
-import customerDashboardRoutes from "./customer/customerDashboard.routes.tsx";
+import Dashboard from "@/pages/dashboards/Dashboard.tsx";
+import customerDashboardRoutes from "./customer/customer.routes.tsx";
 import ProtectedRoute from "@/components/layouts/ProtectedRoute.tsx";
 import OrderSuccess from "@/pages/order/order-success.tsx";
 import { USER_ROLE } from "@/constants/userType.ts";
+import adminRoutes from "./admin/admin.routes.tsx";
+import { TPath } from "@/types/route.type.ts";
 
 const Routes = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout></MainLayout>,
     errorElement: <Toaster></Toaster>,
-    children: routeGenerator(subRoutes as any),
+    children: routeGenerator(subRoutes as TPath[]),
   },
   {
-    path: "/dashboard",
+    path: "admin",
     element: (
-      <ProtectedRoute role={['customer', 'admin']}>
-        <DashboardLayout></DashboardLayout>
+      <ProtectedRoute role={["admin"]}>
+        <Dashboard></Dashboard>
       </ProtectedRoute>
     ),
     errorElement: <Toaster></Toaster>,
-    children: routeGenerator(customerDashboardRoutes as any),
+    children: routeGenerator(adminRoutes),
+  },
+  {
+    path: "customer",
+    element: (
+      <ProtectedRoute role={["customer"]}>
+        <Dashboard></Dashboard>
+      </ProtectedRoute>
+    ),
+    errorElement: <Toaster></Toaster>,
+    children: routeGenerator(customerDashboardRoutes),
   },
   {
     path: "login",
@@ -39,7 +51,7 @@ const Routes = createBrowserRouter([
   {
     path: "order-success",
     element: (
-      <ProtectedRoute role={['customer', 'admin']}>
+      <ProtectedRoute role={["customer", "admin"]}>
         <OrderSuccess></OrderSuccess>
       </ProtectedRoute>
     ),

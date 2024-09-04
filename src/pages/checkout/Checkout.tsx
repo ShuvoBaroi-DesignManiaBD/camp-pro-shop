@@ -24,8 +24,8 @@ import Select from "react-select";
 import countryList from "react-select-country-list";
 import FormSubmitBtn from "@/components/ui/form/FormSubmitBtn";
 import {
-  useCurrentToken,
-  useCurrentUser,
+  selectCurrentToken,
+  selectCurrentUser,
 } from "@/redux/features/auth/authSlice";
 import Paypal from "@/components/ui/icons/Paypal";
 import Visa from "@/components/ui/icons/Visa";
@@ -49,11 +49,10 @@ const CheckoutPage = () => {
   const totalOriginalPrice = useAppSelector(selectOriginalTotalPrice);
   const totalFinalPrice = useAppSelector(selectFinalTotalPrice);
   const numberOfProducts = useAppSelector(selectNumberOfProducts);
-  const currentUser = useAppSelector(useCurrentUser);
+  const currentUser = useAppSelector(selectCurrentUser);
   const deliveryCost = useAppSelector(selectCurrentDeliveryCharge);
   const tax = useAppSelector(selectCurrentTax);
   const countries = countryList().getData(); // Get the country list data
-  
 
   const handleCountryChange = (selectedOption: any) => {
     // console.log(selectedOption);
@@ -334,10 +333,7 @@ const CheckoutPage = () => {
                         Tax
                       </dt>
                       <dd className="text-base font-medium text-gray-900 dark:text-white">
-                        $
-                        <span>
-                          {tax}
-                        </span>
+                        $<span>{tax}</span>
                       </dd>
                     </dl>
                   </div>

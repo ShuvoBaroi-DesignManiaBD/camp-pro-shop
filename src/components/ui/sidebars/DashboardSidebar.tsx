@@ -51,7 +51,7 @@ const DashboardSidebar = ({collapsed, items}:any) => {
           mode={mode}
           theme={theme}
           items={items}
-          className="w-full sm:p-8"
+          className="w-full sm:p-8 [&&_li.ant-menu-item-selected]:bg-secondaryExtraLight [&&_li.ant-menu-item-selected]:text-primary"
         />
       </ThemeConfig>
     </>

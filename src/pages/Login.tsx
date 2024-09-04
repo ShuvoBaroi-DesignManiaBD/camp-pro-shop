@@ -15,7 +15,7 @@ import FormSubmitBtn from "@/components/ui/form/FormSubmitBtn";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { verifyToken } from "@/utils/verifyToken";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setUser, useCurrentUser } from "@/redux/features/auth/authSlice";
+import { setUser, selectCurrentUser } from "@/redux/features/auth/authSlice";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,25 +33,24 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const currentUser = useAppSelector(useCurrentUser);
+  const currentUser = useAppSelector(selectCurrentUser);
   const submitForm = async (formData: TSignInUser) => {
     try {
       const res = await login(formData).unwrap();
       // Check the response to see if the login was successful
       if (res && res.success) {
         console.log(res);
-        
+
         verifyToken(res?.token) as TUser;
         dispatch(setUser({ user: res?.data, token: res?.token }));
-        toast.success("Login successful!",{ duration: 2000 });
+        toast.success("Login successful!", { duration: 2000 });
         reset();
         navigate("/");
       } else {
         // Handle the error case where the response indicates failure
-        toast.error("Something went wrong", {duration: 2000 });
+        toast.error("Something went wrong", { duration: 2000 });
         throw new Error(res?.message || "Login failed");
       }
-
     } catch (error: any) {
       console.error(error);
       if (error?.data?.message?.toLowerCase().includes("password")) {

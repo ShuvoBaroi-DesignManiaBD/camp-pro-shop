@@ -2,13 +2,13 @@ import CustomBreadCumb from "@/components/ui/BreadCumb";
 
 const BreadCumbItems = [
     {
-      title: "Profile",
+      title: "My Wishlist",
     },
   ];
-const Profile = () => {
+const MyWishlist = () => {
     return (
         <CustomBreadCumb links={BreadCumbItems}></CustomBreadCumb>
     );
 };
 
-export default Profile;
+export default MyWishlist;

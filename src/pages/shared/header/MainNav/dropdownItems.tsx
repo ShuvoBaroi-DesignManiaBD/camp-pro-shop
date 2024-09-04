@@ -1,12 +1,23 @@
-import { logout } from "@/redux/features/auth/authSlice";
-import { useAppDispatch } from "@/redux/hooks";
+// NavigationItems.tsx
+import React from "react";
+import { logout, selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { NavLink } from "react-router-dom";
 
-  const items = [
+const NavigationItems = () => {
+  const dispatch = useAppDispatch();
+  const currentUser = useAppSelector(selectCurrentUser);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  // Return the array of navigation items
+  return [
     {
       key: 1,
       label: (
-        <NavLink rel="dshboard" to="dashboard">
+        <NavLink rel="dshboard" to={`${currentUser?.role}/dashboard`}>
           Dashboard
         </NavLink>
       ),
@@ -30,12 +41,12 @@ import { NavLink } from "react-router-dom";
     {
       key: 4,
       label: (
-        <a rel="logout" >
+        <a rel="logout" onClick={handleLogout}>
           Logout
         </a>
       ),
-    }
+    },
   ];
+};
 
-export default items;
-
+export default NavigationItems;

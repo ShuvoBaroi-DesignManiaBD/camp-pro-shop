@@ -6,21 +6,50 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import MainNavItems from "../mainNav/MainNavItems";
 import { useState } from "react";
-import { Button, Drawer } from "antd";
+import { Avatar, Button, Drawer } from "antd";
 import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
+import { useAppSelector } from "@/redux/hooks";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { TUser } from "@/types";
+import { CgMenuRight } from "react-icons/cg";
 
-const MobileNav = () => {
+type isSidebarHide = {
+  setIsSidebarHide?: CallableFunction;
+  isSidebarHide?: boolean;
+};
+
+const MobileNav = ({ setIsSidebarHide, isSidebarHide }: isSidebarHide) => {
+  console.log(setIsSidebarHide);
+
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const currentUser: Partial<TUser | null> = useAppSelector(selectCurrentUser);
 
   const showLoading = () => {
     setOpen(true);
   };
   return (
-    <>
+    <div className="flex items-center gap-4">
       <Button className="p-0 border-0" onClick={showLoading}>
-        <FaBars className="hover:text-secondary text-primary" size={24} />
+        <CgMenuRight size={24} />
       </Button>
+      <span
+        onClick={() => setIsSidebarHide && setIsSidebarHide(!isSidebarHide)}
+      >
+        <Avatar
+          style={{
+            backgroundColor: "#f56a00",
+            fontSize: "24px",
+            verticalAlign: "middle",
+            // width: "40px",
+            // height: "40px",
+          }}
+          className="size-9 sm:size-12"
+          // onClick={()=>setIsSidebarHide(!isSidebarHide)}
+        >
+          {currentUser?.photo || currentUser?.name?.trim()[0]}
+        </Avatar>
+      </span>
       <Drawer
         closable
         destroyOnClose
@@ -51,7 +80,7 @@ const MobileNav = () => {
           </div>
         </ul>
       </Drawer>
-    </>
+    </div>
   );
 };
 

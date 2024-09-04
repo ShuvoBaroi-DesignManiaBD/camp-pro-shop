@@ -6,7 +6,7 @@ const BreadCumbItems = [
     title: "Dashboard",
   },
 ];
-const CustomerDashboard = () => {
+const AdminDashboard = () => {
   const navigate = useNavigate();
   const navigate2 = useNavigation();
   console.log(navigate, navigate2);
@@ -14,4 +14,4 @@ const CustomerDashboard = () => {
   return <CustomBreadCumb links={BreadCumbItems}></CustomBreadCumb>;
 };
 
-export default CustomerDashboard;
+export default AdminDashboard;

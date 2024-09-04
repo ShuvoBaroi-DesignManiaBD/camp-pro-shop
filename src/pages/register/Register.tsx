@@ -15,14 +15,14 @@ import { TUser } from "@/types";
 import FormSubmitBtn from "@/components/ui/form/FormSubmitBtn";
 import { useRegisterCustomerMutation } from "@/redux/features/auth/authApi";
 import { useAppSelector } from "@/redux/hooks";
-import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [registerCustomer, {data, status}]: any =
+  const [registerCustomer, { data, status }]: any =
     useRegisterCustomerMutation();
 
-  const currentUser = useAppSelector(useCurrentUser); 
+  const currentUser = useAppSelector(selectCurrentUser);
   const {
     register,
     handleSubmit,
@@ -78,8 +78,8 @@ const Register = () => {
     setValue("phone", value); // Set the phone number value in the form
   };
 
-  if(currentUser){
-    return Navigate({to: "/"})
+  if (currentUser) {
+    return Navigate({ to: "/" });
   } else {
     return (
       <main className="w-[100vw] h-[100vh] bg-[length:48vw] bg-no-repeat bg-right-bottom bg-[url('https://i.ibb.co/BZwTPQs/full-shot-man-playing-guitar-23-2149517904.webp')] flex items-center justify-start mx-auto my-auto p-6">
@@ -127,7 +127,7 @@ const Register = () => {
                       </Field>
                     </FieldSet>
                     {/* ======== Name =========== */}
-  
+
                     {/* ======== Email =========== */}
                     <FieldSet>
                       <Field label="Email" error={errors.email}>
@@ -154,9 +154,9 @@ const Register = () => {
                       </Field>
                     </FieldSet>
                     {/* ======== Email =========== */}
-  
+
                     {/* ======== Phone =========== */}
-  
+
                     <FieldSet>
                       <Field label="Phone" error={errors.phone}>
                         <PhoneInput
@@ -182,7 +182,7 @@ const Register = () => {
                       </Field>
                     </FieldSet>
                     {/* ======== Phone =========== */}
-  
+
                     {/* ======== Address =========== */}
                     <div className="grid grid-cols-[repeat(auto-fit,_minmax(23%,_1fr))] gap-2 w-full col-span-full">
                       <FieldSet>
@@ -267,7 +267,7 @@ const Register = () => {
                       </FieldSet>
                     </div>
                     {/* ======== Address =========== */}
-  
+
                     <div className="w-full col-span-full grid grid-cols-[repeat(auto-fit,_minmax(48%,_1fr))] gap-2">
                       {/* ======== Password =========== */}
                       <FieldSet>
@@ -308,7 +308,7 @@ const Register = () => {
                         </Field>
                       </FieldSet>
                       {/* ======== Password =========== */}
-  
+
                       {/* ======== Confirm Password =========== */}
                       <FieldSet>
                         <Field
@@ -327,7 +327,8 @@ const Register = () => {
                               {...register("confirmPassword", {
                                 required: "Please confirm your password.",
                                 validate: (value) =>
-                                  value === password || "Passwords do not match.",
+                                  value === password ||
+                                  "Passwords do not match.",
                               })}
                               type={showPassword ? "text" : "password"}
                               id="confirmPassword"
@@ -364,7 +365,7 @@ const Register = () => {
                     isLoading={status === "pending" ? true : false}
                     className="align-middle"
                   />
-  
+
                   <p className="mt-6 text-base font-medium text-center text-gray-600 dark:text-gray-400">
                     Already have an account?{" "}
                     <NavLink

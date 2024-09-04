@@ -39,9 +39,6 @@ const BreadCumbItems = [
 ];
 
 const Products = () => {
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [pageSize, setPageSize] = useState(6);
-
   const dispatch = useAppDispatch();
   const filters = useAppSelector(selectCurrentFilters);
   const currentPage = useAppSelector(selectPage);
