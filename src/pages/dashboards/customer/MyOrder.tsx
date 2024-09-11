@@ -14,7 +14,7 @@ const BreadCumbItems = [
 const MyOrder = () => {
   const currentUser = useAppSelector(selectCurrentUser);
   const [page, setPage] = useState(1); // State for current page
-  const [limit, setLimit] = useState(5); // State for page size
+  const [limit, setLimit] = useState(10); // State for page size
 
   const { data, isFetching } = useMyOrdersQuery({
     userId: currentUser?._id,
@@ -99,7 +99,7 @@ const MyOrder = () => {
           current: page,
           pageSize: limit,
           showSizeChanger: true,
-          pageSizeOptions: ["5", "10", "15"],
+          pageSizeOptions: ["10", "15", "20"],
           total: data?.data?.totalOrders, // Assuming the API response includes total number of orders
         }}
         onChange={handleTableChange} // Handle pagination changes

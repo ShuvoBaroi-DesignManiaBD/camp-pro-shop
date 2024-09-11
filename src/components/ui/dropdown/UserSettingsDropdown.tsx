@@ -16,8 +16,9 @@ const UserSettingsDropdown = ({currentUser, items}:any) => {
                 width: "40px",
                 height: "40px",
               }}
+              src={<img src={currentUser?.photo} alt="profile_photo" />}
             >
-              {currentUser?.photo || currentUser?.name?.trim()[0]}
+              {!currentUser?.photo && currentUser?.name?.trim()[0]}
             </Avatar>
           </Dropdown>
     );

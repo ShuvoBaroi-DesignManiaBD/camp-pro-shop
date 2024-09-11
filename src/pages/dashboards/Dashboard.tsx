@@ -106,7 +106,7 @@ const Dashboard = () => {
         <Header style={headerStyle} className="border-b bg-white shadow-sm px-4 md:px-8 content-center z-10">
           <DashboardHeader isCollapsed={collapsed} setIsSidebarHide={setIsSidebarHide} isSidebarHide={isSidebarHide}></DashboardHeader>
         </Header>
-        <Content className="min-h-[120px] overflow-y-scroll p-4 m-8">
+        <Content className="min-h-[120px] overflow-y-scroll p-10">
           <Outlet></Outlet>
         </Content>
         <Footer className="border-t text-center bg-white">

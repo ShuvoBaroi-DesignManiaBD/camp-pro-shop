@@ -16,6 +16,17 @@ export type TUser = {
   photo?: string;
 };
 
+export type TUpdateUser = {
+  name?: string;
+  email?: string;
+  phone?: string;
+  password?: string;
+  confirmPassword?: string;
+  address?: Address;
+  isDeleted?: false;
+  photo?: string;
+};
+
 export type TSignInUser = {
   email: string;
   password: string;

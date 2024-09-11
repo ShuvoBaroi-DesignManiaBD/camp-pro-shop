@@ -25,7 +25,7 @@ const NavigationItems = () => {
     {
       key: 2,
       label: (
-        <NavLink rel="profile" to="profile">
+        <NavLink rel="profile" to={`${currentUser?.role}/profile`}>
           Profile
         </NavLink>
       ),
@@ -33,7 +33,7 @@ const NavigationItems = () => {
     {
       key: 3,
       label: (
-        <NavLink rel="orders" to="orders">
+        <NavLink rel="orders" to={`${currentUser?.role}/orders`}>
           Orders
         </NavLink>
       ),
