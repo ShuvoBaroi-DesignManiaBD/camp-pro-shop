@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "antd": "^5.19.3",
     "jwt-decode": "^4.0.0",
+    "nprogress": "^0.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.14.11",
+    "@types/nprogress": "^0.2.3",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/react-image-gallery": "^1.2.4",

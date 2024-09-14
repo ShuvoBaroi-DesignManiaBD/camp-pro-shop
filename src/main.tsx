@@ -11,15 +11,17 @@ import ThemeConfig from "./configs/ThemeConfig.tsx";
 import PageRefreshWarning from "./components/ui/modals/PageRefreshWarning.tsx";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  <React.Fragment>
     <HelmetProvider>
       <Provider store={store}>
         <ThemeConfig>
+          {/* Top loading bar should be placed inside the RouterProvider */}
+          {/* <TopLoadingProgressBar /> */}
           <RouterProvider router={Routes} />
           <Toaster />
-          <PageRefreshWarning/>
+          <PageRefreshWarning />
         </ThemeConfig>
       </Provider>
     </HelmetProvider>
-  </React.StrictMode>
+  </React.Fragment>
 );

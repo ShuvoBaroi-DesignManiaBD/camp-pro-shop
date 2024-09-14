@@ -1,6 +1,9 @@
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { useAppSelector } from "@/redux/hooks";
 import { Avatar, Dropdown } from "antd";
 
-const UserSettingsDropdown = ({currentUser, items}:any) => {
+const UserSettingsDropdown = ({items}:any) => {
+  const currentUser = useAppSelector(selectCurrentUser);
     return (
         <Dropdown
             menu={{ items }}

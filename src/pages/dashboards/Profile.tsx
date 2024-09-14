@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input, Button, Card, Typography, Avatar, Upload, message } from "antd";
 import { useAppSelector } from "@/redux/hooks";
-import { logout, selectCurrentUser, setUser } from "@/redux/features/auth/authSlice";
+import { logout, selectCurrentToken, selectCurrentUser, setUser } from "@/redux/features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import generateCleanObject from "@/utils/generateCleanObject";
 import { useUpdateUserMutation, useUploadProfilePhotoMutation } from "@/redux/features/auth/authApi";
@@ -29,6 +29,7 @@ interface UserData {
 
 const Profile = () => {
   const currentUser = useAppSelector(selectCurrentUser);
+  const token = useAppSelector(selectCurrentToken);
   const [updateUser, { data, status }] = useUpdateUserMutation();
   const [uploadProfilePhoto, { data:result }] = useUploadProfilePhotoMutation();
   const dispatch = useDispatch();
@@ -80,9 +81,13 @@ const Profile = () => {
   const handleFileChange = async({ fileList: newFileList }: any) => {
     setFileList(newFileList);
     console.log("Uploaded files: ", newFileList);
-    const updatedData = await uploadProfilePhoto({userId, file:newFileList[0].originFileObj});
-    dispatch(setUser(updatedData))
-    console.log(result);
+    console.log(currentUser);
+    
+    const res = await uploadProfilePhoto({userId:userId, file:newFileList[0]?.originFileObj, type:'profile'}).unwrap();;
+    const user = res?.data;
+    
+    console.log(result, user);
+    dispatch(setUser({user:user, token:token}))
     
   };
 

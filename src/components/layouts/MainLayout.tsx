@@ -15,14 +15,15 @@ const customStyles = {
 const MainLayout = () => {
   const navigation = useNavigation();
   const isLoading = navigation.state !== "idle";
-
+  console.log(isLoading);
+  
   return (
     <Layout style={customStyles}>
       <Header />
       <Content className="bg-[url('https://i.ibb.co/YdfcdG6/pattern.webp')] bg-center bg-repeat">
         {isLoading ? (
           <>
-            <div className="h-[60vh] mx-auto py-20 flex justify-center items-center">
+            <div className="h-[80vh] mx-auto py-20 flex justify-center items-center">
               <Spin
                 size="large"
                 tip="Loading"

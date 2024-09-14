@@ -35,22 +35,25 @@ const authApi = baseAPI.injectEndpoints({
   {
     userId: string;
     file: File;
+    type?: string
   }
 >({
-  query: ({ userId, file }) => {
+  query: ({ userId, file, type=null }) => {
     console.log(userId, file);
     
     const formData = new FormData();
     formData.append('file', file);
     formData.append('userId', userId);
+    type && formData.append('type', type);
     
     // To check what is inside formData
     for (const [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
-
+    console.log(formData.entries());
+    
     return {
-      url: `users/update-profile-photo`,
+      url: `users/update-profile-photo?userId=${userId}&type=${type}`,
       method: "PATCH",
       body: formData,
     };

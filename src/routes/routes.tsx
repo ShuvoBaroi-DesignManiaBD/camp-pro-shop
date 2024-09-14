@@ -1,4 +1,3 @@
-import MainLayout from "@/components/layouts/MainLayout";
 import Login from "@/pages/Login";
 import Register from "@/pages/register/Register";
 import { Toaster } from "react-hot-toast";
@@ -9,49 +8,71 @@ import Dashboard from "@/pages/dashboards/Dashboard.tsx";
 import customerDashboardRoutes from "./customer/customer.routes.tsx";
 import ProtectedRoute from "@/components/layouts/ProtectedRoute.tsx";
 import OrderSuccess from "@/pages/order/order-success.tsx";
-import { USER_ROLE } from "@/constants/userType.ts";
 import adminRoutes from "./admin/admin.routes.tsx";
 import { TPath } from "@/types/route.type.ts";
+import NotFound from "@/pages/NotFound.tsx";
+import TopLoadingProgressBar from "@/components/ui/progressBar/TopLoadingProgressBar.tsx";
+import { lazy } from "react";
+const MainLayout = lazy(() => import("@/components/layouts/MainLayout"));
 
 const Routes = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout></MainLayout>,
-    errorElement: <Toaster></Toaster>,
+    element: (
+      <>
+        <TopLoadingProgressBar />
+        <MainLayout />
+      </>
+    ),
+    errorElement: <NotFound></NotFound>,
     children: routeGenerator(subRoutes as TPath[]),
   },
   {
     path: "admin",
     element: (
       <ProtectedRoute role={["admin"]}>
+        <TopLoadingProgressBar />
         <Dashboard></Dashboard>
       </ProtectedRoute>
     ),
-    errorElement: <Toaster></Toaster>,
+    errorElement: <NotFound></NotFound>,
     children: routeGenerator(adminRoutes),
   },
   {
     path: "customer",
     element: (
       <ProtectedRoute role={["customer"]}>
+        <TopLoadingProgressBar />
         <Dashboard></Dashboard>
       </ProtectedRoute>
     ),
-    errorElement: <Toaster></Toaster>,
+    errorElement: <NotFound></NotFound>,
     children: routeGenerator(customerDashboardRoutes),
   },
   {
     path: "login",
-    element: <Login></Login>,
+    element: (
+      <>
+        <TopLoadingProgressBar />
+        <Login></Login>
+      </>
+    ),
   },
   {
     path: "register",
-    element: <Register></Register>,
+    element: (
+      <>
+        <TopLoadingProgressBar />
+        <Register></Register>)
+      </>
+    ),
   },
   {
     path: "order-success",
+    errorElement: <NotFound></NotFound>,
     element: (
       <ProtectedRoute role={["customer", "admin"]}>
+        <TopLoadingProgressBar />
         <OrderSuccess></OrderSuccess>
       </ProtectedRoute>
     ),

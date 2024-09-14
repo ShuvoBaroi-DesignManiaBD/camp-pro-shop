@@ -44,10 +44,12 @@ const MobileNav = ({ setIsSidebarHide, isSidebarHide }: isSidebarHide) => {
             // width: "40px",
             // height: "40px",
           }}
+
           className="size-9 sm:size-12"
           // onClick={()=>setIsSidebarHide(!isSidebarHide)}
-        >
-          {currentUser?.photo || currentUser?.name?.trim()[0]}
+          src={<img src={currentUser ? currentUser?.photo:null} alt="profile_photo" />}
+            >
+              {!currentUser?.photo && currentUser?.name?.trim()[0]}
         </Avatar>
       </span>
       <Drawer
