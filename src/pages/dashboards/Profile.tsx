@@ -30,26 +30,25 @@ interface UserData {
 const Profile = () => {
   const currentUser = useAppSelector(selectCurrentUser);
   const token = useAppSelector(selectCurrentToken);
-  const [updateUser, { data, status }] = useUpdateUserMutation();
-  const [uploadProfilePhoto, { data:result }] = useUploadProfilePhotoMutation();
+  const [updateUser] = useUpdateUserMutation();
+  const [uploadProfilePhoto] = useUploadProfilePhotoMutation();
   const dispatch = useDispatch();
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [isHover, setIsHover] = useState<boolean>(false);
-  const [fileList, setFileList] = useState<any[]>([]); // State for uploaded file
+  const [fileList, setFileList] = useState<any[]>([]);
+  const [isUploading, setIsUploading] = useState(false); // Flag to track ongoing uploads
   const userId = currentUser?._id;
 
   const {
     register,
     handleSubmit,
-    getValues,
     setValue,
     formState: { errors },
   } = useForm<UserData>();
 
   const onSubmit = async (formData: UserData) => {
-    const updatedValues = generateCleanObject(formData);
+    const updatedValues: any = generateCleanObject(formData);
 
-    // Creating FormData to handle file upload
     const formDataWithFile = new FormData();
     Object.keys(updatedValues).forEach((key) => {
       if (key !== "profilePhoto") {
@@ -58,13 +57,13 @@ const Profile = () => {
     });
 
     if (fileList.length > 0) {
-      formDataWithFile.append("profilePhoto", fileList[0].originFileObj); // Append the file to the formData
+      formDataWithFile.append("profilePhoto", fileList[0].originFileObj);
     }
 
     try {
-      const res = await updateUser({ userId: userId, updatedValues: formDataWithFile });
+      const res = await updateUser({ userId, updatedValues: formDataWithFile });
       console.log("response: ", res);
-      setIsEditable(false); // Disable editing after saving
+      setIsEditable(false);
     } catch (error) {
       console.error("Error updating user profile: ", error);
     }
@@ -78,17 +77,26 @@ const Profile = () => {
     setIsHover(hover);
   };
 
-  const handleFileChange = async({ fileList: newFileList }: any) => {
+  const handleFileChange = async ({ fileList: newFileList }: any) => {
+    // Prevent uploadProfilePhoto from being triggered multiple times
+    if (isUploading || newFileList.length === 0) return;
+
     setFileList(newFileList);
-    console.log("Uploaded files: ", newFileList);
-    console.log(currentUser);
-    
-    const res = await uploadProfilePhoto({userId:userId, file:newFileList[0]?.originFileObj, type:'profile'}).unwrap();;
-    const user = res?.data;
-    
-    console.log(result, user);
-    dispatch(setUser({user:user, token:token}))
-    
+    setIsUploading(true);  // Prevent multiple uploads at the same time
+
+    try {
+      const res = await uploadProfilePhoto({
+        userId,
+        file: newFileList[0]?.originFileObj,
+        type: "profile",
+      }).unwrap();
+      const user = res?.data;
+      dispatch(setUser({ user, token }));
+    } catch (error) {
+      console.error("Error uploading profile photo:", error);
+    } finally {
+      setIsUploading(false); // Reset the flag once upload is done
+    }
   };
 
   const uploadProps = {
@@ -97,13 +105,14 @@ const Profile = () => {
     fileList: fileList,
     onChange: handleFileChange,
     beforeUpload: (file: any) => {
-      const isJpgOrPng = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png';
+      const isJpgOrPng =
+        file.type === "image/jpg" || file.type === "image/jpeg" || file.type === "image/png";
       if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!');
+        message.error("You can only upload JPG/PNG files!");
       }
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+        message.error("Image must be smaller than 2MB!");
       }
       return isJpgOrPng && isLt2M;
     },
@@ -113,7 +122,11 @@ const Profile = () => {
     <Card className="bg-transparent">
       <div className="flex items-start gap-10">
         {/* Left Column - Avatar */}
-        <div className="w-1/4 flex flex-col justify-center items-center bg-white p-6 border-lg">
+        <div className="w-1/4 flex flex-col justify-center items-center bg-white p-6 border-lg [&&_span]:!transform-none">
+        <span className="relative"
+        onMouseEnter={() => handleHover(true)}
+        onMouseLeave={() => handleHover(false)}
+        >
           <Avatar
             style={{
               backgroundColor: "#f56a00",
@@ -124,23 +137,22 @@ const Profile = () => {
               position: "relative",
               border: "none",
             }}
-            onMouseEnter={() => handleHover(true)}
-            onMouseLeave={() => handleHover(false)}
             src={currentUser?.photo}
-            className="!relative cursor-pointer flex items-center justify-center content-center [&&_.ant-avatar-string]:w-full [&&_.ant-avatar-string]:h-full [&&_.ant-avatar-string]:border-none [&&_span.ant-avatar-string]:scale-100"
+            className="!relative cursor-pointer flex items-center justify-center content-center"
           >
             {!currentUser?.profilePhoto && currentUser?.name?.trim()[0]}
+          </Avatar>
             {isHover && (
-              <Upload {...uploadProps} accept='.png,.jpg,.jpeg,.webp' className="absolute text-white text-center rounded-full top-0 left-0 !w-full !h-full bg-black bg-opacity-70 content-center">
+              <Upload {...uploadProps} accept=".png,.jpg,.jpeg,.webp" className="!z-50 absolute text-white text-center rounded-full top-0 left-0 !w-full !h-full bg-black bg-opacity-70 content-center">
                 <div className="w-full h-full flex flex-col items-center justify-center content-center">
                   <BiCamera size={40} />
-                  <Button type="link" className="flex flex-col items-center justify-center text-white [&&_span]:hover:text-white">
+                  <Button type="link" className="flex flex-col items-center justify-center text-white">
                     Upload
                   </Button>
                 </div>
               </Upload>
             )}
-          </Avatar>
+        </span>
           <Typography.Text className="font-[650] mt-4 text-lg text-primary/80">
             {currentUser?.name}
           </Typography.Text>
@@ -164,7 +176,10 @@ const Profile = () => {
           <Title level={4} className="pb-4 border-b">
             Profile
           </Title>
-          <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 grid-cols-[repeat(3,_minmax(150px,_1fr))] mt-4">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="grid gap-4 grid-cols-[repeat(3,_minmax(150px,_1fr))] mt-4"
+          >
             {/* Name */}
             <div className="form-group">
               <label className="font-semibold">Name</label>
@@ -276,7 +291,9 @@ const Profile = () => {
                 onClick={() => setIsEditable(true)}
                 onChange={(e) => setValue("address.zipCode", e.target.value)}
               />
-              {errors.address?.zipCode && <span className="text-red-500">{errors.address?.zipCode.message}</span>}
+              {errors.address?.zipCode && (
+                <span className="text-red-500">{errors.address?.zipCode.message}</span>
+              )}
             </div>
 
             {/* Edit and Save Button */}
