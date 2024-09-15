@@ -88,7 +88,7 @@ const Profile = () => {
       const res = await uploadProfilePhoto({
         userId,
         file: newFileList[0]?.originFileObj,
-        type: "profile",
+        type: "public",
       }).unwrap();
       const user = res?.data;
       dispatch(setUser({ user, token }));
