@@ -1,31 +1,20 @@
-import { AiOutlineRightCircle } from "react-icons/ai";
-import { useState } from "react";
-import {
-  AppstoreOutlined,
-  CalendarOutlined,
-  LinkOutlined,
-  MailOutlined,
-  SettingOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from "@ant-design/icons";
-import { Button, Divider, Menu, Switch } from "antd";
-import type { GetProp, MenuProps } from "antd";
+import { Menu } from "antd";
+// import type { GetProp, MenuProps } from "antd";
 import customerSidebarItems from "../../pages/dashboards/customer/sitebarItems";
 import ThemeConfig from "@/configs/ThemeConfig";
 const SideBar = ({ collapsed }: any) => {
-  type MenuTheme = GetProp<MenuProps, "theme">;
+  // type MenuTheme = GetProp<MenuProps, "theme">;
 
-  const [mode, setMode] = useState<"vertical" | "inline">("inline");
-  const [theme, setTheme] = useState<MenuTheme>("light");
+  // const [mode, setMode] = useState<"vertical" | "inline">("inline");
+  // const [theme, setTheme] = useState<MenuTheme>("light");
   // const [collapsed, setCollapsed] = useState(false);
-  const changeMode = (value: boolean) => {
-    setMode(value ? "vertical" : "inline");
-  };
+  // const changeMode = (value: boolean) => {
+  //   setMode(value ? "vertical" : "inline");
+  // };
 
-  const changeTheme = (value: boolean) => {
-    setTheme(value ? "dark" : "light");
-  };
+  // const changeTheme = (value: boolean) => {
+  //   setTheme(value ? "dark" : "light");
+  // };
 
   return (
     <>
@@ -60,8 +49,8 @@ const SideBar = ({ collapsed }: any) => {
           defaultSelectedKeys={["1"]}
           defaultOpenKeys={["sub1"]}
           inlineIndent={16}
-          mode={mode}
-          theme={theme}
+          mode={`inline`}
+          theme={`light`}
           items={customerSidebarItems}
         />
       </ThemeConfig>

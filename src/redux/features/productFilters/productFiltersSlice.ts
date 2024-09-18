@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import { FilterValues } from "@/types/filter.type";
 
 const initialState = {
   productFilters: {},

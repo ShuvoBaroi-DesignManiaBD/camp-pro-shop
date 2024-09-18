@@ -1,24 +1,25 @@
 import {
   AiOutlineLeft,
-  AiOutlineLeftCircle,
   AiOutlineRight,
-  AiOutlineRightCircle,
 } from "react-icons/ai";
-import SideBar from "@/pages/dashboards/customer/SideBar";
 import { Layout } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { Outlet } from "react-router-dom";
 import Logo from "../../components/ui/Logo";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DashboardSidebar from "../../components/ui/sidebars/DashboardSidebar";
 import customerSidebarItems from "@/pages/dashboards/customer/sitebarItems";
 import DashboardHeader from "@/pages/dashboards/Header";
+import { useAppSelector } from "@/redux/hooks";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import adminSidebarItems from "./admin/sitebarItems";
 
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [isSidebarHide, setIsSidebarHide] = useState(true);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1023);
+  const currentUser = useAppSelector(selectCurrentUser);
   console.log(isSidebarHide);
   
   const handleResize = () => {
@@ -99,7 +100,7 @@ const Dashboard = () => {
         </div>
         <DashboardSidebar
           collapsed={collapsed}
-          items={customerSidebarItems}
+          items={currentUser?.role === "customer" && customerSidebarItems || currentUser?.role === "admin" && adminSidebarItems}
         ></DashboardSidebar>
       </Sider>
       <Layout>

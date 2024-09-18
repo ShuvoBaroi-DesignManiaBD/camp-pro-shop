@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import  { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Empty, Radio, Typography } from "antd";
 import Field from "@/components/ui/form/Field";
@@ -16,7 +16,7 @@ import {
   selectNumberOfProducts,
   selectOriginalTotalPrice,
 } from "@/redux/features/cart/cartSlice";
-import { selectShowHideCartDrawer } from "@/redux/features/ui/drawerShowHideSlice";
+// import { selectShowHideCartDrawer } from "@/redux/features/ui/drawerShowHideSlice";
 import { CartItem } from "@/types/cart.type";
 import { useDispatch } from "react-redux";
 import CustomContainer from "@/components/layouts/CustomContainer";
@@ -24,7 +24,6 @@ import Select from "react-select";
 import countryList from "react-select-country-list";
 import FormSubmitBtn from "@/components/ui/form/FormSubmitBtn";
 import {
-  selectCurrentToken,
   selectCurrentUser,
 } from "@/redux/features/auth/authSlice";
 import Paypal from "@/components/ui/icons/Paypal";

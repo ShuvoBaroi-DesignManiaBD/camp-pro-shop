@@ -70,7 +70,7 @@ const productApi = baseAPI.injectEndpoints({
         }
       },
       onQueryStarted: async (
-        { queries, page, limit },
+        {},
         { dispatch, queryFulfilled }
       ) => {
         try {

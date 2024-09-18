@@ -1,3 +1,5 @@
+import { TRoles } from "@/constants/userType";
+
 export type Address = {
   street: string;
   city: string;
@@ -6,6 +8,8 @@ export type Address = {
 };
 
 export type TUser = {
+  _id?: string;
+  role?: TRoles,
   name: string;
   email: string;
   phone: string;

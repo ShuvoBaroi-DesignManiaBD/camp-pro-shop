@@ -1,11 +1,8 @@
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Outlet, useNavigation } from "react-router-dom";
-import { Layout, Skeleton, Spin } from "antd";
+import { Layout, Spin } from "antd";
 import { Content } from "antd/es/layout/layout";
 import Header from "@/pages/shared/header/Header";
 import Footer from "@/pages/shared/footer/Footer";
-import { LoadingOutlined } from "@ant-design/icons";
-import ThemeConfig from "@/configs/ThemeConfig";
 import CartDrawer from "../ui/drawers/CartDrawer";
 
 const customStyles = {

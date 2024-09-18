@@ -2,7 +2,6 @@ import CustomContainer from "@/components/layouts/CustomContainer";
 import Failed from "@/components/ui/icons/Failed";
 import LoadingSpin from "@/components/ui/spinners/LoadingSpin";
 import { useCaptureOrderMutation } from "@/redux/features/order/orderApi";
-import { Button } from "antd";
 import ButtonGroup from "antd/es/button/button-group";
 import { useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";

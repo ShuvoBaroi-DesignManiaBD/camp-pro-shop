@@ -1,37 +1,33 @@
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsDash } from "react-icons/bs";
 import { FaCartPlus } from "react-icons/fa";
-import { BiCartAdd } from "react-icons/bi";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useGetAProductQuery } from "@/redux/features/product/productApi";
 import { addItemToCart, selectCartItems } from "@/redux/features/cart/cartSlice";
-import { Button, InputNumber, Rate, Spin } from "antd";
+import { Button, Rate,} from "antd";
 import CustomContainer from "@/components/layouts/CustomContainer";
 import ImageMagnifier from "@/components/ui/ImageMagnifier";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 import { Swiper as SwiperCore, Swiper as SwiperType } from "swiper/types";
-import CartDrawer from "@/components/ui/drawers/CartDrawer";
 import { ProductImage } from "@/types";
 import ThemeConfig from "@/configs/ThemeConfig";
 import { useAppSelector } from "@/redux/hooks";
 import {
-  selectShowHideCartDrawer,
   setShowHideCartDrawer,
 } from "@/redux/features/ui/drawerShowHideSlice";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import ProductFeatures from "@/components/ui/lists/ProductFeatures";
 import LoadingSpin from "@/components/ui/spinners/LoadingSpin";
-import { calculateTotalAsync } from "@/redux/features/cart/cartUtils";
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
   const { data, isLoading, isFetching } = useGetAProductQuery(productId || "");
-  const { register, watch, setValue, handleSubmit } = useForm({
+  const { register, watch, setValue } = useForm({
     defaultValues: {
       amount: 1,
     },
@@ -66,7 +62,7 @@ const ProductDetail: React.FC = () => {
     productData?.images?.map((image: ProductImage) => image.url) || [];
 
   const dispatch = useDispatch();
-  const cartDrawerState = useAppSelector(selectShowHideCartDrawer);
+  // const cartDrawerState = useAppSelector(selectShowHideCartDrawer);
   const cartItems = useAppSelector(selectCartItems);
   const handleAddToCart = () => {
     const cartQuantity = Number(cartItems.find(item => item?._id === productData?._id)?.quantity) || 0;

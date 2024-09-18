@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Pagination, Card, Skeleton, Empty } from "antd";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
-  setProducts,
   selectCurrentProducts,
 } from "@/redux/features/product/productSlice";
 import ProductCard from "@/components/ui/cards/ProductCard";
 import FilterSidebar from "@/components/ui/sidebars/FilterSidebar";
 import CustomBreadCumb from "@/components/ui/BreadCumb";
-import Sorting from "./Sorting";
 import CustomContainer from "@/components/layouts/CustomContainer";
 import ThemeConfig from "@/configs/ThemeConfig";
 import { HomeOutlined } from "@ant-design/icons";
@@ -43,7 +41,7 @@ const Products = () => {
   const filters = useAppSelector(selectCurrentFilters);
   const currentPage = useAppSelector(selectPage);
   const pageSize = useAppSelector(selectPageSize);
-  const { data, isLoading, isFetching, error, refetch } =
+  const { data, isLoading, isFetching, refetch } =
     useFilterProductsQuery({
       queries: (filters as FilterValues) || null,
       page: currentPage,

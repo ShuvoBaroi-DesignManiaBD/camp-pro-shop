@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import products from "./features/productFilters/productFiltersSlice";
 import { baseAPI } from "./api/baseApi";
 import {
   persistStore,

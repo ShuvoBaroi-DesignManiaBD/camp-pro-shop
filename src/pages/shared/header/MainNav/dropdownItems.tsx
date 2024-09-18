@@ -1,5 +1,4 @@
 // NavigationItems.tsx
-import React from "react";
 import { logout, selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { NavLink } from "react-router-dom";

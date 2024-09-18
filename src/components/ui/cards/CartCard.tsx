@@ -2,7 +2,7 @@ import { decreaseItemQuantity, increaseItemQuantity, removeItemFromCart } from "
 import { useAppDispatch } from "@/redux/hooks";
 import { NavLink } from "react-router-dom";
 
-const CartCard = ({product}) => {
+const CartCard = ({product}:any) => {
     console.log(product);
     const dispatch = useAppDispatch();
     const handleIncreaseQuantity = (id: string) => {

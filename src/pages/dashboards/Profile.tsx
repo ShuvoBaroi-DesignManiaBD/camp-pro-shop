@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input, Button, Card, Typography, Avatar, Upload, message } from "antd";
 import { useAppSelector } from "@/redux/hooks";
-import { logout, selectCurrentToken, selectCurrentUser, setUser } from "@/redux/features/auth/authSlice";
+import { logout, selectCurrentToken, selectCurrentUser, setUser, TAuthState } from "@/redux/features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import generateCleanObject from "@/utils/generateCleanObject";
 import { useUpdateUserMutation, useUploadProfilePhotoMutation } from "@/redux/features/auth/authApi";
@@ -28,7 +28,7 @@ interface UserData {
 }
 
 const Profile = () => {
-  const currentUser = useAppSelector(selectCurrentUser);
+  const currentUser:TAuthState['user'] = useAppSelector(selectCurrentUser);
   const token = useAppSelector(selectCurrentToken);
   const [updateUser] = useUpdateUserMutation();
   const [uploadProfilePhoto] = useUploadProfilePhotoMutation();
@@ -37,7 +37,8 @@ const Profile = () => {
   const [isHover, setIsHover] = useState<boolean>(false);
   const [fileList, setFileList] = useState<any[]>([]);
   const [isUploading, setIsUploading] = useState(false); // Flag to track ongoing uploads
-  const userId = currentUser?._id;
+  const userId = currentUser?._id as string;
+  const profilePhoto = currentUser?.photo ? currentUser?.photo?.replace("https:/", "https://") : null;
 
   const {
     register,
@@ -85,10 +86,10 @@ const Profile = () => {
     setIsUploading(true);  // Prevent multiple uploads at the same time
 
     try {
-      const res = await uploadProfilePhoto({
+      const res:never|any = await uploadProfilePhoto({
         userId,
         file: newFileList[0]?.originFileObj,
-        type: "public",
+        type: "profile",
       }).unwrap();
       const user = res?.data;
       dispatch(setUser({ user, token }));
@@ -110,11 +111,11 @@ const Profile = () => {
       if (!isJpgOrPng) {
         message.error("You can only upload JPG/PNG files!");
       }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        message.error("Image must be smaller than 2MB!");
+      const isLt1M = file.size / 1024 / 1024 <= 1;
+      if (!isLt1M) {
+        message.error("Image must be smaller than 1MB!");
       }
-      return isJpgOrPng && isLt2M;
+      return isJpgOrPng && isLt1M;
     },
   };
 
@@ -137,13 +138,13 @@ const Profile = () => {
               position: "relative",
               border: "none",
             }}
-            src={currentUser?.photo}
+            src={profilePhoto}
             className="!relative cursor-pointer flex items-center justify-center content-center"
           >
-            {!currentUser?.profilePhoto && currentUser?.name?.trim()[0]}
+            {!currentUser?.photo && currentUser?.name?.trim()[0]}
           </Avatar>
             {isHover && (
-              <Upload {...uploadProps} accept=".png,.jpg,.jpeg,.webp" className="!z-50 absolute text-white text-center rounded-full top-0 left-0 !w-full !h-full bg-black bg-opacity-70 content-center">
+              <Upload {...uploadProps} maxCount={1} accept=".png,.jpg,.jpeg,.webp" className="!z-50 absolute text-white text-center rounded-full top-0 left-0 !w-full !h-full bg-black bg-opacity-70 content-center">
                 <div className="w-full h-full flex flex-col items-center justify-center content-center">
                   <BiCamera size={40} />
                   <Button type="link" className="flex flex-col items-center justify-center text-white">

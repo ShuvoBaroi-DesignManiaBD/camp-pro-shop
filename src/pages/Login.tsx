@@ -1,4 +1,3 @@
-import { ImSpinner8 } from "react-icons/im";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
@@ -19,7 +18,7 @@ import { setUser, selectCurrentUser } from "@/redux/features/auth/authSlice";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [login, { data, status }]: any = useLoginMutation();
+  const [login, { status }]: any = useLoginMutation();
   const dispatch = useAppDispatch();
   const {
     register,

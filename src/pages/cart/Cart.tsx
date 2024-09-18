@@ -27,7 +27,7 @@ const Cart = () => {
   
   console.log(originalTotalPrice,);
 
-  const { data, isLoading, isFetching, error, refetch } =
+  const { data, isLoading, isFetching } =
     useFilterProductsQuery({
       queries: null,
       page: 1,

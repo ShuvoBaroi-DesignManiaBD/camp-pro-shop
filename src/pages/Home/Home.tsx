@@ -1,6 +1,4 @@
 import { CgArrowLongRight } from "react-icons/cg";
-import { BiHorizontalRight } from "react-icons/bi";
-import { AiOutlineRight } from "react-icons/ai";
 import CarouselCTA from "@/components/ui/callToActions/CarouselCTA";
 import ThemeConfig from "@/configs/ThemeConfig";
 import { Button, Carousel, Layout } from "antd";

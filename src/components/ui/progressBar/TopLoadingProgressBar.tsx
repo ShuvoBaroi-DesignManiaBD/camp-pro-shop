@@ -1,11 +1,10 @@
-import { Suspense, useEffect, useState } from "react";
-import { useLocation, useNavigation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "nprogress/nprogress.css";
 import { Progress } from "antd";
 
 const TopLoadingProgressBar = () => {
   const location = useLocation(); // Track location changes
-  const navigation = useNavigation(); // Track navigation status
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
 

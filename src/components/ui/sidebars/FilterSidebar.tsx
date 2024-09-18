@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   Checkbox,
@@ -19,13 +19,13 @@ import {
   setPage,
   setProductsCount,
 } from "@/redux/features/productFilters/productFiltersSlice";
-import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
-import {
-  selectCurrentProducts,
-  setProducts,
-} from "@/redux/features/product/productSlice";
+// import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
+// import {
+//   selectCurrentProducts,
+//   // setProducts,
+// } from "@/redux/features/product/productSlice";
 import { useFilterProductsQuery } from "@/redux/features/productFilters/productFiltersApi";
-import { FilterValues } from "@/types/filter.type";
+// import { FilterValues } from "@/types/filter.type";
 import ThemeConfig from "@/configs/ThemeConfig";
 
 const { Group: CheckboxGroup } = Checkbox;
@@ -48,7 +48,7 @@ const SidebarFilter: React.FC = () => {
   // const [formData, setFormData] = useState<FormValues | null>(null);
   const productFilters = useAppSelector(selectCurrentFilters);
   const dispatch = useAppDispatch();
-  const { control, handleSubmit, reset, watch } = useForm<FormValues>({
+  const { control, handleSubmit, reset} = useForm<FormValues>({
     defaultValues: {
       searchTerm: null,
       categories: [],
@@ -59,10 +59,10 @@ const SidebarFilter: React.FC = () => {
   });
 
   // Fetch filtered products based on the current filters
-  const { data, refetch } = useFilterProductsQuery(
+  const { data } = useFilterProductsQuery(
     (productFilters as any) || null
   );
-  const products = useAppSelector(selectCurrentProducts);
+  // const products = useAppSelector(selectCurrentProducts);
 
   const onSubmit = async (filterData: FormValues) => {
     dispatch(setFilters(filterData));

@@ -1,16 +1,16 @@
-type Address = {
-    street?: string;
-    city?: string;
-    state?: string;
-    zipCode?: string;
-  };
+// type Address = {
+//     street?: string;
+//     city?: string;
+//     state?: string;
+//     zipCode?: string;
+//   };
   
-  type UserData = {
-    name?: string;
-    email?: string;
-    phone?: string;
-    address?: Address;
-  };
+  // type UserData = {
+  //   name?: string;
+  //   email?: string;
+  //   phone?: string;
+  //   address?: Address;
+  // };
   
   const generateCleanObject = <T>(obj: T): Partial<T> => {
     console.log(obj);

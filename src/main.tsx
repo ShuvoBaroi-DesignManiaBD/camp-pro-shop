@@ -11,7 +11,7 @@ import ThemeConfig from "./configs/ThemeConfig.tsx";
 import PageRefreshWarning from "./components/ui/modals/PageRefreshWarning.tsx";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.Fragment>
+  <React.StrictMode>
     <HelmetProvider>
       <Provider store={store}>
         <ThemeConfig>
@@ -23,5 +23,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         </ThemeConfig>
       </Provider>
     </HelmetProvider>
-  </React.Fragment>
+  </React.StrictMode>
 );

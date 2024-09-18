@@ -1,15 +1,10 @@
+import { BsBoxes } from "react-icons/bs"; 
 import { CgProfile } from "react-icons/cg"; 
 import { AiOutlineDashboard } from "react-icons/ai"; 
 import { sidebarMenuItem } from "@/types/menu.type";
 import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
-import {
-  AppstoreOutlined,
-  CalendarOutlined,
-  LinkOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
+import { BiShoppingBag } from "react-icons/bi";
 const adminSidebarItems: sidebarMenuItem[] = [
   {
     key: '1',
@@ -18,26 +13,26 @@ const adminSidebarItems: sidebarMenuItem[] = [
     url: "admin/dashboard",
   },
   {
-    key: UniqueIdGenerator(),
+    key: '2',
     label: <NavLink to="profile">Profile</NavLink>,
     icon: <CgProfile size={20}/>,
     url: "admin/profile",
   },
   {
-    key: UniqueIdGenerator(),
-    label: <NavLink to="profile">Products</NavLink>,
-    icon: <CgProfile size={20}/>,
+    key: '3',
+    label: <NavLink to="products">Products</NavLink>,
+    icon: <BsBoxes size={20} />,
     url: "admin/products",
   },
   {
-    key: UniqueIdGenerator(),
-    label: <NavLink to="profile">Orders</NavLink>,
-    icon: <CgProfile size={20}/>,
+    key: '4',
+    label: <NavLink to="orders">Orders</NavLink>,
+    icon: <BiShoppingBag size={20}/>,
     url: "admin/orders",
   },
   {
-    key: UniqueIdGenerator(),
-    label: <NavLink to="profile">Manage Users</NavLink>,
+    key: '5',
+    label: <NavLink to="manage-users">Manage Users</NavLink>,
     icon: <CgProfile size={20}/>,
     url: "admin/manage-users",
   },

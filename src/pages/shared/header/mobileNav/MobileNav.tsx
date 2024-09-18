@@ -1,7 +1,5 @@
-import { FaBars } from "react-icons/fa";
 import { RxMagnifyingGlass } from "react-icons/rx";
 import { BiShoppingBag } from "react-icons/bi";
-import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import MainNavItems from "../mainNav/MainNavItems";
@@ -22,7 +20,7 @@ const MobileNav = ({ setIsSidebarHide, isSidebarHide }: isSidebarHide) => {
   console.log(setIsSidebarHide);
 
   const [open, setOpen] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [loading, setLoading] = useState<boolean>(true);
   const currentUser: Partial<TUser | null> = useAppSelector(selectCurrentUser);
 
   const showLoading = () => {
@@ -47,7 +45,7 @@ const MobileNav = ({ setIsSidebarHide, isSidebarHide }: isSidebarHide) => {
 
           className="size-9 sm:size-12"
           // onClick={()=>setIsSidebarHide(!isSidebarHide)}
-          src={<img src={currentUser ? currentUser?.photo:null} alt="profile_photo" />}
+          src={currentUser?.photo && <img src={currentUser?.photo?.replace("https:/", "https://") || undefined} alt="profile_photo" />}
             >
               {!currentUser?.photo && currentUser?.name?.trim()[0]}
         </Avatar>

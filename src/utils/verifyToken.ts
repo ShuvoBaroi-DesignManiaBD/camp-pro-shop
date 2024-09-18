@@ -1,5 +1,6 @@
-import { jwtDecode } from 'jwt-decode';
+import { TRoles } from '@/constants/userType';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 export const verifyToken = (token: string) => {
-  return jwtDecode(token);
+  return jwtDecode<{role:TRoles} & JwtPayload>(token);
 };

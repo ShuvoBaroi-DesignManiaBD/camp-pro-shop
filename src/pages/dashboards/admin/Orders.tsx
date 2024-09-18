@@ -1,8 +1,6 @@
 import { useState } from "react";
 import CustomBreadCumb from "@/components/ui/BreadCumb";
-import { selectCurrentUser } from "@/redux/features/auth/authSlice";
-import { useMyOrdersQuery } from "@/redux/features/order/orderApi";
-import { useAppSelector } from "@/redux/hooks";
+import { useAllOrdersQuery } from "@/redux/features/order/orderApi";
 import { Table, Tag } from "antd";
 import { TUser } from "@/types";
 
@@ -12,16 +10,16 @@ const BreadCumbItems = [
   },
 ];
 
-const MyOrder = () => {
-  const currentUser = useAppSelector(selectCurrentUser);
+const Orders = () => {
+  // const currentUser = useAppSelector(selectCurrentUser);
   const [page, setPage] = useState(1); // State for current page
   const [limit, setLimit] = useState(10); // State for page size
 
-  const { data, isFetching } = useMyOrdersQuery({
-    userId: currentUser?._id,
+  const { data, isFetching } = useAllOrdersQuery({
     page,
     limit,
-  });
+  })
+  
 
   const columns = [
     {
@@ -90,7 +88,7 @@ const MyOrder = () => {
     <>
       <CustomBreadCumb links={BreadCumbItems}></CustomBreadCumb>
       <Table
-        dataSource={data?.data?.orders}
+        dataSource={data?.data}
         columns={columns}
         bordered
         rowKey={(record) => record._id}
@@ -101,7 +99,7 @@ const MyOrder = () => {
           pageSize: limit,
           showSizeChanger: true,
           pageSizeOptions: ["10", "15", "20"],
-          total: data?.data?.totalOrders, // Assuming the API response includes total number of orders
+          total: data?.totalOrders, // Assuming the API response includes total number of orders
         }}
         onChange={handleTableChange} // Handle pagination changes
       />
@@ -109,4 +107,4 @@ const MyOrder = () => {
   );
 };
 
-export default MyOrder;
+export default Orders;

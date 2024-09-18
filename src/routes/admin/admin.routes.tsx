@@ -1,5 +1,8 @@
 
 import AdminDashboard from "@/pages/dashboards/admin/AdminDashboard";
+import Orders from "@/pages/dashboards/admin/Orders";
+import Products from "@/pages/dashboards/admin/Products";
+import Users from "@/pages/dashboards/admin/Users";
 import Profile from "@/pages/dashboards/Profile";
 
 const adminRoutes = [
@@ -16,17 +19,17 @@ const adminRoutes = [
   {
     name: "Products",
     path: "products",
-    element: <Profile></Profile>,
+    element: <Products></Products>,
   },
   {
     name: "Orders",
     path: "orders",
-    element: <Profile></Profile>,
+    element: <Orders></Orders>,
   },
   {
     name: "Manage Users",
     path: "manage-users",
-    element: <Profile></Profile>,
+    element: <Users></Users>,
   },
 ];
 

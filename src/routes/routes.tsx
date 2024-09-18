@@ -1,6 +1,5 @@
 import Login from "@/pages/Login";
 import Register from "@/pages/register/Register";
-import { Toaster } from "react-hot-toast";
 import { createBrowserRouter } from "react-router-dom";
 import subRoutes from "./sub.routes.tsx";
 import { routeGenerator } from "@/utils/routesGenerator.ts";

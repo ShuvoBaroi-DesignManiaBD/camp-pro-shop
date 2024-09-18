@@ -4,13 +4,6 @@ import { CgProfile } from "react-icons/cg";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { sidebarMenuItem } from "@/types/menu.type";
 import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
-import {
-  AppstoreOutlined,
-  CalendarOutlined,
-  LinkOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
 const customerSidebarItems: sidebarMenuItem[] = [
   {

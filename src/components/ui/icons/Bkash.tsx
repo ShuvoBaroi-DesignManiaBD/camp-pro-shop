@@ -10,10 +10,9 @@ const Bkash = ({ size = "28px" }) => {
   width={size}
   height={size}
   viewBox="0 0 80 80"
-  style={{ enableBackground: "new 0 0 80 80" }}
+  // style={{ enableBackground: "new 0 0 80 80" }}
   xmlSpace="preserve"
 >
-  <script xmlns="" />{" "}
   <style
     type="text/css"
     dangerouslySetInnerHTML={{

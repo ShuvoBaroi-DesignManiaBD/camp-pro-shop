@@ -19,7 +19,7 @@ import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [registerCustomer, { data, status }]: any =
+  const [registerCustomer, { status }]: any =
     useRegisterCustomerMutation();
 
   const currentUser = useAppSelector(selectCurrentUser);
@@ -171,6 +171,7 @@ const Register = () => {
                           placeholder="Your phone number"
                           country={"bd"}
                           enableSearch={true}
+
                           onChange={handlePhoneChange} // Update the form value on change
                           className={`flex justify-between items-center py-1 w-full border-2 ${
                             errors?.phone

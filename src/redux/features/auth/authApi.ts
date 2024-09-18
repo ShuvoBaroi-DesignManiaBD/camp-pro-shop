@@ -21,7 +21,7 @@ const authApi = baseAPI.injectEndpoints({
       void,
       {
         userId: string;
-        updatedValues: Partial<TUpdateUser>;
+        updatedValues: Partial<TUpdateUser|FormData>;
       }
     >({
       query: ({ userId, updatedValues }) => ({

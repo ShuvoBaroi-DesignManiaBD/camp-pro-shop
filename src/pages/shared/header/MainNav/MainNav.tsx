@@ -1,13 +1,11 @@
 // MainNav.tsx
-import React from "react";
 import { RxMagnifyingGlass } from "react-icons/rx";
 import { BiShoppingBag } from "react-icons/bi";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import MainNavItems from "./MainNavItems";
 import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
-import { Avatar, Badge, Dropdown } from "antd";
-import { useState } from "react";
+import { Badge } from "antd";
 import NavigationItems from "./dropdownItems";
 import { logout, selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
