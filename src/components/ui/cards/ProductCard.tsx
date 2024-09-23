@@ -10,8 +10,8 @@ const ProductCard:React.FC<{ product: Partial<TProduct>, className: string }> = 
               <NavLink to={product._id ? `/products/${product?._id}`:''}>
                 <img
                   className="mx-auto h-full dark:hidden"
-                  src={product?.images ? product?.images[2]?.url : ''}
-                  alt={product?.images ? product?.images[2]?.alt : ''}
+                  src={product?.images ? product?.images[2]?.url || product?.images[0]?.url : ''}
+                  alt={product?.images ? product?.images[2]?.alt || product?.images[0]?.alt: ''}
                 />
               </NavLink>
             </div>

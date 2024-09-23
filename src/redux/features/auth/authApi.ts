@@ -17,6 +17,12 @@ const authApi = baseAPI.injectEndpoints({
         body: data,
       })
     }),
+    allUsers: builder.query<any, any>({
+      query: ({ page = 1, limit = 5 })=>({
+        url: `/users/all-users?page=${page}&limit=${limit}`,
+        method: "GET",
+      }),
+    }),
     updateUser: builder.mutation<
       void,
       {
@@ -68,4 +74,5 @@ export const {
   useLoginMutation,
   useUpdateUserMutation,
   useUploadProfilePhotoMutation,
+  useAllUsersQuery
 } = authApi;

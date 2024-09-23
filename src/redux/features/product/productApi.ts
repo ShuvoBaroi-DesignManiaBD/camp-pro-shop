@@ -1,5 +1,8 @@
 import { baseAPI } from "@/redux/api/baseApi";
-import { selectCurrentProducts, setProducts } from "@/redux/features/product/productSlice";
+import {
+  selectCurrentProducts,
+  setProducts,
+} from "@/redux/features/product/productSlice";
 import { TProduct } from "@/types/product.type";
 import { useAppSelector } from "@/redux/hooks";
 
@@ -10,7 +13,7 @@ const productApi = baseAPI.injectEndpoints({
         url: `products?page=${page}&limit=${limit}`,
         method: "GET",
       }),
-      onQueryStarted: async ( { dispatch, queryFulfilled }) => {
+      onQueryStarted: async ({ dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
           const products = useAppSelector(selectCurrentProducts);
@@ -19,6 +22,7 @@ const productApi = baseAPI.injectEndpoints({
           console.error("Error fetching products:", error);
         }
       },
+      providesTags: ["products"],
     }),
     getAProduct: builder.query<any, string>({
       query: (id) => ({
@@ -26,7 +30,38 @@ const productApi = baseAPI.injectEndpoints({
         method: "GET",
       }),
     }),
+    updateAProduct: builder.mutation<
+      void,
+      {
+        productId: string;
+        updatedProduct: Partial<TProduct | unknown>;
+        // updatedValues: Partial<TProduct|unknown>;
+        // images: FormData,
+      }
+    >({
+      query: ({ productId, updatedProduct }) => (
+        console.log(updatedProduct),
+        {
+          url: `products/update-product?productId=${productId}&type=product`,
+          method: "PATCH",
+          body: updatedProduct,
+        }
+      ),
+      invalidatesTags: ["products"],
+    }),
+    deleteAProduct: builder.mutation<void, { id: string }>({
+      query: (id) => ({
+        url: `products/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["products"]
+    }),
   }),
 });
 
-export const { useGetAllProductsQuery, useGetAProductQuery } = productApi;
+export const {
+  useGetAllProductsQuery,
+  useGetAProductQuery,
+  useUpdateAProductMutation,
+  useDeleteAProductMutation
+} = productApi;

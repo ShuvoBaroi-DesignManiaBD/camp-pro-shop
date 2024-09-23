@@ -17,7 +17,7 @@
     
     const cleanObject = (currentObj: any): any => {
       if (currentObj === null || typeof currentObj !== 'object') {
-        console.log(cleanObject);
+        // console.log(cleanObject);
         return currentObj;
       }
   
@@ -27,7 +27,7 @@
           .map(([key, value]) => [key, cleanObject(value)]) // Recursively clean nested values
           .filter(([_, value]) => value !== undefined && value !== null && (typeof value !== 'object' || Object.keys(value).length > 0)) // Remove undefined, null, and empty objects
       );
-      console.log(cleanObject);
+      // console.log(cleanObject);
       
       return cleanedObject;
     };

@@ -8,7 +8,7 @@ import { BiShoppingBag } from "react-icons/bi";
 const adminSidebarItems: sidebarMenuItem[] = [
   {
     key: '1',
-    label: <NavLink to="admin/dashboard">Dashboard</NavLink>,
+    label: <NavLink to="dashboard">Dashboard</NavLink>,
     icon: <AiOutlineDashboard size={20}/>,
     url: "admin/dashboard",
   },

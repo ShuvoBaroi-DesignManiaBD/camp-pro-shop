@@ -17,7 +17,7 @@ type isSidebarHide = {
 };
 
 const MobileNav = ({ setIsSidebarHide, isSidebarHide }: isSidebarHide) => {
-  console.log(setIsSidebarHide);
+  // console.log(setIsSidebarHide);
 
   const [open, setOpen] = useState<boolean>(false);
   // const [loading, setLoading] = useState<boolean>(true);

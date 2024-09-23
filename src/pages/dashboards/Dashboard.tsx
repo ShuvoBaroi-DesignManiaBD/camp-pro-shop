@@ -20,7 +20,7 @@ const Dashboard = () => {
   const [isSidebarHide, setIsSidebarHide] = useState(true);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1023);
   const currentUser = useAppSelector(selectCurrentUser);
-  console.log(isSidebarHide);
+  // console.log(isSidebarHide);
   
   const handleResize = () => {
     setIsDesktop(window.innerWidth > 1023);
