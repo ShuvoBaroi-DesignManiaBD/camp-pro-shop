@@ -11,7 +11,7 @@ import { logout, selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import UserSettingsDropdown from "@/components/ui/dropdown/UserSettingsDropdown";
 import { selectNumberOfProducts } from "@/redux/features/cart/cartSlice";
-import { setShowHideCartDrawer } from "@/redux/features/ui/drawerShowHideSlice";
+import { setShowHideCartDrawer } from "@/redux/features/ui/cartDrawer/drawerShowHideSlice";
 
 const MainNav = () => {
   const currentUser = useAppSelector(selectCurrentUser);

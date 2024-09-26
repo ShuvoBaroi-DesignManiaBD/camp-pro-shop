@@ -10,7 +10,7 @@ const Logo = ({ className }: className) => {
       <img
         src="https://i.ibb.co/T4G3q9Z/camp-pro-shop-logo.webp"
         alt="logo"
-        className={className}
+        className={`${className}`}
       />
     </NavLink>
   );

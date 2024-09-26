@@ -18,7 +18,7 @@ import { useAppSelector } from "@/redux/hooks";
 import {
   selectShowHideCartDrawer,
   setShowHideCartDrawer,
-} from "@/redux/features/ui/drawerShowHideSlice";
+} from "@/redux/features/ui/cartDrawer/drawerShowHideSlice";
 import { NavLink } from "react-router-dom";
 
 const CartDrawer = () => {
@@ -77,20 +77,20 @@ const CartDrawer = () => {
       footer={
         <div className="flex flex-col gap-3 py-3 justify-between">
           <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
-                <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Order summary
-                </p>
-                <div className="space-y-4">
-                  <div className="flex flex-col space-y-2">
-                    <dl className="flex items-center justify-between gap-4">
-                      <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-                        Original price
-                      </dt>
-                      <dd className="text-base font-medium text-gray-900 dark:text-white">
-                        {totalOriginalPrice}
-                      </dd>
-                    </dl>
-                    {/* <div className="flex flex-nowrap items-center justify-between gap-4">
+            <p className="text-lg font-semibold text-gray-900 dark:text-white">
+              Order summary
+            </p>
+            <div className="space-y-4">
+              <div className="flex flex-col space-y-2">
+                <dl className="flex items-center justify-between gap-4">
+                  <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+                    Original price
+                  </dt>
+                  <dd className="text-base font-medium text-gray-900 dark:text-white">
+                    {totalOriginalPrice}
+                  </dd>
+                </dl>
+                {/* <div className="flex flex-nowrap items-center justify-between gap-4">
                     <p className="w-[75%] text-base font-normal text-gray-500 dark:text-gray-400">
                       Delivery charge
                     </p>
@@ -98,29 +98,25 @@ const CartDrawer = () => {
                       $799
                     </dd>
                   </div> */}
-                    <dl className="flex items-center justify-between gap-4">
-                      <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-                        Delivery charge
-                      </dt>
-                      <dd className="text-base font-medium text-gray-900 dark:text-white">
-                        ${deliveryCharge}
-                      </dd>
-                    </dl>
-                    <dl className="flex items-center justify-between gap-4">
-                      <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-                        Tax
-                      </dt>
-                      <dd className="text-base font-medium text-gray-900 dark:text-white">
-                        $
-                        <span>
-                          {tax}
-                        </span>
-                      </dd>
-                    </dl>
-                  </div>
-                  
-                </div>
+                <dl className="flex items-center justify-between gap-4">
+                  <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+                    Delivery charge
+                  </dt>
+                  <dd className="text-base font-medium text-gray-900 dark:text-white">
+                    ${deliveryCharge}
+                  </dd>
+                </dl>
+                <dl className="flex items-center justify-between gap-4">
+                  <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+                    Tax
+                  </dt>
+                  <dd className="text-base font-medium text-gray-900 dark:text-white">
+                    $<span>{tax}</span>
+                  </dd>
+                </dl>
               </div>
+            </div>
+          </div>
           <NavLink
             to="/checkout"
             onClick={() => dispatch(setShowHideCartDrawer())}

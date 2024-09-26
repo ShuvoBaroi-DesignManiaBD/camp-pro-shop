@@ -5,8 +5,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useGetAProductQuery } from "@/redux/features/product/productApi";
-import { addItemToCart, selectCartItems } from "@/redux/features/cart/cartSlice";
-import { Button, Rate,} from "antd";
+import {
+  addItemToCart,
+  selectCartItems,
+} from "@/redux/features/cart/cartSlice";
+import { Button, Rate } from "antd";
 import CustomContainer from "@/components/layouts/CustomContainer";
 import ImageMagnifier from "@/components/ui/ImageMagnifier";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,9 +19,7 @@ import { Swiper as SwiperCore, Swiper as SwiperType } from "swiper/types";
 import { ProductImage } from "@/types";
 import ThemeConfig from "@/configs/ThemeConfig";
 import { useAppSelector } from "@/redux/hooks";
-import {
-  setShowHideCartDrawer,
-} from "@/redux/features/ui/drawerShowHideSlice";
+import { setShowHideCartDrawer } from "@/redux/features/ui/cartDrawer/drawerShowHideSlice";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import ProductFeatures from "@/components/ui/lists/ProductFeatures";
@@ -36,12 +37,13 @@ const ProductDetail: React.FC = () => {
   useEffect(() => {
     if (amount < 1) {
       setValue("amount", 1);
-    }else if(amount === productData?.stockQuantity || amount > productData?.stockQuantity){
+    } else if (
+      amount === productData?.stockQuantity ||
+      amount > productData?.stockQuantity
+    ) {
       setValue("amount", productData?.stockQuantity);
     }
   }, [amount, setValue]);
-
-  
 
   const productData = data?.data;
 
@@ -65,12 +67,20 @@ const ProductDetail: React.FC = () => {
   // const cartDrawerState = useAppSelector(selectShowHideCartDrawer);
   const cartItems = useAppSelector(selectCartItems);
   const handleAddToCart = () => {
-    const cartQuantity = Number(cartItems.find(item => item?._id === productData?._id)?.quantity) || 0;
+    const cartQuantity =
+      Number(
+        cartItems.find((item) => item?._id === productData?._id)?.quantity
+      ) || 0;
     const newCartQuantity = Number(amount);
     console.log(cartQuantity, amount);
-    
-    if((newCartQuantity > productData?.stockQuantity) || ((cartQuantity + newCartQuantity ) > productData?.stockQuantity)) {
-      return toast.error(`"Sorry, only ${productData?.stockQuantity} items are available in stock."`)
+
+    if (
+      newCartQuantity > productData?.stockQuantity ||
+      cartQuantity + newCartQuantity > productData?.stockQuantity
+    ) {
+      return toast.error(
+        `"Sorry, only ${productData?.stockQuantity} items are available in stock."`
+      );
     }
     if (productData) {
       const cartItem = { ...productData };
@@ -83,9 +93,7 @@ const ProductDetail: React.FC = () => {
   };
 
   if (isLoading || isFetching) {
-    return (
-      <LoadingSpin></LoadingSpin>
-    );
+    return <LoadingSpin></LoadingSpin>;
   }
 
   if (!productData) {
@@ -223,20 +231,25 @@ const ProductDetail: React.FC = () => {
                 </Button>
               </div>
               <div className="mt-4 text-base space-y-2 text-gray-500 dark:text-gray-300">
-                  <p className="text-base font-semibold ">
-                    Category:
-                    <span className="text-secondary">
-                   {' '}{productData.category}
+                <p className="text-base font-semibold ">
+                  Category:
+                  <span className="text-secondary">
+                    {" "}
+                    {productData.category}
                   </span>
-                  </p>
-                  <p className="text-base font-semibold ">
-                    Stock:
-                    <span className="text-secondary">
-                   {' '}{productData.stockQuantity}
+                </p>
+                <p className="text-base font-semibold ">
+                  Stock:
+                  <span className="text-secondary">
+                    {" "}
+                    {productData.stockQuantity}
                   </span>
-                  </p>
-                </div>
-              <fieldset className="[&>span>svg]:size-12 text-base font-semibold flex justify-center items-center border flex-wrap text-center gap-3 &svg:w-20 my-6 py-4" data-color="default">
+                </p>
+              </div>
+              <fieldset
+                className="[&>span>svg]:size-12 text-base font-semibold flex justify-center items-center border flex-wrap text-center gap-3 &svg:w-20 my-6 py-4"
+                data-color="default"
+              >
                 <legend>Guaranteed Safe Checkout</legend>
                 <span className="ct-icon-container">
                   <svg

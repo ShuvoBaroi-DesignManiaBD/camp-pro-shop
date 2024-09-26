@@ -11,9 +11,10 @@ import adminRoutes from "./admin/admin.routes.tsx";
 import { TPath } from "@/types/route.type.ts";
 import NotFound from "@/pages/NotFound.tsx";
 import TopLoadingProgressBar from "@/components/ui/progressBar/TopLoadingProgressBar.tsx";
-import { lazy } from "react";
-const MainLayout = lazy(() => import("@/components/layouts/MainLayout"));
-
+// import { lazy } from "react";
+import MainLayout from "@/components/layouts/MainLayout.tsx";
+// const MainLayout = lazy(() => import("@/components/layouts/MainLayout"));
+// const Dashboard = lazy(() => import("@/pages/dashboards/Dashboard"));
 const Routes = createBrowserRouter([
   {
     path: "/",

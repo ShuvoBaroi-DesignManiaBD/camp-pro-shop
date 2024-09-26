@@ -120,7 +120,7 @@ const Profile = () => {
   };
 
   return (
-    <Card className="bg-transparent">
+    <Card className="bg-transparent border-none">
       <div className="flex items-start gap-10">
         {/* Left Column - Avatar */}
         <div className="w-1/4 flex flex-col justify-center items-center bg-white p-6 border-lg [&&_span]:!transform-none">

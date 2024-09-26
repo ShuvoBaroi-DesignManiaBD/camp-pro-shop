@@ -2,7 +2,10 @@ import { Menu } from "antd";
 // import type { GetProp, MenuProps } from "antd";
 import customerSidebarItems from "../../pages/dashboards/customer/sitebarItems";
 import ThemeConfig from "@/configs/ThemeConfig";
+import { useAppSelector } from "@/redux/hooks";
+import { selectUserMenuDrawer } from "@/redux/features/ui/userMenuDrawer/userMenuDrawerSlice";
 const SideBar = ({ collapsed }: any) => {
+  const userMenuDrawer: boolean = useAppSelector(selectUserMenuDrawer);
   // type MenuTheme = GetProp<MenuProps, "theme">;
 
   // const [mode, setMode] = useState<"vertical" | "inline">("inline");
@@ -45,7 +48,7 @@ const SideBar = ({ collapsed }: any) => {
             alignItems: "start",
             textAlign: "start",
           }}
-          inlineCollapsed={!collapsed}
+          inlineCollapsed={!collapsed || !userMenuDrawer}
           defaultSelectedKeys={["1"]}
           defaultOpenKeys={["sub1"]}
           inlineIndent={16}

@@ -10,7 +10,7 @@ import {
 import {
   selectShowHideCartDrawer,
   setShowHideCartDrawer,
-} from "@/redux/features/ui/drawerShowHideSlice";
+} from "@/redux/features/ui/cartDrawer/drawerShowHideSlice";
 import { useAppSelector } from "@/redux/hooks";
 import { useDispatch } from "react-redux";
 const dispatch = useDispatch();

@@ -1,3 +1,9 @@
+import { HiPlus } from "react-icons/hi"; 
+import { HiOutlinePlusCircle } from "react-icons/hi"; 
+import { HiOutlinePlus } from "react-icons/hi"; 
+import { FiPlus } from "react-icons/fi"; 
+import { FaPlus } from "react-icons/fa"; 
+import { AiOutlinePlus } from "react-icons/ai"; 
 import { useState } from "react";
 import {
   Table,
@@ -22,6 +28,7 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 import generateCleanObject from "@/utils/generateCleanObject";
 import { TProduct } from "@/types";
+import ProductAddOrEdit from "@/components/ui/modals/ProductAddOrEdit";
 
 interface ImageFile {
   uid: string;
@@ -51,6 +58,7 @@ const Products = () => {
   const [page, setPage] = useState(1); // State for current page
   const [limit, setLimit] = useState(10); // State for page size
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal open/close state
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false); // Modal open/close state
   const [selectedProduct, setSelectedProduct] = useState<any>(null); // Currently selected product for editing
   const [fileList, setFileList] = useState<any[]>([]); // State for uploaded files
   const { data, isFetching } = useGetAllProductsQuery({
@@ -64,8 +72,16 @@ const Products = () => {
   const products = data?.data;
   const categories = ["bike", "camp-hike", "ski & snowboard", "climb"]; // Mock categories, replace with actual API call
 
+  // Handle open/close modal for adding prroduct
+  const handleOpenAddProductModal = ()=>{
+    console.log('clicked');
+    
+    setIsAddProductModalOpen(true);
+  }
   // Open Modal for editing product
   const showEditModal = (product: any) => {
+    console.log('opened_product=>', product);
+    
     setSelectedProduct(product); // Set selected product data
     setIsModalOpen(true); // Open the modal
     form.setFieldsValue({
@@ -76,6 +92,7 @@ const Products = () => {
       stockQuantity: product?.stockQuantity,
       description: product?.description,
       category: product?.category,
+      ratings: product?.ratings,
       status: product?.isStock ? "In stock" : "Out of stock",
     });
     setFileList(
@@ -98,10 +115,15 @@ const Products = () => {
 
   // Handle form submission for editing
   const handleFinish = async (formData: FormData) => {
-    const { id, status, ...productData } = formData;
+    const { id, status, price, stockQuantity, ratings, isStock, ...restData } = formData;
 
-    // Clean the product data
-    const cleanObject:Partial<TProduct> = generateCleanObject(productData);
+    const cleanObject = generateCleanObject({
+      ...restData,
+      price: Number(price), // Convert price to number
+      stockQuantity: Number(stockQuantity), // Convert stockQuantity to number
+      ratings: Number(ratings), // Convert ratings to number
+      isStock: (status === 'true') && true || (status === 'false') && false, //
+    });
     delete cleanObject.images;
     console.log(cleanObject);
 
@@ -117,12 +139,15 @@ const Products = () => {
       }
     }
 
-    if(formData?.images?.file && formData?.images?.file?.status === 'removed'){
+    if (
+      formData?.images?.file &&
+      formData?.images?.file?.status === "removed"
+    ) {
       removedImages.push(formData?.images?.file?.url);
     }
 
-    console.log('removed images=>', removedImages);
-    
+    console.log("removed images=>", removedImages);
+
     // Prepare the FormData object
     const updatedProduct = new FormData();
 
@@ -141,7 +166,7 @@ const Products = () => {
 
     // Send the cleaned data and images to the backend
     await updateAProduct({
-      productId: id,
+      productId: selectedProduct?._id,
       updatedProduct: updatedProduct,
     });
 
@@ -177,6 +202,7 @@ const Products = () => {
       render: (images: string) => (
         <img src={images[0]?.url} alt={images[0]?.alt} width="60px" />
       ),
+      responsive: ["lg"], // Hide on mobile/tablet
     },
     {
       title: "Product ID",
@@ -225,7 +251,7 @@ const Products = () => {
             title="Are you sure to delete this product?"
             okText="Yes"
             cancelText="No"
-            onConfirm={()=> deleteAProduct(record?._id)}
+            onConfirm={() => deleteAProduct(record?._id)}
           >
             <Button type="link" danger>
               Delete
@@ -242,8 +268,12 @@ const Products = () => {
   };
 
   return (
-    <>
-      <CustomBreadCumb links={BreadCumbItems}></CustomBreadCumb>
+    <div className="space-y-6 min-w-[77vw]">
+      <div className="flex justify-between items-center">
+        <CustomBreadCumb links={BreadCumbItems}></CustomBreadCumb>
+        <Button type="primary" onClick={handleOpenAddProductModal}>Add product <HiPlus size={17}/></Button>
+      </div>
+
       <Table
         dataSource={products}
         columns={columns}
@@ -257,6 +287,10 @@ const Products = () => {
           total: data?.totalProducts,
         }}
         onChange={handleTableChange}
+        scroll={{ x: "100%" }}
+        size="middle"
+        tableLayout="auto"
+        className=""
       />
 
       {/* Modal for editing product */}
@@ -265,7 +299,8 @@ const Products = () => {
         visible={isModalOpen}
         onCancel={handleCancel}
         footer={null}
-        width="50%"
+        width="90%" // Wider modal on mobile/tablet
+        bodyStyle={{ padding: "10px 20px" }} // Less padding for mobile
       >
         <Form
           form={form} // Attach the form instance
@@ -273,79 +308,100 @@ const Products = () => {
           onFinish={handleFinish}
         >
           <Form.Item label="Upload Image" name="images">
-            <Upload {...uploadProps} listType="picture" maxCount={5} multiple={true}>
-              <Button icon={<UploadOutlined />}>Click to upload</Button>
+            <Upload {...uploadProps} listType="picture" multiple>
+              <Button icon={<UploadOutlined />}>Upload</Button>
             </Upload>
           </Form.Item>
-          <Row gutter={20}>
-            <Col span={12}>
-              <Form.Item name="id" style={{ display: "none" }}>
-                <Input />
-              </Form.Item>
+
+          <Row gutter={[16, 16]}>
+            <Col xs={24} md={12}>
               <Form.Item
-                label="Product Name"
                 name="name"
-                rules={[{ required: true }]}
+                label="Name"
+                rules={[
+                  { required: true, message: "Please input product name" },
+                ]}
               >
                 <Input />
-              </Form.Item>
-              <Form.Item
-                label="Price"
-                name="price"
-                rules={[{ required: true }]}
-                normalize={(value: string | number) =>
-                  value ? Number(value) : 0
-                } // Ensure number type
-              >
-                <Input type="number" />
-              </Form.Item>
-              <Form.Item
-                label="Stock Quantity"
-                name="stockQuantity"
-                rules={[{ required: true }]}
-                normalize={(value: string | number) =>
-                  value ? Number(value) : 0
-                } // Ensure number type
-              >
-                <Input type="number" />
               </Form.Item>
             </Col>
-
-            <Col span={12}>
+            <Col xs={24} md={12}>
               <Form.Item
-                label="Category"
-                name="category"
-                rules={[{ required: true }]}
+                name="price"
+                label="Price"
+                rules={[
+                  { required: true, message: "Please input product price" },
+                ]}
               >
-                <Select defaultActiveFirstOption={false}>
-                  {categories.map((cat) => (
-                    <Option key={cat} value={cat}>
-                      {cat}
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="stockQuantity"
+                label="Stock Quantity"
+                rules={[
+                  { required: true, message: "Please input stock quantity" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="category"
+                label="Category"
+                rules={[
+                  { required: true, message: "Please select a category" },
+                ]}
+              >
+                <Select placeholder="Select category">
+                  {categories?.map((category) => (
+                    <Option key={category} value={category}>
+                      {category}
                     </Option>
                   ))}
                 </Select>
               </Form.Item>
-              <Form.Item
-                label="Status"
-                name="status"
-                rules={[{ required: true }]}
-              >
-                <Select defaultActiveFirstOption={false}>
-                  <Option value="In stock">In stock</Option>
-                  <Option value="Out of stock">Out of stock</Option>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item name="status" label="Status">
+                <Select>
+                  <Option value="true">In stock</Option>
+                  <Option value="false">Out of stock</Option>
                 </Select>
               </Form.Item>
             </Col>
+            {/* Add the Ratings field here */}
+          <Col xs={24} md={12}>
+            <Form.Item
+              name="ratings"
+              label="Ratings"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input product ratings (0-5)",
+                },
+              ]}
+            >
+              <Input placeholder="Product ratings (0-5)" type="number" min={0} max={5} step={0.1}/>
+            </Form.Item>
+          </Col>
           </Row>
+
           <Form.Item label="Description" name="description">
             <Input.TextArea rows={4} />
           </Form.Item>
+
           <Button type="primary" htmlType="submit">
             Save Changes
           </Button>
         </Form>
       </Modal>
-    </>
+
+      {/* Modal for adding product */}
+      {isAddProductModalOpen && <ProductAddOrEdit handleCancel={handleCancel} isModalOpen={isAddProductModalOpen} closeModal={setIsAddProductModalOpen} categories={categories}/>}
+    </div>
   );
 };
 

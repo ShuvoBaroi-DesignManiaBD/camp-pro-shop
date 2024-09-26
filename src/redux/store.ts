@@ -15,7 +15,9 @@ import authSlice from "./features/auth/authSlice";
 import productFiltersSlice from "./features/productFilters/productFiltersSlice";
 import productSlice from "./features/product/productSlice";
 import cartSlice from "./features/cart/cartSlice";
-import drawerShowHideSlice from "./features/ui/drawerShowHideSlice";
+import drawerShowHideSlice from "./features/ui/cartDrawer/drawerShowHideSlice";
+import userMenuDrawerSlice from "./features/ui/userMenuDrawer/userMenuDrawerSlice";
+import deviceTypeSlice from "./features/ui/deviceType/deviceTypeSlice";
 
 const persistConfig = {
   key: "auth",
@@ -32,6 +34,8 @@ export const store = configureStore({
     productFilters: productFiltersSlice,
     cart: cartSlice,
     cartDrawer: drawerShowHideSlice,
+    userMenuDrawer: userMenuDrawerSlice,
+    deviceType: deviceTypeSlice,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({

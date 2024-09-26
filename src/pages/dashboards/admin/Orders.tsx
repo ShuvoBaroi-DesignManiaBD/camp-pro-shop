@@ -85,7 +85,7 @@ const Orders = () => {
   };
 
   return (
-    <>
+    <div className="space-y-6 min-w-[75vw]">
       <CustomBreadCumb links={BreadCumbItems}></CustomBreadCumb>
       <Table
         dataSource={data?.data}
@@ -93,7 +93,6 @@ const Orders = () => {
         bordered
         rowKey={(record) => record._id}
         loading={isFetching ? true : false}
-        className="[&&_div.ant-table]:my-10"
         pagination={{
           current: page,
           pageSize: limit,
@@ -102,8 +101,11 @@ const Orders = () => {
           total: data?.totalOrders, // Assuming the API response includes total number of orders
         }}
         onChange={handleTableChange} // Handle pagination changes
+        scroll={{ x: "100%" }}
+        size="middle"
+        tableLayout="auto"
       />
-    </>
+    </div>
   );
 };
 

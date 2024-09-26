@@ -102,7 +102,7 @@ const Users = () => {
   };
 
   return (
-    <>
+    <div className="space-y-6 min-w-[75vw]">
       <CustomBreadCumb links={BreadCumbItems}></CustomBreadCumb>
       <Table
         dataSource={users}
@@ -110,7 +110,6 @@ const Users = () => {
         bordered
         rowKey={(record) => record._id}
         loading={isFetching}
-        className="[&&_div.ant-table]:my-10"
         pagination={{
           current: page,
           pageSize: limit,
@@ -119,8 +118,11 @@ const Users = () => {
           total: data?.totalUsers || 0, // Ensure this is the correct field for total users
         }}
         onChange={handleTableChange}
+        scroll={{ x: "100%" }}
+        size="middle"
+        tableLayout="auto"
       />
-    </>
+    </div>
   );
 };
 

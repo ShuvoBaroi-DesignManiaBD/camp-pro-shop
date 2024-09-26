@@ -29,16 +29,16 @@ const NavigationItems = () => {
         </NavLink>
       ),
     },
+    // {
+    //   key: 3,
+    //   label: (
+    //     <NavLink rel="orders" to={`${currentUser?.role}/orders`}>
+    //       Orders
+    //     </NavLink>
+    //   ),
+    // },
     {
       key: 3,
-      label: (
-        <NavLink rel="orders" to={`${currentUser?.role}/orders`}>
-          Orders
-        </NavLink>
-      ),
-    },
-    {
-      key: 4,
       label: (
         <a rel="logout" onClick={handleLogout}>
           Logout

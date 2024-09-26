@@ -1,39 +1,40 @@
-import { BsBoxes } from "react-icons/bs"; 
-import { CgProfile } from "react-icons/cg"; 
-import { AiOutlineDashboard } from "react-icons/ai"; 
+import { BsBoxes } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
+import { AiOutlineDashboard } from "react-icons/ai";
 import { sidebarMenuItem } from "@/types/menu.type";
 import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
 import { NavLink } from "react-router-dom";
 import { BiShoppingBag } from "react-icons/bi";
+import LabelWithLink from "../LabelWithLink";
 const adminSidebarItems: sidebarMenuItem[] = [
   {
-    key: '1',
-    label: <NavLink to="dashboard">Dashboard</NavLink>,
-    icon: <AiOutlineDashboard size={20}/>,
+    key: "1",
+    label: <LabelWithLink url="dashboard" role={true}>Dashboard</LabelWithLink>,
+    icon: <AiOutlineDashboard size={20} />,
     url: "admin/dashboard",
   },
   {
-    key: '2',
-    label: <NavLink to="profile">Profile</NavLink>,
-    icon: <CgProfile size={20}/>,
+    key: "2",
+    label: <LabelWithLink url="profile" role={true}>Profile</LabelWithLink>,
+    icon: <CgProfile size={20} />,
     url: "admin/profile",
   },
   {
-    key: '3',
-    label: <NavLink to="products">Products</NavLink>,
+    key: "3",
+    label: <LabelWithLink url="products" role={true}>Products</LabelWithLink>,
     icon: <BsBoxes size={20} />,
     url: "admin/products",
   },
   {
-    key: '4',
-    label: <NavLink to="orders">Orders</NavLink>,
-    icon: <BiShoppingBag size={20}/>,
+    key: "4",
+    label: <LabelWithLink url="orders" role={true}>Orders</LabelWithLink>,
+    icon: <BiShoppingBag size={20} />,
     url: "admin/orders",
   },
   {
-    key: '5',
-    label: <NavLink to="manage-users">Manage Users</NavLink>,
-    icon: <CgProfile size={20}/>,
+    key: "5",
+    label: <LabelWithLink url="manage-users" role={true}>Manage Users</LabelWithLink>,
+    icon: <CgProfile size={20} />,
     url: "admin/manage-users",
   },
 ];

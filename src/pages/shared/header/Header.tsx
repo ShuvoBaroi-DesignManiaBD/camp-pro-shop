@@ -8,7 +8,8 @@ const Header = () => {
   // const [screenWidth, setScreenWidth] = useState(window.screen.width)
   console.log(window.screen.width);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1023);
-
+  const [isSidebarHide, setIsSidebarHide] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth > 1023);
@@ -24,12 +25,24 @@ const Header = () => {
 
   return (
     <AntHeader
-      className="bg-white border-b flex items-center justify-between h-[100px] px-[16px] sm:p-0"
+      className="bg-white h-[56px] md:h-[72px] border-b flex items-center justify-between px-[16px] sm:p-0"
       style={{}}
     >
       <Flex className="container max-w-screen-xl mx-auto h-full flex justify-between items-center">
-        <Logo className="w-[100px]"></Logo>
-        {isDesktop ? <MainNav /> : <MobileNav />}
+        <div className="px-0 sm:px-8 h-16 flex gap-2 items-center text-xl">
+          <Logo className="max-h-[40px] md:max-h-[48px]"></Logo>
+          <p className="font-bold text-[20px] md:text-[24px]">CampProShop</p>
+        </div>
+        {isDesktop ? (
+          <MainNav />
+        ) : (
+          <MobileNav
+            isSidebarHide={isSidebarHide}
+            setIsSidebarHide={setIsSidebarHide}
+            drawerOpen={open}
+            setDrawerOpen={setOpen}
+          />
+        )}
       </Flex>
     </AntHeader>
   );
