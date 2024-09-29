@@ -65,7 +65,7 @@ const Login = () => {
   } else {
     return (
       <main className="w-[100vw] h-[100vh] bg-[url('https://i.ibb.co/YdfcdG6/pattern.webp')] flex items-center justify-center mx-auto my-auto p-6">
-        <div className="w-[480px] mt-7 bg-white border rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-[480px] py-5 md:py-0 mt-7 bg-white border rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
           <div className="p-4 sm:p-7">
             <div className="text-center text-text space-y-4">
               <Logo className="w-[120px] mx-auto"></Logo>
@@ -156,7 +156,7 @@ const Login = () => {
                     isLoading={status === "pending" ? true : false}
                     className="align-middle"
                   />
-                  <div className="flex justify-between items-end textSm font-medium">
+                  <div className="flex flex-col md:flex-row mt-3 md:mt-4 gap-2 md:gap-0 mx-auto md:mx-0 justify-center md:justify-between items-end textSm font-medium">
                     <div className="mt-2 text-text flex gap-2 space-x-1 justify-center items-center dark:text-gray-400">
                       <p>Not a memeber?</p>
                       <Link
@@ -167,7 +167,7 @@ const Login = () => {
                       </Link>
                     </div>
                     <NavLink
-                      className="text-secondary decoration-2 hover:underline font-semibold dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      className="text-secondary mx-auto md:mx-0 decoration-2 hover:underline font-semibold dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                       to="/forget-password"
                     >
                       Forgot password?

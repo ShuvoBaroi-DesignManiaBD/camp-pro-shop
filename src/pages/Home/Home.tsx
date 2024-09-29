@@ -140,7 +140,7 @@ const Home = () => {
         >
           {/* Slide 1 */}
           <CarouselCTA
-            className="bg-[url('https://i.ibb.co.com/bH06B87/slcamp-3.webp')] pb-[100px] md:pb-[200px] text-white text-center h-[85vh] bg-cover bg-center"
+            className="bg-[url('https://i.ibb.co.com/bH06B87/slcamp-3.webp')] pb-[100px] md:pb-[200px] text-white text-center h-[60vh] md:h-[85vh] bg-cover bg-center"
             subHeading="Elevate Your Campaigns"
             subHeadingStyle="font-semibold uppercase"
             HeadingText="Unleash the Power of "
@@ -156,7 +156,7 @@ const Home = () => {
           />
           {/* Slide 2 */}
           <CarouselCTA
-            className="bg-[url('https://i.ibb.co/SwdZWht/slide-camp-2.webp')] h-[80vh] text-white bg-center"
+            className="bg-[url('https://i.ibb.co/SwdZWht/slide-camp-2.webp')] h-[60vh] md:h-[80vh] text-white bg-center"
             subHeading="Boost Engagement"
             subHeadingStyle="font-semibold uppercase"
             HeadingText="Captivating "
@@ -172,7 +172,7 @@ const Home = () => {
           />
           {/* Slide 3 */}
           <CarouselCTA
-            className="bg-[url('https://i.ibb.co/g9yGXTR/slide-camp-3.webp')] h-[80vh] text-white bg-center"
+            className="bg-[url('https://i.ibb.co/g9yGXTR/slide-camp-3.webp')] h-[60vh] md:h-[80vh] text-white bg-center"
             subHeading="Custom Solutions"
             subHeadingStyle="font-semibold uppercase"
             HeadingText="Tailored Campaign Elements for Every Need"
