@@ -1,3 +1,5 @@
+import { BsCashCoin } from "react-icons/bs"; 
+import { BsCash } from "react-icons/bs"; 
 import  { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Empty, Radio, Typography } from "antd";
@@ -139,11 +141,11 @@ const CheckoutPage = () => {
   }
 
   return (
-    <CustomContainer>
+    <CustomContainer className="!py-4">
       <div className="container mx-auto p-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="grid grid-cols-1 items-start gap-6 md:grid-cols-5"
+          className="grid grid-cols-1 items-start md:gap-6 md:grid-cols-5"
         >
           {/* Left Column */}
           <div className="col-span-3 flex flex-col gap-6 bg-white p-6 rounded-lg">
@@ -254,8 +256,8 @@ const CheckoutPage = () => {
           </div>
 
           {/* Right Column */}
-          <div className="col-span-2 flex flex-col gap-8">
-            <section className="bg-white shadow-sm p-6 rounded-lg">
+          <div className="col-span-full md:col-span-2 flex flex-col gap-8 mt-6">
+            <section className="w-full bg-white shadow-sm p-6 rounded-lg">
               <h2 className="text-xl font-bold mb-4">Your Order</h2>
               {/* Display order summary here, e.g., items, total price, etc. */}
               <div className="p-4 rounded-lg max-h-[30vh] overflow-y-auto">
@@ -410,6 +412,41 @@ const CheckoutPage = () => {
                             <Visa size="18px"></Visa>
                             <MasterCard></MasterCard>
                             <Bkash></Bkash>
+                          </div>
+                        </div>
+                      </Radio>
+                      <Radio
+                        value="cash"
+                        onChange={handlePaymentChange}
+                        checked={paymentMethod === "cash" ? true : false}
+                        className={`${
+                          paymentMethod === "cash"
+                            ? "bg-primaryLight/40"
+                            : ""
+                        } p-3 border rounded-lg`}
+                      >
+                        <div className="flex flex-row gap-8 justify-between items-center">
+                          <div className="text-[12px] flex flex-col gap-1 ml-2">
+                            <span className="text-base font-semibold line-clamp-1">
+                              Cash on delivery
+                            </span>
+                            <span
+                              className={`${
+                                paymentMethod === "sslcommerz"
+                                  ? ""
+                                  : "line-clamp-1"
+                              }`}
+                            >
+                              You can pay by{" "}
+                              <strong>
+                                Cash
+                              </strong>{" "}
+                              at the time of receiving the product{" "}
+                              {/* <strong>SSLCommerz</strong> */}
+                            </span>
+                          </div>
+                          <div className="flex gap-1.5 items-center">
+                            <BsCashCoin size={24}/>
                           </div>
                         </div>
                       </Radio>

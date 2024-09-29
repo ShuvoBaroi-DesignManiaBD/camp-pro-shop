@@ -25,11 +25,11 @@ const Header = () => {
 
   return (
     <AntHeader
-      className="bg-white h-[56px] md:h-[72px] border-b flex items-center justify-between px-[16px] sm:p-0"
+      className="bg-white h-[56px] md:h-[72px] border-b flex items-center justify-between px-[16px] sm:p-0 sticky top-0 z-50"
       style={{}}
     >
       <Flex className="container max-w-screen-xl mx-auto h-full flex justify-between items-center">
-        <div className="px-0 sm:px-8 h-16 flex gap-2 items-center text-xl">
+        <div className="px-0 md:px-5 lg:px-0 h-16 flex gap-2 justify-start items-center text-xl">
           <Logo className="max-h-[40px] md:max-h-[48px]"></Logo>
           <p className="font-bold text-[20px] md:text-[24px]">CampProShop</p>
         </div>

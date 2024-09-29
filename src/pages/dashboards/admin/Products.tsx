@@ -94,6 +94,7 @@ const Products = () => {
       category: product?.category,
       ratings: product?.ratings,
       status: product?.isStock ? "In stock" : "Out of stock",
+      isStock: product?.isStock
     });
     setFileList(
       product?.images.map((img: any, idx: number) => ({
@@ -122,7 +123,7 @@ const Products = () => {
       price: Number(price), // Convert price to number
       stockQuantity: Number(stockQuantity), // Convert stockQuantity to number
       ratings: Number(ratings), // Convert ratings to number
-      isStock: (status === 'true') && true || (status === 'false') && false, //
+      isStock: status?((status === "true" || status === "In stock")?true:false):isStock, //
     });
     delete cleanObject.images;
     console.log(cleanObject);

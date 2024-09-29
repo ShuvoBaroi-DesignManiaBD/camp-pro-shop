@@ -82,13 +82,13 @@ const Register = () => {
     return Navigate({ to: "/" });
   } else {
     return (
-      <main className="w-[100vw] h-[100vh] bg-[length:48vw] bg-no-repeat bg-right-bottom bg-[url('https://i.ibb.co/BZwTPQs/full-shot-man-playing-guitar-23-2149517904.webp')] flex items-center justify-start mx-auto my-auto p-6">
+      <main className="md:h-[100vh] bg-none md:bg-[length:48vw] bg-no-repeat bg-con md:bg-right-bottom md:bg-[url('https://i.ibb.co/BZwTPQs/full-shot-man-playing-guitar-23-2149517904.webp')] flex items-start justify-start mx-auto my-auto p-6 md:pl-32">
         <div className="container mx-auto">
-          <div className="h-full mt-7 w-[38vw] rounded-xl dark:bg-gray-800 dark:border-gray-700">
-            <div className="p-4 sm:p-7">
-              <div className="text-center text-text space-y-4">
-                <Logo className="w-[120px] mx-auto"></Logo>
-                <h1 className="block text-2xl mt-6 font-bold dark:text-white text-primary">
+          <div className="content-center h-full md:w-[38vw] rounded-xl dark:bg-gray-800 dark:border-gray-700">
+            <div className="sm:p-7 flex flex-col">
+              <div className="flex flex-col text-center text-text space-y-4">
+                <Logo className="w-[100px] mx-auto"></Logo>
+                <h1 className="block text-2xl font-bold dark:text-white text-primary">
                   Sign up
                 </h1>
               </div>

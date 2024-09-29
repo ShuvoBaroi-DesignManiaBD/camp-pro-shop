@@ -8,7 +8,7 @@ import { TUser } from "@/types";
 
 const BreadCumbItems = [
   {
-    title: "Order",
+    title: "My Orders",
   },
 ];
 
@@ -30,11 +30,11 @@ const MyOrder = () => {
       key: "_id",
       render: (id:string) => id,
     },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-    },
+    // {
+    //   title: "Email",
+    //   dataIndex: "email",
+    //   key: "email",
+    // },
     {
       title: "Shipping Address",
       dataIndex: "address",
@@ -87,7 +87,7 @@ const MyOrder = () => {
   };
 
   return (
-    <>
+    <div className="space-y-0 min-w-[75vw]">
       <CustomBreadCumb links={BreadCumbItems}></CustomBreadCumb>
       <Table
         dataSource={data?.data?.orders}
@@ -104,8 +104,11 @@ const MyOrder = () => {
           total: data?.data?.totalOrders, // Assuming the API response includes total number of orders
         }}
         onChange={handleTableChange} // Handle pagination changes
+        scroll={{ x: "100%" }}
+        size="middle"
+        tableLayout="auto"
       />
-    </>
+    </div>
   );
 };
 

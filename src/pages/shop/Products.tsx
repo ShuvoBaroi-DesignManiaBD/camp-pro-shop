@@ -23,15 +23,6 @@ import { FilterValues } from "@/types/filter.type";
 
 const BreadCumbItems = [
   {
-    href: "",
-    title: (
-      <>
-        <HomeOutlined />
-        <span>Home</span>
-      </>
-    ),
-  },
-  {
     title: "Products",
   },
 ];

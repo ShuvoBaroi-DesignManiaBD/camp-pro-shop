@@ -34,11 +34,11 @@ const { Option } = Select;
 const categories = ["Fashion", "Electronics", "Furniture", "Books", "Toys"];
 
 export interface FormValues {
-  searchTerm: string | null;
-  categories: string[];
-  priceRange: { minPrice: number; maxPrice: number };
-  rating: number | null;
-  sort: {
+  searchTerm?: string | null;
+  categories?: string[];
+  priceRange?: { minPrice: number; maxPrice: number };
+  rating?: number | null;
+  sort?: {
     price?: "asc" | "desc";
     rating?: "asc" | "desc";
   };

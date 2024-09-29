@@ -8,6 +8,7 @@ import { logout, selectCurrentToken, selectCurrentUser, setUser, TAuthState } fr
 import { useDispatch } from "react-redux";
 import generateCleanObject from "@/utils/generateCleanObject";
 import { useUpdateUserMutation, useUploadProfilePhotoMutation } from "@/redux/features/auth/authApi";
+import toast from "react-hot-toast";
 
 const { Title } = Typography;
 
@@ -50,21 +51,24 @@ const Profile = () => {
   const onSubmit = async (formData: UserData) => {
     const updatedValues: any = generateCleanObject(formData);
 
-    const formDataWithFile = new FormData();
-    Object.keys(updatedValues).forEach((key) => {
-      if (key !== "profilePhoto") {
-        formDataWithFile.append(key, updatedValues[key]);
-      }
-    });
+    // const formDataWithFile = new FormData();
+    // Object.keys(updatedValues).forEach((key) => {
+    //   if (key !== "profilePhoto") {
+    //     formDataWithFile.append(key, updatedValues[key]);
+    //   }
+    // });
 
-    if (fileList.length > 0) {
-      formDataWithFile.append("profilePhoto", fileList[0].originFileObj);
-    }
+    // if (fileList.length > 0) {
+    //   formDataWithFile.append("profilePhoto", fileList[0].originFileObj);
+    // }
 
     try {
-      const res = await updateUser({ userId, updatedValues: formDataWithFile });
-      console.log("response: ", res);
+      const res = await updateUser({ userId, updatedValues: updatedValues }).unwrap();
+      
+      dispatch(setUser({ user:res?.data, token }));
+      console.log("response: ", res, updatedValues);
       setIsEditable(false);
+      toast.success('Profile data updated successfully!')
     } catch (error) {
       console.error("Error updating user profile: ", error);
     }
@@ -120,10 +124,12 @@ const Profile = () => {
   };
 
   return (
-    <Card className="bg-transparent border-none">
-      <div className="flex items-start gap-10">
+    <Card 
+    styles={{body:{padding: 0}}}
+    className="bg-transparent border-none">
+      <div className="flex flex-col md:flex-row items-start gap-10">
         {/* Left Column - Avatar */}
-        <div className="w-1/4 flex flex-col justify-center items-center bg-white p-6 border-lg [&&_span]:!transform-none">
+        <div className="w-full md:w-1/4 flex flex-col justify-center items-center bg-white p-6 border-lg [&&_span]:!transform-none">
         <span className="relative"
         onMouseEnter={() => handleHover(true)}
         onMouseLeave={() => handleHover(false)}
@@ -173,13 +179,13 @@ const Profile = () => {
         </div>
 
         {/* Right Column - Form */}
-        <div className="w-3/4 bg-white p-6">
+        <div className="w-full md:w-3/4 bg-white p-6">
           <Title level={4} className="pb-4 border-b">
             Profile
           </Title>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="grid gap-4 grid-cols-[repeat(3,_minmax(150px,_1fr))] mt-4"
+            className="grid gap-4 md:grid-cols-[repeat(3,_minmax(150px,_1fr))] mt-4"
           >
             {/* Name */}
             <div className="form-group">
@@ -228,7 +234,7 @@ const Profile = () => {
             </div>
 
             {/* Address Fields */}
-            <Title level={4} className="col-span-full mt-6 pb-4 border-b">
+            <Title level={4} className="col-span-2 md:col-span-full mt-6 pb-4 border-b">
               Address
             </Title>
             {/* Street */}

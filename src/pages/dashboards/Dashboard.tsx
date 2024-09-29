@@ -123,7 +123,7 @@ const Dashboard = () => {
 
         {/* Content */}
         <Content
-          className="min-h-[120px] overflow-y-scroll p-5 sm:p-10 md:flex max-w-full overflow-x-hidden"
+          className="min-h-[120px] overflow-y-scroll p-4 sm:p-10 md:flex max-w-full overflow-x-hidden"
           style={{
             marginLeft: isDesktop ? (!collapsed ? "16%" : "128px") : 0,
             transition: "margin-left 0.3s ease",

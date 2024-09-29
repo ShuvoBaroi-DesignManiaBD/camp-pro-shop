@@ -20,4 +20,4 @@ const deviceTypeSlice = createSlice({
 
 export const { setDeviceType } = deviceTypeSlice.actions;
 export default deviceTypeSlice.reducer;
-export const selectDeviceType = (state: RootState) => state.deviceType;
+export const selectCurrentDevice = (state: RootState) => state.deviceType;

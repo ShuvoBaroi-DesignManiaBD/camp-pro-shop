@@ -9,4 +9,5 @@ export type ProductTopCategoryProps = {
     headingStyle?: string;
     headingText?: string;
     button?: ReactNode;
+    // isLoading?:boolean
   };

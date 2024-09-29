@@ -1,10 +1,11 @@
+import { BiLogOut } from "react-icons/bi"; 
 import Logo from '@/components/ui/Logo';
 import DashboardSidebar from '@/components/ui/sidebars/DashboardSidebar';
 import adminSidebarItems from '@/pages/dashboards/admin/sitebarItems';
 import customerSidebarItems from '@/pages/dashboards/customer/sitebarItems';
-import { selectCurrentUser } from '@/redux/features/auth/authSlice';
+import { logout, selectCurrentUser } from '@/redux/features/auth/authSlice';
 import { selectUserMenuDrawer, setShowUserMenuDrawer } from '@/redux/features/ui/userMenuDrawer/userMenuDrawerSlice';
-import { useAppSelector } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { TUser } from '@/types';
 import { Button, Drawer } from 'antd';
 import Sider from 'antd/es/layout/Sider';
@@ -12,18 +13,22 @@ import React, { useState } from 'react';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { CloseOutlined } from "@ant-design/icons";
+import { NavLink } from 'react-router-dom';
 
 const MobileUserDropdown = () => {
   const dispatch = useDispatch();
   const currentUser: Partial<TUser | null> = useAppSelector(selectCurrentUser);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1023);
     const userMenuDrawer: boolean = useAppSelector(selectUserMenuDrawer);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
     return (
         <Drawer
         closable={false}
         placement="right"
-        className="z-50"
-        bodyStyle={{ padding: "0" }} // Remove extra padding inside the drawer
+        bodyStyle={{ paddingInline: "16px", border: 'none'}} // Remove extra padding inside the drawer
         headerStyle={{ padding: "0.5rem 1rem" }} // Adjust header padding
         contentWrapperStyle={{
           width: "100vw", // Ensure the Drawer covers the full width
@@ -66,7 +71,7 @@ const MobileUserDropdown = () => {
         }
           className={`${
             isDesktop ? "transition-all duration-300" : "absolute"
-          } !bg-gray-50 w-auto min-w-max`}
+          } !bg-gray-50 w-auto min-w-max z-50`}
         destroyOnClose
         open={userMenuDrawer}
         onClose={() => dispatch(setShowUserMenuDrawer())}
@@ -94,6 +99,7 @@ const MobileUserDropdown = () => {
               (currentUser?.role === "admin" && adminSidebarItems)
             }
           />
+          <NavLink to="/login" onClick={handleLogout} className="w-full flex gap-2 items-center text-base font-medium px-4 py-2 text-white bg-secondary rounded-md"><BiLogOut />Logout</NavLink>
           
         </Drawer>
     );

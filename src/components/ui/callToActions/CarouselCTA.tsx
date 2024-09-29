@@ -79,6 +79,7 @@ const CarouselCTA = ({
             {HeadingText}
             {headingColoredText && (
               <span className={`text-${headingSecondaryColor}`}>
+                <br />
                 {headingColoredText}
               </span>
             )}

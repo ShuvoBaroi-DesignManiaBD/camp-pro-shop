@@ -5,31 +5,32 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { sidebarMenuItem } from "@/types/menu.type";
 import UniqueIdGenerator from "@/utils/UniqueIdGenerator";
 import { NavLink } from "react-router-dom";
+import LabelWithLink from "../LabelWithLink";
 const customerSidebarItems: sidebarMenuItem[] = [
   {
     key: "1",
-    label: <NavLink to="dashboard">Dashboard</NavLink>,
+    label: <LabelWithLink url="dashboard" role={true}>Dashboard</LabelWithLink>,
     icon: <AiOutlineDashboard size={20} />,
     url: "customer/dashboard",
   },
   {
-    key: UniqueIdGenerator(),
-    label: <NavLink to="profile">Profile</NavLink>,
+    key: "2",
+    label: <LabelWithLink url="profile" role={true}>Profile</LabelWithLink>,
     icon: <CgProfile size={20} />,
     url: "customer/profile",
   },
   {
-    key: UniqueIdGenerator(),
-    label: <NavLink to="orders">My Orders</NavLink>,
+    key: "3",
+    label: <LabelWithLink url="orders" role={true}>My Orders</LabelWithLink>,
     icon: <BiShoppingBag size={20}/>,
     url: "customer/orders",
   },
-  {
-    key: UniqueIdGenerator(),
-    label: <NavLink to="wishlist">My Wishlist</NavLink>,
-    icon: <BsBookmarkHeart size={18}/>,
-    url: "customer/wishlist",
-  },
+  // {
+  //   key: UniqueIdGenerator(),
+  //   label: <NavLink to="wishlist">My Wishlist</NavLink>,
+  //   icon: <BsBookmarkHeart size={18}/>,
+  //   url: "customer/wishlist",
+  // },
   // {
   //   key: UniqueIdGenerator(),
   //   label: <NavLink to="profile">Profile</NavLink>,

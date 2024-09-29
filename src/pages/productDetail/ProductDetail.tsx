@@ -108,7 +108,7 @@ const ProductDetail: React.FC = () => {
   };
 
   return (
-    <CustomContainer className="py-8 w-full md:py-16 dark:bg-gray-900 antialiased">
+    <CustomContainer className="py-12 w-full md:py-16 dark:bg-gray-900 antialiased">
       <ThemeConfig>
         <div className="px-4 mx-auto 2xl:px-0">
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
@@ -170,7 +170,7 @@ const ProductDetail: React.FC = () => {
                 ))}
               </Swiper>
             </div>
-            <div className="mt-6 sm:mt-8 lg:mt-0">
+            <div className="mt-10 md:mt-6 sm:mt-8 lg:mt-0">
               <div className="border-b pb-6">
                 <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
                   {productData.name}
@@ -198,7 +198,7 @@ const ProductDetail: React.FC = () => {
                   {productData.description}
                 </div>
               </div>
-              <div className="mt-6 sm:gap-6 sm:flex sm:items-center">
+              <div className="mt-6 gap-6 flex justify-start sm:items-center">
                 <div className="flex items-center space-x-4 bg-white border-2 text-lg h-full">
                   <Button
                     onClick={decreaseAmount}

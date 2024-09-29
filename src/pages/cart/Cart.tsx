@@ -47,7 +47,7 @@ const Cart = () => {
             <div
               className={`space-y-6 ${
                 cartItems.length === 0 ? "h-auto" : "h-[50vh] overflow-y-scroll"
-              }  pr-4 scroll-smooth resize-y`}
+              }  md:pr-4 scroll-smooth resize-y`}
             >
               {cartItems.length === 0 ? (
                 <Empty />
@@ -57,7 +57,7 @@ const Cart = () => {
                 ))
               )}
             </div>
-            <div className="grid sm:grid-cols-3 grid-cols-1 gap-6 items-start mt-10">
+            <div className="md:grid sm:grid-cols-3 grid-cols-1 gap-6 items-start md:mt-10 hidden">
               <h3 className="text-2xl font-bold">People also bought</h3>
               <div className="mb-4 grid justify-center gap-4 grid-cols-[repeat(autofit,_minmax(280px,_1fr))] sm:grid-cols-[repeat(3,_minmax(280px,_1fr))] sm:col-span-3 md:mb-8">
                 {isLoading || isFetching ? (
@@ -91,7 +91,7 @@ const Cart = () => {
               </div>
             </div>
           </div>
-          <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+          <div className="mx-auto md:mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
             <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
               <p className="text-xl font-semibold text-gray-900 dark:text-white">
                 Order summary
