@@ -51,7 +51,9 @@ Ensure you have the following installed on your system:
    npm install
    ```
 
-## Configuration
+
+
+### Configuration
 
 Create a `.env` file in the root directory and add the following environment variables:
 
@@ -61,9 +63,9 @@ VITE_BACKEND_URL=your_backend_url
 
 These secret keys should be in the `.env` file for running the app properly.
 
-## Running the Application
+### Running the Application
 
-### Development
+#### Development
 
 To run the application in development mode with hot reloading:
 
@@ -71,7 +73,7 @@ To run the application in development mode with hot reloading:
 npm run dev
 ```
 
-### Production
+#### Production
 
 To run the application in production mode:
 
@@ -87,7 +89,7 @@ To run the application in production mode:
    npm run prod
    ```
 
-## Building the Application
+### Building the Application
 
 To build the TypeScript project:
 
@@ -97,7 +99,7 @@ npm run build
 
 This will compile the TypeScript files into JavaScript and place them in the `dist` folder.
 
-## Linting and Formatting
+### Linting and Formatting
 
 To lint the code:
 
@@ -105,6 +107,88 @@ To lint the code:
 npm run lint
 ```
 
+## Installation of the backend
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/ShuvoBaroi-DesignManiaBD/camp-pro-shop-backend.git
+   cd camp-pro-shop-backend
+   ```
+
+2. Install the dependencies:
+
+   ```sh
+   npm install
+   ```
+
+### Configuration:
+
+Create a `.env` file in the root directory and add the following environment variables:
+
+```env
+PORT=your_key
+database_url=your_key
+NODE_ENV=your_key
+bcrypt_salt_rounds=your_key
+JWT_ACCESS_SECRET=your_key
+JWT_REFRESH_SECRET=your_key
+JWT_ACCESS_EXPIRES_IN=your_key
+JWT_REFRESH_EXPIRES_IN=your_key
+FRONTEND_URL=your_key
+BACKEND_URL=your_key
+PAYPAL_CLIENT_ID=your_key
+PAYPAL_CLIENT_SECRET=your_key
+STORE_ID=your_key
+STORE_PASSWD=your_key
+IS_LIVE=your_key
+```
+
+These secret keys should be in the `.env` file for running the app properly.
+
+### Running the Application:
+
+#### Development
+
+To run the application in development mode with hot reloading:
+
+```sh
+npm run dev
+```
+
+#### Production
+
+To run the application in production mode:
+
+1. Build the project:
+
+   ```sh
+   npm run build
+   ```
+
+2. Start the application:
+
+   ```sh
+   npm run prod
+   ```
+
+### Building the Application:
+
+To build the TypeScript project:
+
+```sh
+npm run build
+```
+
+This will compile the TypeScript files into JavaScript and place them in the `dist` folder.
+
+### Linting and Formatting:
+
+To lint the code:
+
+```sh
+npm run lint
+```
 ## Technology Stack
 ### Frontend
 - **React.js**: Frontend library for building the user interface.
