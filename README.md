@@ -189,6 +189,24 @@ To lint the code:
 ```sh
 npm run lint
 ```
+To fix linting errors automatically:
+
+```sh
+npm run lint:fix
+```
+
+To format the code using Prettier:
+
+```sh
+npm run prettier
+```
+
+To fix formatting issues automatically:
+
+```sh
+npm run prettier:fix
+```
+
 ## Technology Stack
 ### Frontend
 - **React.js**: Frontend library for building the user interface.
